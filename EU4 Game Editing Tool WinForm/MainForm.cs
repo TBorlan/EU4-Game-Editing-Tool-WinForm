@@ -17,38 +17,61 @@ namespace EU4_Game_Editing_Tool_WinForm
             InitializeComponent();
         }
 
-        protected override void OnPaint(PaintEventArgs e)
-        {
-            //base.OnPaint(e);
-            Graphics graphics = e.Graphics;
-            graphics.DrawString("some text", this.Font, Brushes.AliceBlue, 0, 0);
-            BackColor = Color.Black;
-        }
+        private Bitmap mBitmapImage;
 
-        public OpenFileDialog loadImageDialog = new OpenFileDialog()
-        {
-            Filter = "Image Files (*.bmp)|*.bmp",
-            InitialDirectory = "C:/Users/nxf56462/Downloads/Phoenix 3 - DW 5.2/Phoenix"
-        };
 
-        private void OpenFileButtonClick(object sender, EventArgs args)
+        private void Callback_OpenImageButton_Click(object sender, EventArgs e)
         {
+            OpenFileDialog loadImageDialog = new OpenFileDialog()
+            {
+                Filter = "Image Files (*.bmp)|*.bmp",
+                InitialDirectory = "C:/Users/nxf56462/Downloads/Phoenix 3 - DW 5.2/Phoenix"
+
+            };
+
             if(loadImageDialog.ShowDialog() == DialogResult.OK)
             {
-                try
-                {
-                    //Uri filePath = new Uri(loadImageDialog.FileName);
-                    Image provinces = Image.FromFile(loadImageDialog.FileName);
-                    MapPictureBox.Image = provinces;
-                    
-                }
-                catch(Exception e)
-                {
-                    MessageBox.Show(e.Message);
-                }
+
+                this.cImagePictureBox.ImageLocation = loadImageDialog.FileName;
+                this.cImagePictureBox.LoadAsync();
+                mBitmapImage = new Bitmap(loadImageDialog.FileName);
 
             }
+
+            loadImageDialog.Dispose();
+            this.cZoomInButton.Enabled = true;
+            this.cZoomOutButton.Enabled = true;
+
+            
         }
 
+        private void Callback_ZoomInButton_Click(object sender, EventArgs e)
+        {
+            //if (!this.mBitmapImage.ZoomIn())
+            //{
+            //    this.cZoomInButton.Enabled = false;
+            //}
+            //else
+            //{
+            //    this.cImagePictureBox.Image = this.mBitmapImage.Image;
+            //    this.cImagePictureBox.Invalidate();
+            //    this.cZoomOutButton.Enabled = true;
+            //}
+            if (!this.cImagePictureBox.ZoomIn())
+            {
+                this.cZoomInButton.Enabled = false;
+            }
+            this.cZoomOutButton.Enabled = true;
+        }
+
+        private void Callback_ZoomOutButton_Click(object sender, EventArgs e)
+        {
+            if (!this.cImagePictureBox.ZoomOut())
+            {
+                this.cZoomOutButton.Enabled = false;
+            }
+            this.cZoomInButton.Enabled = true;
+        }
+        
     }
 }
