@@ -29,12 +29,10 @@
         private void InitializeComponent()
         {
             this.cOpenImageButton = new System.Windows.Forms.Button();
-            this.cImagePictureBox = new ZoomablePictureBox();
-            this.cZoomInButton = new System.Windows.Forms.Button();
             this.cPictureBoxPanel = new System.Windows.Forms.Panel();
-            this.cZoomOutButton = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.cImagePictureBox)).BeginInit();
+            this.cImagePictureBox = new EU4_Game_Editing_Tool_WinForm.ZoomablePictureBox();
             this.cPictureBoxPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.cImagePictureBox)).BeginInit();
             this.SuspendLayout();
             // 
             // cOpenImageButton
@@ -54,38 +52,13 @@
             this.cOpenImageButton.UseVisualStyleBackColor = false;
             this.cOpenImageButton.Click += new System.EventHandler(this.Callback_OpenImageButton_Click);
             // 
-            // cImagePictureBox
-            // 
-            this.cImagePictureBox.BackColor = System.Drawing.Color.Transparent;
-            this.cImagePictureBox.Location = new System.Drawing.Point(0, 0);
-            this.cImagePictureBox.Margin = new System.Windows.Forms.Padding(0);
-            this.cImagePictureBox.Name = "cImagePictureBox";
-            this.cImagePictureBox.Size = new System.Drawing.Size(5616, 2160);
-            this.cImagePictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.cImagePictureBox.TabIndex = 2;
-            this.cImagePictureBox.TabStop = false;
-            // 
-            // cZoomInButton
-            // 
-            this.cZoomInButton.AutoSize = true;
-            this.cZoomInButton.BackColor = System.Drawing.Color.Transparent;
-            this.cZoomInButton.Enabled = false;
-            this.cZoomInButton.FlatAppearance.BorderColor = System.Drawing.Color.White;
-            this.cZoomInButton.FlatAppearance.BorderSize = 0;
-            this.cZoomInButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cZoomInButton.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.cZoomInButton.Location = new System.Drawing.Point(119, 12);
-            this.cZoomInButton.Name = "cZoomInButton";
-            this.cZoomInButton.Size = new System.Drawing.Size(101, 29);
-            this.cZoomInButton.TabIndex = 0;
-            this.cZoomInButton.TabStop = false;
-            this.cZoomInButton.Text = "Zoom In";
-            this.cZoomInButton.UseVisualStyleBackColor = false;
-            this.cZoomInButton.Click += new System.EventHandler(this.Callback_ZoomInButton_Click);
-            // 
             // cPictureBoxPanel
             // 
+            this.cPictureBoxPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.cPictureBoxPanel.AutoScroll = true;
+            this.cPictureBoxPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.cPictureBoxPanel.Controls.Add(this.cImagePictureBox);
             this.cPictureBoxPanel.Location = new System.Drawing.Point(12, 47);
             this.cPictureBoxPanel.Name = "cPictureBoxPanel";
@@ -93,23 +66,16 @@
             this.cPictureBoxPanel.Size = new System.Drawing.Size(1315, 470);
             this.cPictureBoxPanel.TabIndex = 3;
             // 
-            // cZoomOutButton
+            // cImagePictureBox
             // 
-            this.cZoomOutButton.AutoSize = true;
-            this.cZoomOutButton.BackColor = System.Drawing.Color.Transparent;
-            this.cZoomOutButton.Enabled = false;
-            this.cZoomOutButton.FlatAppearance.BorderColor = System.Drawing.Color.White;
-            this.cZoomOutButton.FlatAppearance.BorderSize = 0;
-            this.cZoomOutButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cZoomOutButton.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.cZoomOutButton.Location = new System.Drawing.Point(226, 12);
-            this.cZoomOutButton.Name = "cZoomOutButton";
-            this.cZoomOutButton.Size = new System.Drawing.Size(101, 29);
-            this.cZoomOutButton.TabIndex = 4;
-            this.cZoomOutButton.TabStop = false;
-            this.cZoomOutButton.Text = "Zoom Out";
-            this.cZoomOutButton.UseVisualStyleBackColor = false;
-            this.cZoomOutButton.Click += new System.EventHandler(this.Callback_ZoomOutButton_Click);
+            this.cImagePictureBox.BackColor = System.Drawing.Color.Transparent;
+            this.cImagePictureBox.Location = new System.Drawing.Point(0, 0);
+            this.cImagePictureBox.Margin = new System.Windows.Forms.Padding(0);
+            this.cImagePictureBox.Name = "cImagePictureBox";
+            this.cImagePictureBox.Size = new System.Drawing.Size(1315, 470);
+            this.cImagePictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.cImagePictureBox.TabIndex = 2;
+            this.cImagePictureBox.TabStop = false;
             // 
             // MainForm
             // 
@@ -117,15 +83,13 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(1339, 529);
-            this.Controls.Add(this.cZoomOutButton);
             this.Controls.Add(this.cPictureBoxPanel);
-            this.Controls.Add(this.cZoomInButton);
             this.Controls.Add(this.cOpenImageButton);
             this.Name = "MainForm";
             this.Text = "EU4 Menu";
-            ((System.ComponentModel.ISupportInitialize)(this.cImagePictureBox)).EndInit();
             this.cPictureBoxPanel.ResumeLayout(false);
             this.cPictureBoxPanel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.cImagePictureBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -135,9 +99,7 @@
 
         private System.Windows.Forms.Button cOpenImageButton;
         private ZoomablePictureBox cImagePictureBox;
-        private System.Windows.Forms.Button cZoomInButton;
         private System.Windows.Forms.Panel cPictureBoxPanel;
-        private System.Windows.Forms.Button cZoomOutButton;
     }
 }
 

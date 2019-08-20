@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+
 namespace EU4_Game_Editing_Tool_WinForm
 {
     public partial class MainForm : Form
@@ -39,39 +40,16 @@ namespace EU4_Game_Editing_Tool_WinForm
             }
 
             loadImageDialog.Dispose();
-            this.cZoomInButton.Enabled = true;
-            this.cZoomOutButton.Enabled = true;
 
-            
+            this.cImagePictureBox.MouseWheel += new MouseEventHandler(this.Callback_PictureBoxPanel_MouseWheel);
         }
 
-        private void Callback_ZoomInButton_Click(object sender, EventArgs e)
+        private void Callback_PictureBoxPanel_MouseWheel(object obj, MouseEventArgs args)
         {
-            //if (!this.mBitmapImage.ZoomIn())
-            //{
-            //    this.cZoomInButton.Enabled = false;
-            //}
-            //else
-            //{
-            //    this.cImagePictureBox.Image = this.mBitmapImage.Image;
-            //    this.cImagePictureBox.Invalidate();
-            //    this.cZoomOutButton.Enabled = true;
-            //}
-            if (!this.cImagePictureBox.ZoomIn())
-            {
-                this.cZoomInButton.Enabled = false;
-            }
-            this.cZoomOutButton.Enabled = true;
+            ((HandledMouseEventArgs)args).Handled = true;
         }
 
-        private void Callback_ZoomOutButton_Click(object sender, EventArgs e)
-        {
-            if (!this.cImagePictureBox.ZoomOut())
-            {
-                this.cZoomOutButton.Enabled = false;
-            }
-            this.cZoomInButton.Enabled = true;
-        }
+        
         
     }
 }

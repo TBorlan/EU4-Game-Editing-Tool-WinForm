@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Drawing.Drawing2D;
 
 namespace EU4_Game_Editing_Tool_WinForm
 {
@@ -15,60 +16,55 @@ namespace EU4_Game_Editing_Tool_WinForm
 
         private float mScale;
 
-        private Bitmap mOriginalBitmapImage;
+        private Matrix mTransform;
 
         protected override void OnLoadCompleted(AsyncCompletedEventArgs e)
         {
             base.OnLoadCompleted(e);
-            mOriginalBitmapImage = (Bitmap)this.Image;
-            mScale = 1;
+            mScale = 1.0f;
+            if (mTransform != null)
+            {
+                mTransform.Dispose();
+            }
+            mTransform = new Matrix();
 
         }
 
-        public bool ZoomIn()
+        protected override void OnPaint(PaintEventArgs pe)
         {
-            if(this.Image == null)
+            Graphics graphics = pe.Graphics;
+            graphics.InterpolationMode = InterpolationMode.NearestNeighbor;
+            if (mTransform != null)
             {
-                return false;
+                graphics.Transform = mTransform;
             }
-            mScale *= 2;
-            this.Image.Dispose();
-            Size newSize = new Size((int)(mOriginalBitmapImage.Width * mScale), (int)(mOriginalBitmapImage.Height * mScale));
-            if (Math.Max(newSize.Width,newSize.Height)> 23000)
-            {
-                mScale /= 2;
-                return false;
-            }
-            else
-            {
-                this.Image = new Bitmap(this.mOriginalBitmapImage, newSize);
-            }
-            return true;
+            base.OnPaint(pe);
         }
 
-        public bool ZoomOut()
+        protected override void OnMouseWheel(MouseEventArgs e)
         {
+            base.OnMouseWheel(e);
+            this.Focus();
+            if(this.Focused && e.Delta != 0 && this.Image!=null)
             {
-                if (this.Image == null)
-                {
-                    return false;
-                }
-                mScale /= 2;
-                this.Image.Dispose();
-                Size newSize = new Size((int)(mOriginalBitmapImage.Width * mScale), (int)(mOriginalBitmapImage.Height * mScale));
-                if (Math.Min(newSize.Width, newSize.Height) < 200)
-                {
-                    mScale *= 2;
-                    return false;
-                }
-                else
-                {
-                    this.Image = new Bitmap(this.mOriginalBitmapImage, newSize);
-                }
-                return true;
+                Point zoomPoint = this.PointToClient(this.PointToScreen(e.Location));
+                Zoom(zoomPoint, e.Delta > 0);
             }
         }
 
-    }
-       
+        private void Zoom(Point zoomPoint, bool magnify)
+        {
+            float newScale = Math.Min(10f, Math.Max(0.1f, mScale + (magnify ? 0.1f : -0.1f)));
+
+            if (newScale != mScale)
+            {
+                float scalingFactor = newScale / mScale;
+                mScale = newScale;
+                mTransform.Translate(-zoomPoint.X, -zoomPoint.Y, MatrixOrder.Append);
+                mTransform.Scale(scalingFactor, scalingFactor, MatrixOrder.Append);
+                mTransform.Translate(zoomPoint.X, zoomPoint.Y, MatrixOrder.Append);
+                this.Invalidate();
+            }
+        }
+    }      
 }
