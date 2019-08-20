@@ -31,8 +31,11 @@
             this.cOpenImageButton = new System.Windows.Forms.Button();
             this.cPictureBoxPanel = new System.Windows.Forms.Panel();
             this.cImagePictureBox = new EU4_Game_Editing_Tool_WinForm.ZoomablePictureBox();
+            this.cColorPictureBox = new System.Windows.Forms.PictureBox();
+            this.cSelectColorButton = new System.Windows.Forms.Button();
             this.cPictureBoxPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cImagePictureBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cColorPictureBox)).BeginInit();
             this.SuspendLayout();
             // 
             // cOpenImageButton
@@ -50,7 +53,7 @@
             this.cOpenImageButton.TabStop = false;
             this.cOpenImageButton.Text = "Open Picture";
             this.cOpenImageButton.UseVisualStyleBackColor = false;
-            this.cOpenImageButton.Click += new System.EventHandler(this.Callback_OpenImageButton_Click);
+            this.cOpenImageButton.Click += new System.EventHandler(this.Callback_OpenImageButton_OnClick);
             // 
             // cPictureBoxPanel
             // 
@@ -73,9 +76,35 @@
             this.cImagePictureBox.Margin = new System.Windows.Forms.Padding(0);
             this.cImagePictureBox.Name = "cImagePictureBox";
             this.cImagePictureBox.Size = new System.Drawing.Size(1315, 470);
-            this.cImagePictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.cImagePictureBox.TabIndex = 2;
             this.cImagePictureBox.TabStop = false;
+            this.cImagePictureBox.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Callback_ImagePictureBox_OnClick);
+            // 
+            // cColorPictureBox
+            // 
+            this.cColorPictureBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.cColorPictureBox.Location = new System.Drawing.Point(226, 12);
+            this.cColorPictureBox.Name = "cColorPictureBox";
+            this.cColorPictureBox.Size = new System.Drawing.Size(100, 29);
+            this.cColorPictureBox.TabIndex = 4;
+            this.cColorPictureBox.TabStop = false;
+            // 
+            // cSelectColorButton
+            // 
+            this.cSelectColorButton.AutoSize = true;
+            this.cSelectColorButton.BackColor = System.Drawing.Color.Transparent;
+            this.cSelectColorButton.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.cSelectColorButton.FlatAppearance.BorderSize = 0;
+            this.cSelectColorButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cSelectColorButton.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.cSelectColorButton.Location = new System.Drawing.Point(119, 12);
+            this.cSelectColorButton.Name = "cSelectColorButton";
+            this.cSelectColorButton.Size = new System.Drawing.Size(101, 29);
+            this.cSelectColorButton.TabIndex = 5;
+            this.cSelectColorButton.TabStop = false;
+            this.cSelectColorButton.Text = "Select Color";
+            this.cSelectColorButton.UseVisualStyleBackColor = false;
+            this.cSelectColorButton.Click += new System.EventHandler(this.Callback_SelectColorButton_OnClick);
             // 
             // MainForm
             // 
@@ -83,13 +112,15 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(1339, 529);
+            this.Controls.Add(this.cSelectColorButton);
+            this.Controls.Add(this.cColorPictureBox);
             this.Controls.Add(this.cPictureBoxPanel);
             this.Controls.Add(this.cOpenImageButton);
             this.Name = "MainForm";
             this.Text = "EU4 Menu";
             this.cPictureBoxPanel.ResumeLayout(false);
-            this.cPictureBoxPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cImagePictureBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cColorPictureBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -100,6 +131,8 @@
         private System.Windows.Forms.Button cOpenImageButton;
         private ZoomablePictureBox cImagePictureBox;
         private System.Windows.Forms.Panel cPictureBoxPanel;
+        private System.Windows.Forms.PictureBox cColorPictureBox;
+        private System.Windows.Forms.Button cSelectColorButton;
     }
 }
 

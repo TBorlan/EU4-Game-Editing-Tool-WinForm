@@ -16,12 +16,15 @@ namespace EU4_Game_Editing_Tool_WinForm
         public MainForm()
         {
             InitializeComponent();
+
+            mSelectColor = false;
         }
 
         private Bitmap mBitmapImage;
 
+        private bool mSelectColor;
 
-        private void Callback_OpenImageButton_Click(object sender, EventArgs e)
+        private void Callback_OpenImageButton_OnClick(object sender, EventArgs e)
         {
             OpenFileDialog loadImageDialog = new OpenFileDialog()
             {
@@ -49,7 +52,36 @@ namespace EU4_Game_Editing_Tool_WinForm
             ((HandledMouseEventArgs)args).Handled = true;
         }
 
-        
-        
+        private void Callback_SelectColorButton_OnClick(object sender, EventArgs e)
+        {
+            if (this.cImagePictureBox.Image != null)
+            {
+                mSelectColor = true;
+                this.cImagePictureBox.Cursor = Cursors.Hand;
+            }
+
+        }
+
+        private void Callback_ImagePictureBox_OnClick(object sender, MouseEventArgs e)
+        {
+            if (this.mSelectColor)
+            {
+                Point clickPoint = e.Location;
+                clickPoint = ((ZoomablePictureBox)sender).PointToScreen(clickPoint);
+                using(Bitmap screenImage = new Bitmap(1, 1))
+                {
+                    using(Graphics graphics = Graphics.FromImage(screenImage))
+                    {
+                        graphics.CopyFromScreen(clickPoint, new Point(0, 0), new Size(1, 1));
+                    }
+                    this.cColorPictureBox.BackColor = screenImage.GetPixel(0,0);
+                }
+            }
+        }
+
+        private void CImagePictureBox_MouseClick(object sender, MouseEventArgs e)
+        {
+
+        }
     }
 }
