@@ -30,12 +30,12 @@
         {
             this.cOpenImageButton = new System.Windows.Forms.Button();
             this.cPictureBoxPanel = new System.Windows.Forms.Panel();
-            this.cImagePictureBox = new EU4_Game_Editing_Tool_WinForm.ZoomablePictureBox();
             this.cColorPictureBox = new System.Windows.Forms.PictureBox();
             this.cSelectColorButton = new System.Windows.Forms.Button();
+            this.cImagePictureBox = new EU4_Game_Editing_Tool_WinForm.ZoomablePictureBox();
             this.cPictureBoxPanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.cImagePictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cColorPictureBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cImagePictureBox)).BeginInit();
             this.SuspendLayout();
             // 
             // cOpenImageButton
@@ -69,23 +69,13 @@
             this.cPictureBoxPanel.Size = new System.Drawing.Size(1315, 470);
             this.cPictureBoxPanel.TabIndex = 3;
             // 
-            // cImagePictureBox
-            // 
-            this.cImagePictureBox.BackColor = System.Drawing.Color.Transparent;
-            this.cImagePictureBox.Location = new System.Drawing.Point(0, 0);
-            this.cImagePictureBox.Margin = new System.Windows.Forms.Padding(0);
-            this.cImagePictureBox.Name = "cImagePictureBox";
-            this.cImagePictureBox.Size = new System.Drawing.Size(1315, 470);
-            this.cImagePictureBox.TabIndex = 2;
-            this.cImagePictureBox.TabStop = false;
-            this.cImagePictureBox.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Callback_ImagePictureBox_OnClick);
-            // 
             // cColorPictureBox
             // 
             this.cColorPictureBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.cColorPictureBox.Location = new System.Drawing.Point(226, 12);
             this.cColorPictureBox.Name = "cColorPictureBox";
             this.cColorPictureBox.Size = new System.Drawing.Size(100, 29);
+            this.cColorPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.cColorPictureBox.TabIndex = 4;
             this.cColorPictureBox.TabStop = false;
             // 
@@ -106,6 +96,17 @@
             this.cSelectColorButton.UseVisualStyleBackColor = false;
             this.cSelectColorButton.Click += new System.EventHandler(this.Callback_SelectColorButton_OnClick);
             // 
+            // cImagePictureBox
+            // 
+            this.cImagePictureBox.BackColor = System.Drawing.Color.Transparent;
+            this.cImagePictureBox.Location = new System.Drawing.Point(0, 0);
+            this.cImagePictureBox.Margin = new System.Windows.Forms.Padding(0);
+            this.cImagePictureBox.Name = "cImagePictureBox";
+            this.cImagePictureBox.Size = new System.Drawing.Size(1315, 470);
+            this.cImagePictureBox.TabIndex = 2;
+            this.cImagePictureBox.TabStop = false;
+            this.cImagePictureBox.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Callback_ImagePictureBox_OnClick);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -119,8 +120,8 @@
             this.Name = "MainForm";
             this.Text = "EU4 Menu";
             this.cPictureBoxPanel.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.cImagePictureBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cColorPictureBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.cImagePictureBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

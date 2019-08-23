@@ -47,8 +47,7 @@ namespace EU4_Game_Editing_Tool_WinForm
             this.Focus();
             if(this.Focused && e.Delta != 0 && this.Image!=null)
             {
-                Point zoomPoint = this.PointToClient(this.PointToScreen(e.Location));
-                Zoom(zoomPoint, e.Delta > 0);
+                Zoom(e.Location, e.Delta > 0);
             }
         }
 
