@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Media;
 
 
 namespace EU4_Game_Editing_Tool_WinForm
@@ -47,6 +48,7 @@ namespace EU4_Game_Editing_Tool_WinForm
             this.cImagePictureBox.MouseWheel += new MouseEventHandler(this.Callback_PictureBoxPanel_MouseWheel);
         }
 
+
         private void Callback_PictureBoxPanel_MouseWheel(object obj, MouseEventArgs args)
         {
             ((HandledMouseEventArgs)args).Handled = true;
@@ -66,15 +68,13 @@ namespace EU4_Game_Editing_Tool_WinForm
         {
             if (this.mSelectColor)
             {
-                Point clickPoint = e.Location;
-                clickPoint = ((ZoomablePictureBox)sender).PointToScreen(clickPoint);
-                using(Bitmap screenImage = new Bitmap(1, 1))
+                using (Bitmap pixelImage = new Bitmap(1,1))
                 {
-                    using(Graphics graphics = Graphics.FromImage(screenImage))
+                    using (Graphics graphics = Graphics.FromImage(pixelImage))
                     {
-                        graphics.CopyFromScreen(clickPoint, new Point(0, 0), new Size(1, 1));
+                        graphics.CopyFromScreen(Control.MousePosition, new Point(0, 0), new Size(1,1));
                     }
-                    this.cColorPictureBox.BackColor = screenImage.GetPixel(0,0);
+                    this.cColorPictureBox.BackColor = pixelImage.GetPixel(0, 0);
                 }
             }
         }
