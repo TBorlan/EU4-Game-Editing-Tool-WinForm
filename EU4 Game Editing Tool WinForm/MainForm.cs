@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Media;
 
 
 namespace EU4_Game_Editing_Tool_WinForm
@@ -18,9 +19,11 @@ namespace EU4_Game_Editing_Tool_WinForm
             InitializeComponent();
 
             mSelectColor = false;
+
+
         }
 
-        private Bitmap mBitmapImage;
+ 
 
         private bool mSelectColor;
 
@@ -36,9 +39,9 @@ namespace EU4_Game_Editing_Tool_WinForm
             if(loadImageDialog.ShowDialog() == DialogResult.OK)
             {
 
-                this.cImagePictureBox.ImageLocation = loadImageDialog.FileName;
-                this.cImagePictureBox.LoadAsync();
-                mBitmapImage = new Bitmap(loadImageDialog.FileName);
+                //this.cImagePictureBox.ImageLocation = loadImageDialog.FileName;
+                //this.cImagePictureBox.LoadAsync();
+                this.cImagePictureBox.mOriginalBitmap = new Bitmap(loadImageDialog.FileName); ;
 
             }
 
@@ -46,6 +49,7 @@ namespace EU4_Game_Editing_Tool_WinForm
 
             this.cImagePictureBox.MouseWheel += new MouseEventHandler(this.Callback_PictureBoxPanel_MouseWheel);
         }
+
 
         private void Callback_PictureBoxPanel_MouseWheel(object obj, MouseEventArgs args)
         {
@@ -66,15 +70,17 @@ namespace EU4_Game_Editing_Tool_WinForm
         {
             if (this.mSelectColor)
             {
-                Point clickPoint = e.Location;
-                clickPoint = ((ZoomablePictureBox)sender).PointToScreen(clickPoint);
-                using(Bitmap screenImage = new Bitmap(1, 1))
+                using (Bitmap pixelImage = new Bitmap(1,1))
                 {
-                    using(Graphics graphics = Graphics.FromImage(screenImage))
+                    using (Graphics graphics = Graphics.FromImage(pixelImage))
                     {
-                        graphics.CopyFromScreen(clickPoint, new Point(0, 0), new Size(1, 1));
+                        graphics.CopyFromScreen(Control.MousePosition, new Point(0, 0), new Size(1,1));
+<<<<<<< HEAD
+                        Point point = e.Location;
+=======
+>>>>>>> 3830d77b195546f1530d70306e2a77ef398cfda3
                     }
-                    this.cColorPictureBox.BackColor = screenImage.GetPixel(0,0);
+                    this.cColorPictureBox.BackColor = pixelImage.GetPixel(0, 0);
                 }
             }
         }
