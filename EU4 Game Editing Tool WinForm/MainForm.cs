@@ -75,10 +75,9 @@ namespace EU4_Game_Editing_Tool_WinForm
                     using (Graphics graphics = Graphics.FromImage(pixelImage))
                     {
                         graphics.CopyFromScreen(Control.MousePosition, new Point(0, 0), new Size(1,1));
-<<<<<<< HEAD
+
                         Point point = e.Location;
-=======
->>>>>>> 3830d77b195546f1530d70306e2a77ef398cfda3
+
                     }
                     this.cColorPictureBox.BackColor = pixelImage.GetPixel(0, 0);
                 }
