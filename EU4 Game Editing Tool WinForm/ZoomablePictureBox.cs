@@ -14,9 +14,22 @@ namespace EU4_Game_Editing_Tool_WinForm
     public partial class ZoomablePictureBox : PictureBox
     {
 
+        private class CustomPictureBox : PictureBox
+        {
+            protected override void OnPaint(PaintEventArgs pe)
+            {
+                pe.Graphics.InterpolationMode = InterpolationMode.NearestNeighbor;
+
+                ZoomablePictureBox pb = (ZoomablePictureBox)this.Parent;
+                base.OnPaint(pe);
+            }
+        }
+
         private float mScale;
 
         private Bitmap _mOriginalBitmap;
+
+        private CustomPictureBox mImage;
 
         public Bitmap mOriginalBitmap
         {
@@ -44,143 +57,91 @@ namespace EU4_Game_Editing_Tool_WinForm
 
         private void LoadBitmap()
         {
-            mScale = 1.0f;
-            mParentHeight = this.Parent.Height;
-            mParentWidth = this.Parent.Width;
-            mVerticalMargin = mImageOriginalHeight + 200 > this.mParentHeight ? 100 : (int)((this.mParentHeight - mImageOriginalHeight) / 2.0f);
-            mHorizontalMargin = mImageOriginalWidth + 200 > this.mParentWidth ? 100 : (int)((this.mParentWidth - mImageOriginalWidth) / 2.0f);
-            int height = mImageOriginalHeight + mVerticalMargin*2;
-            int width = mImageOriginalWidth + mHorizontalMargin*2;
-            Bitmap bitmap = new Bitmap(width, height);
-            bitmap.SetResolution(this.mOriginalBitmap.HorizontalResolution, this.mOriginalBitmap.VerticalResolution);
-
-            using (Graphics graphics = Graphics.FromImage(bitmap))
-            {
-                graphics.Clear(Color.Beige);
-                graphics.InterpolationMode = InterpolationMode.NearestNeighbor;
-                graphics.DrawImage(this.mOriginalBitmap, new Point(mHorizontalMargin, mVerticalMargin));
-            }
-            try
-            {
-                this.Image.Dispose();
-            }
-            catch
-            {
-                ;
-            }
-            finally
-            {
-                this.Image = bitmap;
-            }
-
+            this.mScale = 1.0f;
+            this.mParentHeight = this.Parent.Height;
+            this.mParentWidth = this.Parent.Width;
+            this.mVerticalMargin = mImageOriginalHeight + 200 > this.mParentHeight ? 100 : (int)((this.mParentHeight - mImageOriginalHeight) / 2.0f);
+            this.mHorizontalMargin = mImageOriginalWidth + 200 > this.mParentWidth ? 100 : (int)((this.mParentWidth - mImageOriginalWidth) / 2.0f);
+            int height = mImageOriginalHeight + mVerticalMargin * 2;
+            int width = mImageOriginalWidth + mHorizontalMargin * 2;
+            this.SuspendLayout();
+            this.mImage = new CustomPictureBox();
+            this.mImage.SizeMode = PictureBoxSizeMode.Zoom;
+            this.mImage.Height = this.mImageOriginalHeight;
+            this.mImage.Width = this.mImageOriginalWidth;
+            this.mImage.Location = new Point(this.mHorizontalMargin, this.mVerticalMargin);
+            this.mImage.Image = this.mOriginalBitmap;
+            this.mImage.MouseWheel += new MouseEventHandler(this.Callback_mImage_MouseWheel);
+            Graphics.FromHwnd(this.mImage.Handle).InterpolationMode = InterpolationMode.NearestNeighbor;
+            this.Controls.Add(this.mImage);
+            this.Height = height;
+            this.Width = width;
+            this.BackColor = Color.DimGray;
+            this.ResumeLayout();
         }
 
-        private Point TransformPosition(Point point)
+        private void Callback_mImage_MouseWheel(object obj, MouseEventArgs args)
         {
-            point.X =(int)((point.X - this.mHorizontalMargin * this.mScale) / this.mScale);
-            point.Y = (int)((point.Y - this.mVerticalMargin * this.mScale) / this.mScale);
+            CustomPictureBox pictureBox = (CustomPictureBox)obj;
+            if (args.Delta != 0 && pictureBox.Image != null)
+            {
+                Zoom(args.Location, args.Delta > 0);
+                Point point = this.Image2Frame(args.Location);
+            }
+        }
+
+        private Point ScaledBitmap2OriginalBitmap(Point point)
+        {
+            point.X =(int)(point.X / this.mScale);
+            point.Y = (int)(point.Y / this.mScale);
             return point;
         }
 
-        protected override void OnPaint(PaintEventArgs pe)
+        private Point Image2Frame(Point point)
         {
-            Graphics graphics = pe.Graphics;
-            graphics.InterpolationMode = InterpolationMode.NearestNeighbor;
-            //if (mTransform != null)
-            //{
-                //graphics.Transform = mTransform;
-                //this.Width = (int)((float)this.mOriginalWidth * mScale);
-                //this.Height = (int)((float)this.mOriginalHeight * mScale);
-                //Point point = ((ScrollableControl)(this.Parent)).AutoScrollOffset;
-                //point.X = (int)mScalinigFactor*point.X + point.X;
-                //point.Y = (int)mScalinigFactor * point.Y + point.Y;
-                //((ScrollableControl)(this.Parent)).AutoScrollOffset = point;
-            //}
-            base.OnPaint(pe);
-
+            point = this.mImage.PointToScreen(point);
+            point = this.Parent.PointToClient(point);
+            return point;
         }
 
-        protected override void OnMouseWheel(MouseEventArgs e)
+        private Point OriginalBitmap2ScaledBitmap(Point point)
         {
-            base.OnMouseWheel(e);
-            this.Focus();
-            if(this.Focused && e.Delta != 0 && this.Image!=null)
-            {
-                Zoom(e.Location, e.Delta > 0);
-            }
-            Point point = this.TransformPosition(e.Location);
-            
+            point.X = (int)(point.X * this.mScale);
+            point.Y = (int)(point.Y * this.mScale);
+            return point;
+        }
+
+        private void ScrollBitmapPoint2FramePoint(Point framePoint, Point bitmapPoint)
+        {
+            Point scaledPoint = this.OriginalBitmap2ScaledBitmap(bitmapPoint);
+            int scrollX = Math.Max(0, scaledPoint.X - framePoint.X + this.mHorizontalMargin);
+            int scrollY = Math.Max(0, scaledPoint.Y - framePoint.Y + this.mVerticalMargin);
+            ((Panel)(this.Parent)).AutoScrollPosition = new Point(scrollX, scrollY);
         }
 
         private void Zoom(Point zoomPoint, bool magnify)
         {
-            float newScale = Math.Min(5f, Math.Max(0.1f, mScale + (magnify ? 0.4f : -0.1f)));
+            float newScale = Math.Min(6.5f, Math.Max(0.1f, mScale + (magnify ? 0.2f : -0.2f)));
 
             if (newScale != mScale)
             {
-                mVerticalMargin = this.mImageOriginalHeight * newScale + 200 > this.mParentHeight ? 100 : (int)((this.mParentHeight - mImageOriginalHeight * newScale) / 2.0f);
-                mHorizontalMargin = this.mImageOriginalWidth * newScale + 200 > this.mParentWidth ? 100 : (int)((this.mParentWidth - mImageOriginalWidth * newScale) / 2.0f);
-                int height = (int)(mImageOriginalHeight * newScale) + mVerticalMargin * 2;
-                int width = (int)(mImageOriginalWidth * newScale) + mHorizontalMargin * 2;
-                if( newScale < 3)
-                {
-                    Bitmap bitmap = new Bitmap(width, height);
-                    bitmap.SetResolution(this.mOriginalBitmap.HorizontalResolution, this.mOriginalBitmap.VerticalResolution);
-
-                    using (Graphics graphics = Graphics.FromImage(bitmap))
-                    {
-                        graphics.Clear(Color.Beige);
-                        graphics.InterpolationMode = InterpolationMode.NearestNeighbor;
-                        //graphics.DrawImage(this.mOriginalBitmap, new Point(mHorizontalMargin, mVerticalMargin));
-                        Rectangle rect = new Rectangle(this.mHorizontalMargin, this.mVerticalMargin,
-                                                        (int)(mImageOriginalWidth * newScale),
-                                                        (int)(mImageOriginalHeight * newScale));
-                        graphics.DrawImage(this.mOriginalBitmap, rect);
-                    }
-                    if(this.SizeMode == PictureBoxSizeMode.Zoom)
-                    {
-                        this.SizeMode = PictureBoxSizeMode.AutoSize;
-                        this.Image.Dispose();
-                        this.Image = bitmap;
-                        this.Invalidate();
-                    }
-                    else
-                    {
-                        this.Image.Dispose();
-                        this.Image = bitmap;
-                        this.Invalidate();
-                    }
-                }
-                else
-                {
-                    this.SuspendLayout();
-                    this.Height = height;
-                    this.Width = width;
-                    if (this.SizeMode == PictureBoxSizeMode.AutoSize)
-                    {
-                        this.SizeMode = PictureBoxSizeMode.Zoom;
-                        this.Invalidate();
-                        this.ResumeLayout();
-                    }
-                    else
-                    {
-                        this.SizeMode = PictureBoxSizeMode.Zoom;
-                        this.ResumeLayout();
-                    }
-                }
+                Point framePoint = this.Image2Frame(zoomPoint);
+                Point bitmapPoint = this.ScaledBitmap2OriginalBitmap(zoomPoint);
+                this.mVerticalMargin = this.mImageOriginalHeight * newScale + 200 > this.mParentHeight ? 100 : (int)((this.mParentHeight - this.mImageOriginalHeight * newScale) / 2.0f);
+                this.mHorizontalMargin = this.mImageOriginalWidth * newScale + 200 > this.mParentWidth ? 100 : (int)((this.mParentWidth - this.mImageOriginalWidth * newScale) / 2.0f);
+                int height = (int)(this.mImageOriginalHeight * newScale) + this.mVerticalMargin * 2;
+                int width = (int)(this.mImageOriginalWidth * newScale) + this.mHorizontalMargin * 2;
+                this.SuspendLayout();
+                this.Height = height;
+                this.Width = width;
+                this.mImage.SuspendLayout();
+                this.mImage.Height = (int)(this.mImageOriginalHeight * newScale);
+                this.mImage.Width = (int)(this.mImageOriginalWidth * newScale);
+                this.mImage.Location = new Point(this.mHorizontalMargin, this.mVerticalMargin);
+                this.mImage.ResumeLayout();
+                this.ResumeLayout();
                 mScale = newScale;
-                //float scalingFactor = newScale / mScale;
-                //mScalinigFactor = scalingFactor;
-                //mScale = newScale;
-                ////mTransform.Translate(-zoomPoint.X, -zoomPoint.Y, MatrixOrder.Append);
-                //mTransform.Scale(scalingFactor, scalingFactor, MatrixOrder.Append);
-
-                //zoomPoint.X = magnify ? - (int)((float)zoomPoint.X * scalingFactor) :  (int)((float)zoomPoint.X * scalingFactor);
-                //zoomPoint.Y = magnify ?  - (int)((float)zoomPoint.Y * scalingFactor) :  (int)((float)zoomPoint.Y * scalingFactor);
-                //mTransform.Translate(zoomPoint.X , zoomPoint.Y , MatrixOrder.Append);
-                //this.Invalidate();
-                //this.Height = (int)(mOriginalHeight * newScale);
-                //this.Width = (int)(mOriginalWidth * newScale);
+                this.ScrollBitmapPoint2FramePoint(framePoint, bitmapPoint);
             }
         }
     }      
