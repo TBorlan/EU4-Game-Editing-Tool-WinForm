@@ -96,17 +96,6 @@
             this.cSelectColorButton.UseVisualStyleBackColor = false;
             this.cSelectColorButton.Click += new System.EventHandler(this.Callback_SelectColorButton_OnClick);
             // 
-            // cImagePictureBox
-            // 
-            this.cImagePictureBox.BackColor = System.Drawing.Color.Transparent;
-            this.cImagePictureBox.Location = new System.Drawing.Point(0, 0);
-            this.cImagePictureBox.Margin = new System.Windows.Forms.Padding(0);
-            this.cImagePictureBox.Name = "cImagePictureBox";
-            this.cImagePictureBox.Size = new System.Drawing.Size(1315, 470);
-            this.cImagePictureBox.TabIndex = 2;
-            this.cImagePictureBox.TabStop = false;
-            this.cImagePictureBox.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Callback_ImagePictureBox_OnClick);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -120,7 +109,6 @@
             this.Name = "MainForm";
             this.Text = "EU4 Menu";
             this.cPictureBoxPanel.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.cColorPictureBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cImagePictureBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

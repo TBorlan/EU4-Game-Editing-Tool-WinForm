@@ -19,9 +19,11 @@ namespace EU4_Game_Editing_Tool_WinForm
             InitializeComponent();
 
             mSelectColor = false;
+
+
         }
 
-        private Bitmap mBitmapImage;
+ 
 
         private bool mSelectColor;
 
@@ -37,9 +39,9 @@ namespace EU4_Game_Editing_Tool_WinForm
             if(loadImageDialog.ShowDialog() == DialogResult.OK)
             {
 
-                this.cImagePictureBox.ImageLocation = loadImageDialog.FileName;
-                this.cImagePictureBox.LoadAsync();
-                mBitmapImage = new Bitmap(loadImageDialog.FileName);
+                //this.cImagePictureBox.ImageLocation = loadImageDialog.FileName;
+                //this.cImagePictureBox.LoadAsync();
+                this.cImagePictureBox.mOriginalBitmap = new Bitmap(loadImageDialog.FileName); ;
 
             }
 
@@ -73,6 +75,10 @@ namespace EU4_Game_Editing_Tool_WinForm
                     using (Graphics graphics = Graphics.FromImage(pixelImage))
                     {
                         graphics.CopyFromScreen(Control.MousePosition, new Point(0, 0), new Size(1,1));
+<<<<<<< HEAD
+                        Point point = e.Location;
+=======
+>>>>>>> 3830d77b195546f1530d70306e2a77ef398cfda3
                     }
                     this.cColorPictureBox.BackColor = pixelImage.GetPixel(0, 0);
                 }
