@@ -19,14 +19,13 @@ namespace EU4_Game_Editing_Tool_WinForm
             InitializeComponent();
 
             mSelectColor = false;
-
-
         }
 
- 
-
+        #region Members
         private bool mSelectColor;
+        #endregion
 
+        #region Callbacks
         private void Callback_OpenImageButton_OnClick(object sender, EventArgs e)
         {
             OpenFileDialog loadImageDialog = new OpenFileDialog()
@@ -49,7 +48,6 @@ namespace EU4_Game_Editing_Tool_WinForm
 
             this.cImagePictureBox.MouseWheel += new MouseEventHandler(this.Callback_PictureBoxPanel_MouseWheel);
         }
-
 
         private void Callback_PictureBoxPanel_MouseWheel(object obj, MouseEventArgs args)
         {
@@ -88,5 +86,6 @@ namespace EU4_Game_Editing_Tool_WinForm
         {
 
         }
+        #endregion
     }
 }

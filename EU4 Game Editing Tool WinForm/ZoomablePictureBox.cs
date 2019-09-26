@@ -11,9 +11,12 @@ using System.Drawing.Drawing2D;
 
 namespace EU4_Game_Editing_Tool_WinForm
 {
+    ///<summary>
+    ///Helper Class for displaying images
+    ///</summary>
     public partial class ZoomablePictureBox : PictureBox
     {
-
+        #region Members
         private class CustomPictureBox : PictureBox
         {
             protected override void OnPaint(PaintEventArgs pe)
@@ -54,6 +57,58 @@ namespace EU4_Game_Editing_Tool_WinForm
 
         private int mParentHeight;
         private int mParentWidth;
+        #endregion
+
+        #region Callbacks
+        private void Callback_mImage_MouseWheel(object obj, MouseEventArgs args)
+        {
+            CustomPictureBox pictureBox = (CustomPictureBox)obj;
+            if (args.Delta != 0 && pictureBox.Image != null)
+            {
+                Zoom(args.Location, args.Delta > 0);
+                Point point = this.Image2Frame(args.Location);
+            }
+        }
+
+        private void Callback_cPictureBoxPanel(object obj, EventArgs args)
+        {
+            this.mParentHeight = ((Panel)(obj)).Height;
+            this.mParentWidth = ((Panel)(obj)).Width;
+            this.Render();
+        }
+        #endregion
+
+        #region Point Translations
+        private Point ScaledBitmap2OriginalBitmap(Point point)
+        {
+            point.X =(int)(point.X / this.mScale);
+            point.Y = (int)(point.Y / this.mScale);
+            return point;
+        }
+
+        private Point Image2Frame(Point point)
+        {
+            point = this.mImage.PointToScreen(point);
+            point = this.Parent.PointToClient(point);
+            return point;
+        }
+
+        private Point OriginalBitmap2ScaledBitmap(Point point)
+        {
+            point.X = (int)(point.X * this.mScale);
+            point.Y = (int)(point.Y * this.mScale);
+            return point;
+        }
+        #endregion
+
+        #region Methods
+        private void ScrollBitmapPoint2FramePoint(Point framePoint, Point bitmapPoint)
+        {
+            Point scaledPoint = this.OriginalBitmap2ScaledBitmap(bitmapPoint);
+            int scrollX = Math.Max(0, scaledPoint.X - framePoint.X + this.mHorizontalMargin);
+            int scrollY = Math.Max(0, scaledPoint.Y - framePoint.Y + this.mVerticalMargin);
+            ((Panel)(this.Parent)).AutoScrollPosition = new Point(scrollX, scrollY);
+        }
 
         private void LoadBitmap()
         {
@@ -79,52 +134,6 @@ namespace EU4_Game_Editing_Tool_WinForm
             this.Width = width;
             this.BackColor = Color.DimGray;
             this.ResumeLayout();
-        }
-
-        private void Callback_mImage_MouseWheel(object obj, MouseEventArgs args)
-        {
-            CustomPictureBox pictureBox = (CustomPictureBox)obj;
-            if (args.Delta != 0 && pictureBox.Image != null)
-            {
-                Zoom(args.Location, args.Delta > 0);
-                Point point = this.Image2Frame(args.Location);
-            }
-        }
-
-        private void Callback_cPictureBoxPanel(object obj, EventArgs args)
-        {
-            this.mParentHeight = ((Panel)(obj)).Height;
-            this.mParentWidth = ((Panel)(obj)).Width;
-            this.Render();
-        }
-
-        private Point ScaledBitmap2OriginalBitmap(Point point)
-        {
-            point.X =(int)(point.X / this.mScale);
-            point.Y = (int)(point.Y / this.mScale);
-            return point;
-        }
-
-        private Point Image2Frame(Point point)
-        {
-            point = this.mImage.PointToScreen(point);
-            point = this.Parent.PointToClient(point);
-            return point;
-        }
-
-        private Point OriginalBitmap2ScaledBitmap(Point point)
-        {
-            point.X = (int)(point.X * this.mScale);
-            point.Y = (int)(point.Y * this.mScale);
-            return point;
-        }
-
-        private void ScrollBitmapPoint2FramePoint(Point framePoint, Point bitmapPoint)
-        {
-            Point scaledPoint = this.OriginalBitmap2ScaledBitmap(bitmapPoint);
-            int scrollX = Math.Max(0, scaledPoint.X - framePoint.X + this.mHorizontalMargin);
-            int scrollY = Math.Max(0, scaledPoint.Y - framePoint.Y + this.mVerticalMargin);
-            ((Panel)(this.Parent)).AutoScrollPosition = new Point(scrollX, scrollY);
         }
 
         private void Render()
@@ -157,5 +166,6 @@ namespace EU4_Game_Editing_Tool_WinForm
                 this.ScrollBitmapPoint2FramePoint(framePoint, bitmapPoint);
             }
         }
-    }      
+        #endregion
+    }
 }
