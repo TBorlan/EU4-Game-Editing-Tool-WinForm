@@ -150,6 +150,7 @@ namespace EU4_Game_Editing_Tool_WinForm
             this.mImage.Location = new Point(this.mHorizontalMargin, this.mVerticalMargin);
             this.mImage.ResumeLayout();
             this.ResumeLayout();
+            this.DrawPath();
         }
 
         private void Zoom(Point zoomPoint, bool magnify)
@@ -163,6 +164,14 @@ namespace EU4_Game_Editing_Tool_WinForm
                 mScale = newScale;
                 this.Render();
                 this.ScrollBitmapPoint2FramePoint(framePoint, bitmapPoint);
+            }
+        }
+        private void DrawPath()
+        {
+            GraphicsPath path = ProvinceBorderConstructor.GenerateBordersPath(this.mOriginalBitmap);
+            using (Graphics graphics = Graphics.FromHwnd(this.mImage.Handle))
+            {
+                graphics.DrawPath(new Pen(Color.Black, 5), path);
             }
         }
         #endregion

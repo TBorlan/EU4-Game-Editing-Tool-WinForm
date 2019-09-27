@@ -16,12 +16,11 @@ namespace EU4_Game_Editing_Tool_WinForm
         public Point mPosition { get; set; }
         public Pixel(int x, int y)
         {
-            this.mColor = new Color();
             this.mPosition = new Point(x, y);
         }
         bool IEqualityComparer<Pixel>.Equals(Pixel x, Pixel y)
         {
-            return (x.mColor == y.mColor) && (x.mPosition == y.mPosition);
+            return (x.mColor == y.mColor);
         }
 
         int IEqualityComparer<Pixel>.GetHashCode(Pixel obj)
