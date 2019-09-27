@@ -23,7 +23,6 @@ namespace EU4_Game_Editing_Tool_WinForm
             {
                 pe.Graphics.InterpolationMode = InterpolationMode.NearestNeighbor;
 
-                ZoomablePictureBox pb = (ZoomablePictureBox)this.Parent;
                 base.OnPaint(pe);
             }
         }
