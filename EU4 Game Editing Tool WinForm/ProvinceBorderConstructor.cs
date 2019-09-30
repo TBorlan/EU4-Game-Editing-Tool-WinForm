@@ -18,7 +18,9 @@ namespace EU4_Game_Editing_Tool_WinForm
 
         private static Bitmap mBitmap;
 
-        private static byte[] mRGBData;
+        private static Color[,] mPixelColors;
+
+        private static Dictionary<Color, Dictionary<int, int[]>[]> mProvincesLines;
 
         public static GraphicsPath GenerateBordersPath(Bitmap bitmap)
         {
@@ -30,15 +32,23 @@ namespace EU4_Game_Editing_Tool_WinForm
             int bytes = Math.Abs(bmpData.Stride) * bitmap.Height;
             byte[] rgbValues = new byte[bytes];
             Marshal.Copy(ptr, rgbValues, 0, bytes);
-            mRGBData = rgbValues;
             int col, row;
+            mPixelColors = new Color[bitmap.Height,bitmap.Width];
+            for (int i = 0; i < bytes; i += 3)
+            {
+                row = (i / 3) / bitmap.Width;
+                col = (i / 3) % bitmap.Width;
+                mPixelColors[row,col] = Color.FromArgb(rgbValues[i], rgbValues[i + 1], rgbValues[i + 2]);
+            }
+            bitmap.UnlockBits(bmpData);
             GraphicsPath path = new GraphicsPath();
             Dictionary<Color, HashSet<Point[]>> provinces = new Dictionary<Color, HashSet<Point[]>>(3661);
+            mProvincesLines = new Dictionary<Color, Dictionary<int, int[]>[]>(3661);
             for (row = 0; row < mBitmapData.Height; row++)
             {
                 for (col = 0; col < mBitmapData.Width; col++)
                 {
-                    Color color = GetRGB(row, col);
+                    Color color = mPixelColors[row,col];
                     if (!provinces.ContainsKey(color))
                     {
                         provinces.Add(color, new HashSet<Point[]>());
@@ -48,7 +58,7 @@ namespace EU4_Game_Editing_Tool_WinForm
                     do
                     {
                         col++;
-                    } while (color == GetRGB(row, col) && col < mBitmapData.Width);
+                    } while (col < mBitmapData.Width && color == mPixelColors[row,col]);
 
                     col--;
                     colorLine[1] = new Point(row, col);
@@ -60,13 +70,13 @@ namespace EU4_Game_Editing_Tool_WinForm
             {
                 for (row = 0; row < mBitmapData.Height; row++)
                 {
-                    Color color = GetRGB(row, col);
+                    Color color = mPixelColors[row,col];
                     Point[] colorLine = new Point[2];
                     colorLine[0] = new Point(row, col);
                     do
                     {
                         row++;
-                    } while (color == GetRGB(row, col) && row < mBitmapData.Height);
+                    } while (row < mBitmapData.Height && color == mPixelColors[row, col]);
 
                     row--;
                     colorLine[1] = new Point(row, col);
@@ -74,54 +84,35 @@ namespace EU4_Game_Editing_Tool_WinForm
                     Lines.Add(colorLine);
                 }
             }
+            foreach(KeyValuePair<Color, HashSet<Point[]>> keyValue in provinces)
+            {
+
+            }
             return path;
         }
-        
-        private static int Index2Row(int index)
+        private static void ProccessProvince(HashSet<Point[]> lines)
         {
+            Dictionary<int, int[]>[] province = new Dictionary<int, int[]>[];
 
-            return index / Math.Abs(mBitmapData.Stride);
-        }
-
-        private static int Positon2Index(int row, int col)
-        {
-            switch (row)
+            foreach (Point[] line in lines)
             {
-                case int x when row < 0:
-                    row = 0;
-                    break;
-                case int x when row > mBitmap.Height - 1:
-                    row = mBitmap.Height - 1;
-                    break;
-                default:
-                    break;
+                if(line[0].X == line[1].X)
+                {
+                    ProcessHLine(line);
+                }
+                else
+                {
+                    ProcessVLine(line);
+                }
             }
-            switch (col)
-            {
-                case int x when col < 0:
-                    col = 0;
-                    break;
-                case int x when col > mBitmap.Width - 1:
-                    col = mBitmap.Width - 1;
-                    break;
-                default:
-                    break;
-            }
-            return row * mBitmapData.Stride + col * 3;
         }
-
-        private static int Index2Col(int index)
+        private static void ProcessHLine(Point[] line)
         {
-            return (index / 3) % mBitmap.Width;
+
         }
-
-        private static Color GetRGB(int row, int col)
+        private static void ProcessVLine(Point[] line)
         {
-            int index = Positon2Index(row, col);
-            Color color = Color.FromArgb(mRGBData[index],
-                                         mRGBData[index + 1],
-                                         mRGBData[index + 2]);
-            return color;
+
         }
     }
 }
