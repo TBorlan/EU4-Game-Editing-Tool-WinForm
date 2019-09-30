@@ -20,7 +20,7 @@ namespace EU4_Game_Editing_Tool_WinForm
 
         private static Color[,] mPixelColors;
 
-        private static Dictionary<Color, Dictionary<int, int[]>[]> mProvincesLines;
+        private static Dictionary<Color, HashSet<Point[]>> mProvincesLines;
 
         public static GraphicsPath GenerateBordersPath(Bitmap bitmap)
         {
@@ -43,7 +43,7 @@ namespace EU4_Game_Editing_Tool_WinForm
             bitmap.UnlockBits(bmpData);
             GraphicsPath path = new GraphicsPath();
             Dictionary<Color, HashSet<Point[]>> provinces = new Dictionary<Color, HashSet<Point[]>>(3661);
-            mProvincesLines = new Dictionary<Color, Dictionary<int, int[]>[]>(3661);
+            mProvincesLines = new Dictionary<Color, HashSet<Point[]>>(3661);
             for (row = 0; row < mBitmapData.Height; row++)
             {
                 for (col = 0; col < mBitmapData.Width; col++)
@@ -86,33 +86,55 @@ namespace EU4_Game_Editing_Tool_WinForm
             }
             foreach(KeyValuePair<Color, HashSet<Point[]>> keyValue in provinces)
             {
-
+                mProvincesLines.Add(keyValue.Key, new HashSet<Point[]>());
+                ProccessProvince(keyValue.Value);
             }
             return path;
         }
+
         private static void ProccessProvince(HashSet<Point[]> lines)
         {
-            Dictionary<int, int[]>[] province = new Dictionary<int, int[]>[];
+            List<Point> vPoints = new List<Point>(lines.Count / 2);
+            List<Point> hPoints = new List<Point>(lines.Count / 2);
 
             foreach (Point[] line in lines)
             {
                 if(line[0].X == line[1].X)
                 {
-                    ProcessHLine(line);
+                    hPoints.AddRange(line);
                 }
                 else
                 {
-                    ProcessVLine(line);
+                    vPoints.AddRange(line);
                 }
             }
-        }
-        private static void ProcessHLine(Point[] line)
-        {
+            vPoints.Sort(ComparePoints);
+            hPoints.Sort(ComparePoints);
 
         }
-        private static void ProcessVLine(Point[] line)
+        private static int ComparePoints(Point p1, Point p2)
         {
-
+            int val1 = p1.X * 2500 + p1.Y;
+            int val2 = p2.X * 2500 + p2.Y;
+            return val1.CompareTo(val2);
+        }
+        private static void TraceVLines(List<Point> points)
+        {
+            int index, y1, y2, x;
+            while (points.Count > 0)
+            {
+                index = 0;
+                x = points[0].X;
+                y1 = points[0].Y;
+                y2 = y1;
+                do
+                {
+                    y1 = y2;
+                    y2 = points[++index].Y;
+                } while ((y2 - y1 == 1) && (points[index].X == x) && (index < points.Count));
+                index--;
+                
+            }
         }
     }
 }
