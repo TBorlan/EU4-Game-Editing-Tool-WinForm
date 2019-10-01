@@ -169,10 +169,12 @@ namespace EU4_Game_Editing_Tool_WinForm
         private void DrawPath()
         {
             GraphicsPath path = ProvinceBorderConstructor.GenerateBordersPath(this.mOriginalBitmap);
-            using (Graphics graphics = Graphics.FromHwnd(this.mImage.Handle))
-            {
-                graphics.DrawPath(new Pen(Color.Black, 10), path);
-            }
+                Bitmap bitmap = new Bitmap(mOriginalBitmap);
+                using (Graphics graphics1 = Graphics.FromImage(bitmap))
+                {
+                    graphics1.DrawPath(new Pen(Color.Black, 5), path);
+                }
+            this.Image = bitmap;
         }
         #endregion
     }
