@@ -87,12 +87,22 @@ namespace EU4_Game_Editing_Tool_WinForm
             foreach(KeyValuePair<Color, HashSet<Point[]>> keyValue in provinces)
             {
                 mProvincesLines.Add(keyValue.Key, new HashSet<Point[]>());
-                ProccessProvince(keyValue.Value);
+                ProccessProvince(keyValue.Value,keyValue.Key);
+                int i = 0;
+                foreach(Point[] line in mProvincesLines[keyValue.Key])
+                {
+                    path.AddLine(line[0], line[1]);
+                    i++;
+                    if (i < 20)
+                    {
+                        break;
+                    }
+                }
             }
             return path;
         }
 
-        private static void ProccessProvince(HashSet<Point[]> lines)
+        private static void ProccessProvince(HashSet<Point[]> lines,Color key)
         {
             List<Point> vPoints = new List<Point>(lines.Count / 2);
             List<Point> hPoints = new List<Point>(lines.Count / 2);
@@ -108,9 +118,20 @@ namespace EU4_Game_Editing_Tool_WinForm
                     vPoints.AddRange(line);
                 }
             }
-            vPoints.Sort(ComparePoints);
-            hPoints.Sort(ComparePoints);
-
+            vPoints.Sort((Point p1, Point p2) =>
+            {
+                int val1 = p1.Y * 2160 + p1.X;
+                int val2 = p2.Y * 2160 + p2.X;
+                return val1.CompareTo(val2);
+            });
+            hPoints.Sort((Point p1, Point p2) =>
+            {
+                int val1 = p1.X * 5616 + p1.Y;
+                int val2 = p2.X * 5616 + p2.Y;
+                return val1.CompareTo(val2);
+            });
+            TraceHLines(hPoints, key);
+            TraceVLines(vPoints, key);
         }
         private static int ComparePoints(Point p1, Point p2)
         {
@@ -118,7 +139,7 @@ namespace EU4_Game_Editing_Tool_WinForm
             int val2 = p2.X * 2500 + p2.Y;
             return val1.CompareTo(val2);
         }
-        private static void TraceVLines(List<Point> points)
+        private static void TraceVLines(List<Point> points, Color key)
         {
             int index, y1, y2, x;
             while (points.Count > 0)
@@ -130,10 +151,64 @@ namespace EU4_Game_Editing_Tool_WinForm
                 do
                 {
                     y1 = y2;
-                    y2 = points[++index].Y;
+                    try
+                    {
+                        y2 = points[++index].X;
+                    }
+                    catch (ArgumentOutOfRangeException ex)
+                    {
+                        break;
+                    }
                 } while ((y2 - y1 == 1) && (points[index].X == x) && (index < points.Count));
                 index--;
-                
+                Point[] line = new Point[2];
+                line[0] = points[0];
+                line[1] = new Point(points[index].X, points[index].Y + 1);
+                mProvincesLines[key].Add(line);
+                if (index > 0)
+                {
+                    points.RemoveRange(0, index);
+                }
+                else
+                {
+                    points.RemoveAt(0);
+                }
+            }
+        }
+        private static void TraceHLines(List<Point> points, Color key)
+        {
+            int index, x1, x2, y;
+            while (points.Count > 0)
+            {
+                index = 0;
+                y = points[0].Y;
+                x1 = points[0].X;
+                x2 = x1;
+                do
+                {
+                    x1 = x2;
+                    try
+                    {
+                        x2 = points[++index].X;
+                    }
+                    catch(ArgumentOutOfRangeException ex)
+                    {
+                        break;
+                    }
+                } while ((x2 - x1 == 1) && (points[index].Y == y) && (index < points.Count));
+                index--;
+                Point[] line = new Point[2];
+                line[0] = points[0];
+                line[1] = new Point(points[index].X + 1, points[index].Y);
+                mProvincesLines[key].Add(line);
+                if (index > 0)
+                {
+                    points.RemoveRange(0, index);
+                }
+                else
+                {
+                    points.RemoveAt(0);
+                }
             }
         }
     }

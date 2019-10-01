@@ -119,20 +119,21 @@ namespace EU4_Game_Editing_Tool_WinForm
             this.mHorizontalMargin = mImageOriginalWidth + 200 > this.mParentWidth ? 100 : (int)((this.mParentWidth - mImageOriginalWidth) / 2.0f);
             int height = mImageOriginalHeight + mVerticalMargin * 2;
             int width = mImageOriginalWidth + mHorizontalMargin * 2;
-            this.SuspendLayout();
+            //this.SuspendLayout();
             this.mImage = new CustomPictureBox();
             this.mImage.SizeMode = PictureBoxSizeMode.Zoom;
             this.mImage.Height = this.mImageOriginalHeight;
             this.mImage.Width = this.mImageOriginalWidth;
             this.mImage.Location = new Point(this.mHorizontalMargin, this.mVerticalMargin);
-            this.mImage.Image = this.mOriginalBitmap;
+            //this.mImage.Image = this.mOriginalBitmap;
             this.mImage.MouseWheel += new MouseEventHandler(this.Callback_mImage_MouseWheel);
             Graphics.FromHwnd(this.mImage.Handle).InterpolationMode = InterpolationMode.NearestNeighbor;
             this.Controls.Add(this.mImage);
             this.Height = height;
             this.Width = width;
-            this.BackColor = Color.DimGray;
-            this.ResumeLayout();
+            //this.BackColor = Color.DimGray;
+            //this.ResumeLayout();
+            this.DrawPath();
         }
 
         private void Render()
@@ -150,7 +151,6 @@ namespace EU4_Game_Editing_Tool_WinForm
             this.mImage.Location = new Point(this.mHorizontalMargin, this.mVerticalMargin);
             this.mImage.ResumeLayout();
             this.ResumeLayout();
-            this.DrawPath();
         }
 
         private void Zoom(Point zoomPoint, bool magnify)
@@ -171,7 +171,7 @@ namespace EU4_Game_Editing_Tool_WinForm
             GraphicsPath path = ProvinceBorderConstructor.GenerateBordersPath(this.mOriginalBitmap);
             using (Graphics graphics = Graphics.FromHwnd(this.mImage.Handle))
             {
-                graphics.DrawPath(new Pen(Color.Black, 5), path);
+                graphics.DrawPath(new Pen(Color.Black, 10), path);
             }
         }
         #endregion
