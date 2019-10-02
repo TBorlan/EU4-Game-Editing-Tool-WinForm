@@ -119,7 +119,7 @@ namespace EU4_Game_Editing_Tool_WinForm
             this.mHorizontalMargin = mImageOriginalWidth + 200 > this.mParentWidth ? 100 : (int)((this.mParentWidth - mImageOriginalWidth) / 2.0f);
             int height = mImageOriginalHeight + mVerticalMargin * 2;
             int width = mImageOriginalWidth + mHorizontalMargin * 2;
-            //this.SuspendLayout();
+            this.SuspendLayout();
             this.mImage = new CustomPictureBox();
             this.mImage.SizeMode = PictureBoxSizeMode.Zoom;
             this.mImage.Height = this.mImageOriginalHeight;
@@ -131,8 +131,8 @@ namespace EU4_Game_Editing_Tool_WinForm
             this.Controls.Add(this.mImage);
             this.Height = height;
             this.Width = width;
-            //this.BackColor = Color.DimGray;
-            //this.ResumeLayout();
+            this.BackColor = Color.DimGray;
+            this.ResumeLayout();
             this.DrawPath();
         }
 
@@ -172,9 +172,9 @@ namespace EU4_Game_Editing_Tool_WinForm
                 Bitmap bitmap = new Bitmap(mOriginalBitmap);
                 using (Graphics graphics1 = Graphics.FromImage(bitmap))
                 {
-                    graphics1.DrawPath(new Pen(Color.Black, 5), path);
+                    graphics1.DrawPath(new Pen(Color.Black, 1), path);
                 }
-            this.Image = bitmap;
+            this.mImage.Image = bitmap;
         }
         #endregion
     }

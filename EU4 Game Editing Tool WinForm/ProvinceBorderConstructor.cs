@@ -92,12 +92,16 @@ namespace EU4_Game_Editing_Tool_WinForm
                 ProccessProvince(keyValue.Value,keyValue.Key);
             }
             int k = 0;
+            int x;
             foreach(HashSet<Point[]> provinceLines in mProvincesLines.Values)
             {
                 Point[] points = provinceLines.First<Point[]>();
+                path.StartFigure();
                 path.AddLine(points[0], points[1]);
+                provinceLines.Remove(points);
                 while (provinceLines.Count > 0)
                 {
+                    x = provinceLines.Count;
                     foreach(Point[] line in provinceLines)
                     {
                         if(path.GetLastPoint() == (PointF)line[0])
@@ -106,6 +110,14 @@ namespace EU4_Game_Editing_Tool_WinForm
                             provinceLines.Remove(line);
                             break;
                         }
+                    }
+                    if(x == provinceLines.Count)
+                    {
+                        //path.CloseFigure();
+                        path.StartFigure();
+                        points = provinceLines.First<Point[]>();
+                        path.AddLine(points[0], points[1]);
+                        provinceLines.Remove(points);
                     }
                 }
                 k++;
@@ -228,7 +240,7 @@ namespace EU4_Game_Editing_Tool_WinForm
                 index--;
                 Point[] line = new Point[2];
                 line[0] = new Point(points[0].X + 1, points[0].Y);
-                line[1] = new Point(points[index].X, points[index].Y + 1);
+                line[1] = new Point(points[index].X + 1, points[index].Y + 1);
                 mProvincesLines[key].Add(line);
                 if (index > 0)
                 {
@@ -300,7 +312,7 @@ namespace EU4_Game_Editing_Tool_WinForm
                 } while ((x2 - x1 == 1) && (points[index].Y == y) && (index < points.Count));
                 index--;
                 Point[] line = new Point[2];
-                line[0] = new Point(points[0].X, points[index].Y + 1);
+                line[0] = new Point(points[0].X, points[0].Y + 1);
                 line[1] = new Point(points[index].X + 1, points[index].Y + 1);
                 mProvincesLines[key].Add(line);
                 if (index > 0)
