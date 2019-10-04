@@ -117,11 +117,13 @@
 
         #endregion
 
+        #region Controls
         private System.Windows.Forms.Button cOpenImageButton;
         private ZoomablePictureBox cImagePictureBox;
         private System.Windows.Forms.Panel cPictureBoxPanel;
         private System.Windows.Forms.PictureBox cColorPictureBox;
         private System.Windows.Forms.Button cSelectColorButton;
+        #endregion
     }
 }
 

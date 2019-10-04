@@ -18,15 +18,23 @@ namespace EU4_Game_Editing_Tool_WinForm
         {
             InitializeComponent();
 
-            mSelectColor = false;
-
-
+            _mSelectColor = false;
+            this.cSelectColorButton.Click += new EventHandler(this.Callback_SelectColorButton_OnClick);
         }
 
- 
+        #region Members
+        private bool _mSelectColor;
 
-        private bool mSelectColor;
+        public bool mSelectColor
+        {
+            get
+            {
+                return _mSelectColor;
+            }
+        }
+        #endregion
 
+        #region Callbacks
         private void Callback_OpenImageButton_OnClick(object sender, EventArgs e)
         {
             OpenFileDialog loadImageDialog = new OpenFileDialog()
@@ -48,8 +56,8 @@ namespace EU4_Game_Editing_Tool_WinForm
             loadImageDialog.Dispose();
 
             this.cImagePictureBox.MouseWheel += new MouseEventHandler(this.Callback_PictureBoxPanel_MouseWheel);
+            this.cImagePictureBox.Click += new EventHandler(this.Callback_ImagePictureBox_OnClick); 
         }
-
 
         private void Callback_PictureBoxPanel_MouseWheel(object obj, MouseEventArgs args)
         {
@@ -58,15 +66,15 @@ namespace EU4_Game_Editing_Tool_WinForm
 
         private void Callback_SelectColorButton_OnClick(object sender, EventArgs e)
         {
-            if (this.cImagePictureBox.Image != null)
+            if (this.cImagePictureBox.mOriginalBitmap != null)
             {
-                mSelectColor = true;
+                _mSelectColor = true;
                 this.cImagePictureBox.Cursor = Cursors.Hand;
             }
 
         }
 
-        private void Callback_ImagePictureBox_OnClick(object sender, MouseEventArgs e)
+        private void Callback_ImagePictureBox_OnClick(object sender, EventArgs e)
         {
             if (this.mSelectColor)
             {
@@ -76,10 +84,11 @@ namespace EU4_Game_Editing_Tool_WinForm
                     {
                         graphics.CopyFromScreen(Control.MousePosition, new Point(0, 0), new Size(1,1));
 
-                        Point point = e.Location;
+                        Point point = ((MouseEventArgs)(e)).Location;
 
                     }
                     this.cColorPictureBox.BackColor = pixelImage.GetPixel(0, 0);
+                    this.cImagePictureBox.DrawBorder(pixelImage.GetPixel(0, 0));
                 }
             }
         }
@@ -88,5 +97,6 @@ namespace EU4_Game_Editing_Tool_WinForm
         {
 
         }
+        #endregion
     }
 }
