@@ -11,44 +11,60 @@ using System.Threading.Tasks;
 
 namespace EU4_Game_Editing_Tool_WinForm
 {
-    static class ProvinceBorderConstructor
+    class ProvinceBorders
     {
 
-        private static BitmapData mBitmapData;
-
-        private static Bitmap mBitmap;
-
-        private static Color[,] mPixelColors;
-
-        private static Dictionary<Color, HashSet<Point[]>> mProvincesLines;
-
-        public static GraphicsPath GenerateBordersPath(Bitmap bitmap)
+        private ProvinceBorders(Bitmap bitmap)
         {
-            Rectangle rect = new Rectangle(0, 0, bitmap.Width, bitmap.Height);
-            BitmapData bmpData = bitmap.LockBits(rect, System.Drawing.Imaging.ImageLockMode.ReadWrite, bitmap.PixelFormat);
-            IntPtr ptr = bmpData.Scan0;
-            mBitmapData = bmpData;
             mBitmap = bitmap;
-            int bytes = Math.Abs(bmpData.Stride) * bitmap.Height;
+            mProvincesLines = new Dictionary<Color, HashSet<Point[]>>(3661);
+        }
+
+        private static ProvinceBorders instance;
+
+        public static ProvinceBorders GetProvinceBorders(Bitmap bitmap)
+        {
+            if (instance == null)
+            {
+                instance = new ProvinceBorders(bitmap);
+                instance.GenerateBordersPaths();
+            }
+            return instance;
+        }
+
+        private Bitmap mBitmap;
+
+        private Color[,] mPixelColors;
+
+        private Dictionary<Color, HashSet<Point[]>> mProvincesLines;
+
+        private void GenerateBordersPaths()
+        {
+
+            Rectangle rect = new Rectangle(0, 0, this.mBitmap.Width, this.mBitmap.Height);
+            BitmapData bmpData = this.mBitmap.LockBits(rect, System.Drawing.Imaging.ImageLockMode.ReadWrite, this.mBitmap.PixelFormat);
+            IntPtr ptr = bmpData.Scan0;
+            int bytes = Math.Abs(bmpData.Stride) * this.mBitmap.Height;
             byte[] rgbValues = new byte[bytes];
             Marshal.Copy(ptr, rgbValues, 0, bytes);
+
             int col, row;
-            mPixelColors = new Color[bitmap.Height,bitmap.Width];
+            mPixelColors = new Color[this.mBitmap.Height, this.mBitmap.Width];
             for (int i = 0; i < bytes; i += 3)
             {
-                row = (i / 3) / bitmap.Width;
-                col = (i / 3) % bitmap.Width;
-                mPixelColors[row,col] = Color.FromArgb(rgbValues[i], rgbValues[i + 1], rgbValues[i + 2]);
+                row = (i / 3) / this.mBitmap.Width;
+                col = (i / 3) % this.mBitmap.Width;
+                mPixelColors[row, col] = Color.FromArgb(rgbValues[i + 2], rgbValues[i + 1], rgbValues[i]);
             }
-            bitmap.UnlockBits(bmpData);
+            this.mBitmap.UnlockBits(bmpData);
+            bmpData = null;
             GraphicsPath path = new GraphicsPath();
             Dictionary<Color, HashSet<Point[]>> provinces = new Dictionary<Color, HashSet<Point[]>>(3661);
-            mProvincesLines = new Dictionary<Color, HashSet<Point[]>>(3661);
-            for (row = 0; row < mBitmapData.Height; row++)
+            for (row = 0; row < this.mBitmap.Height; row++)
             {
-                for (col = 0; col < mBitmapData.Width; col++)
+                for (col = 0; col < this.mBitmap.Width; col++)
                 {
-                    Color color = mPixelColors[row,col];
+                    Color color = mPixelColors[row, col];
                     if (!provinces.ContainsKey(color))
                     {
                         provinces.Add(color, new HashSet<Point[]>());
@@ -58,7 +74,7 @@ namespace EU4_Game_Editing_Tool_WinForm
                     do
                     {
                         col++;
-                    } while (col < mBitmapData.Width && color == mPixelColors[row,col]);
+                    } while (col < this.mBitmap.Width && color == mPixelColors[row, col]);
 
                     col--;
                     colorLine[1] = new Point(col, row);
@@ -67,17 +83,17 @@ namespace EU4_Game_Editing_Tool_WinForm
                     Lines.Add(colorLine);
                 }
             }
-            for (col = 0; col < mBitmapData.Width; col++)
+            for (col = 0; col < this.mBitmap.Width; col++)
             {
-                for (row = 0; row < mBitmapData.Height; row++)
+                for (row = 0; row < this.mBitmap.Height; row++)
                 {
-                    Color color = mPixelColors[row,col];
+                    Color color = mPixelColors[row, col];
                     Point[] colorLine = new Point[3];
                     colorLine[0] = new Point(col, row);
                     do
                     {
                         row++;
-                    } while (row < mBitmapData.Height && color == mPixelColors[row, col]);
+                    } while (row < this.mBitmap.Height && color == mPixelColors[row, col]);
 
                     row--;
                     colorLine[1] = new Point(col, row);
@@ -86,50 +102,48 @@ namespace EU4_Game_Editing_Tool_WinForm
                     Lines.Add(colorLine);
                 }
             }
-            foreach(KeyValuePair<Color, HashSet<Point[]>> keyValue in provinces)
+            this.mPixelColors = null;
+            foreach (KeyValuePair<Color, HashSet<Point[]>> keyValue in provinces)
             {
-                mProvincesLines.Add(keyValue.Key, new HashSet<Point[]>());
-                ProccessProvince(keyValue.Value,keyValue.Key);
+                this.mProvincesLines.Add(keyValue.Key, new HashSet<Point[]>());
+                this.ProccessProvince(keyValue.Value, keyValue.Key);
             }
-            int k = 0;
+        }
+
+        public GraphicsPath GetProvinceBorder(Color color)
+        {
+            HashSet<Point[]> provinceLines = new HashSet<Point[]>(this.mProvincesLines[color]);
+            GraphicsPath path = new GraphicsPath();
             int x;
-            foreach(HashSet<Point[]> provinceLines in mProvincesLines.Values)
+            Point[] points = provinceLines.First<Point[]>();
+
+            path.StartFigure();
+            path.AddLine(points[0], points[1]);
+            provinceLines.Remove(points);
+            while (provinceLines.Count > 0)
             {
-                Point[] points = provinceLines.First<Point[]>();
-                path.StartFigure();
-                path.AddLine(points[0], points[1]);
-                provinceLines.Remove(points);
-                while (provinceLines.Count > 0)
+                x = provinceLines.Count;
+                foreach (Point[] line in provinceLines)
                 {
-                    x = provinceLines.Count;
-                    foreach(Point[] line in provinceLines)
+                    if (path.GetLastPoint() == (PointF)line[0])
                     {
-                        if(path.GetLastPoint() == (PointF)line[0])
-                        {
-                            path.AddLine(line[0],line[1]);
-                            provinceLines.Remove(line);
-                            break;
-                        }
-                    }
-                    if(x == provinceLines.Count)
-                    {
-                        //path.CloseFigure();
-                        path.StartFigure();
-                        points = provinceLines.First<Point[]>();
-                        path.AddLine(points[0], points[1]);
-                        provinceLines.Remove(points);
+                        path.AddLine(line[0], line[1]);
+                        provinceLines.Remove(line);
+                        break;
                     }
                 }
-                k++;
-                if(k > 1)
+                if (x == provinceLines.Count)
                 {
-                    return path;
+                    path.StartFigure();
+                    points = provinceLines.First<Point[]>();
+                    path.AddLine(points[0], points[1]);
+                    provinceLines.Remove(points);
                 }
             }
             return path;
         }
 
-        private static void ProccessProvince(HashSet<Point[]> lines,Color key)
+        private void ProccessProvince(HashSet<Point[]> lines,Color key)
         {
             List<Point> vRightPoints = new List<Point>(lines.Count / 4);
             List<Point> vLeftPoints = new List<Point>(lines.Count / 4);
@@ -173,13 +187,13 @@ namespace EU4_Game_Editing_Tool_WinForm
                 int val2 = p2.Y * 5616 + p2.X;
                 return val1.CompareTo(val2);
             });
-            TraceHTopLines(hTopPoints, key);
-            TraceHBottomLines(hBottomPoints, key);
-            TraceVLeftLines(vLeftPoints, key);
-            TraceVRightLines(vRightPoints, key);
+            this.TraceHTopLines(hTopPoints, key);
+            this.TraceHBottomLines(hBottomPoints, key);
+            this.TraceVLeftLines(vLeftPoints, key);
+            this.TraceVRightLines(vRightPoints, key);
         }
 
-        private static void TraceVLeftLines(List<Point> points, Color key)
+        private void TraceVLeftLines(List<Point> points, Color key)
         {
             int index, y1, y2, x;
             while (points.Count > 0)
@@ -204,7 +218,7 @@ namespace EU4_Game_Editing_Tool_WinForm
                 Point[] line = new Point[2];
                 line[0] = points[0];
                 line[1] = new Point(points[index].X, points[index].Y + 1);
-                mProvincesLines[key].Add(line);
+                this.mProvincesLines[key].Add(line);
                 if (index > 0)
                 {
                     points.RemoveRange(0, index);
@@ -216,7 +230,7 @@ namespace EU4_Game_Editing_Tool_WinForm
             }
         }
 
-        private static void TraceVRightLines(List<Point> points, Color key)
+        private void TraceVRightLines(List<Point> points, Color key)
         {
             int index, y1, y2, x;
             while (points.Count > 0)
@@ -241,7 +255,7 @@ namespace EU4_Game_Editing_Tool_WinForm
                 Point[] line = new Point[2];
                 line[0] = new Point(points[0].X + 1, points[0].Y);
                 line[1] = new Point(points[index].X + 1, points[index].Y + 1);
-                mProvincesLines[key].Add(line);
+                this.mProvincesLines[key].Add(line);
                 if (index > 0)
                 {
                     points.RemoveRange(0, index);
@@ -253,7 +267,7 @@ namespace EU4_Game_Editing_Tool_WinForm
             }
         }
 
-        private static void TraceHTopLines(List<Point> points, Color key)
+        private void TraceHTopLines(List<Point> points, Color key)
         {
             int index, x1, x2, y;
             while (points.Count > 0)
@@ -278,7 +292,7 @@ namespace EU4_Game_Editing_Tool_WinForm
                 Point[] line = new Point[2];
                 line[0] = points[0];
                 line[1] = new Point(points[index].X + 1, points[index].Y);
-                mProvincesLines[key].Add(line);
+                this.mProvincesLines[key].Add(line);
                 if (index > 0)
                 {
                     points.RemoveRange(0, index);
@@ -289,7 +303,7 @@ namespace EU4_Game_Editing_Tool_WinForm
                 }
             }
         }
-        private static void TraceHBottomLines(List<Point> points, Color key)
+        private void TraceHBottomLines(List<Point> points, Color key)
         {
             int index, x1, x2, y;
             while (points.Count > 0)
@@ -314,7 +328,7 @@ namespace EU4_Game_Editing_Tool_WinForm
                 Point[] line = new Point[2];
                 line[0] = new Point(points[0].X, points[0].Y + 1);
                 line[1] = new Point(points[index].X + 1, points[index].Y + 1);
-                mProvincesLines[key].Add(line);
+                this.mProvincesLines[key].Add(line);
                 if (index > 0)
                 {
                     points.RemoveRange(0, index);
