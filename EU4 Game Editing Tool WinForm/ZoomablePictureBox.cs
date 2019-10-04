@@ -11,30 +11,25 @@ using System.Drawing.Drawing2D;
 
 namespace EU4_Game_Editing_Tool_WinForm
 {
-    ///<summary>
-    ///Helper Class for displaying images
-    ///</summary>
     public partial class ZoomablePictureBox : PictureBox
     {
-        #region Members
+
         private class CustomPictureBox : PictureBox
         {
-
             protected override void OnPaint(PaintEventArgs pe)
             {
                 pe.Graphics.InterpolationMode = InterpolationMode.NearestNeighbor;
 
+                ZoomablePictureBox pb = (ZoomablePictureBox)this.Parent;
                 base.OnPaint(pe);
             }
         }
 
         private float mScale;
 
-        private CustomPictureBox mImage;
-
-        private ProvinceBorders mProvinceBorders;
-
         private Bitmap _mOriginalBitmap;
+
+        private CustomPictureBox mImage;
 
         public Bitmap mOriginalBitmap
         {
@@ -59,9 +54,33 @@ namespace EU4_Game_Editing_Tool_WinForm
 
         private int mParentHeight;
         private int mParentWidth;
-        #endregion
 
-        #region Callbacks
+        private void LoadBitmap()
+        {
+            this.mScale = 1.0f;
+            this.mParentHeight = this.Parent.Height;
+            this.mParentWidth = this.Parent.Width;
+            ((Panel)this.Parent).Resize += new EventHandler(Callback_cPictureBoxPanel);
+            this.mVerticalMargin = mImageOriginalHeight + 200 > this.mParentHeight ? 100 : (int)((this.mParentHeight - mImageOriginalHeight) / 2.0f);
+            this.mHorizontalMargin = mImageOriginalWidth + 200 > this.mParentWidth ? 100 : (int)((this.mParentWidth - mImageOriginalWidth) / 2.0f);
+            int height = mImageOriginalHeight + mVerticalMargin * 2;
+            int width = mImageOriginalWidth + mHorizontalMargin * 2;
+            this.SuspendLayout();
+            this.mImage = new CustomPictureBox();
+            this.mImage.SizeMode = PictureBoxSizeMode.Zoom;
+            this.mImage.Height = this.mImageOriginalHeight;
+            this.mImage.Width = this.mImageOriginalWidth;
+            this.mImage.Location = new Point(this.mHorizontalMargin, this.mVerticalMargin);
+            this.mImage.Image = this.mOriginalBitmap;
+            this.mImage.MouseWheel += new MouseEventHandler(this.Callback_mImage_MouseWheel);
+            Graphics.FromHwnd(this.mImage.Handle).InterpolationMode = InterpolationMode.NearestNeighbor;
+            this.Controls.Add(this.mImage);
+            this.Height = height;
+            this.Width = width;
+            this.BackColor = Color.DimGray;
+            this.ResumeLayout();
+        }
+
         private void Callback_mImage_MouseWheel(object obj, MouseEventArgs args)
         {
             CustomPictureBox pictureBox = (CustomPictureBox)obj;
@@ -78,28 +97,7 @@ namespace EU4_Game_Editing_Tool_WinForm
             this.mParentWidth = ((Panel)(obj)).Width;
             this.Render();
         }
-        private void Callback_mImage_MouseClick(object obj, MouseEventArgs args)
-        {
-            if (args.Button == MouseButtons.Left)
-            {
-                CustomPictureBox pictureBox = (CustomPictureBox)obj;
-                Point point = this.ScaledBitmap2OriginalBitmap(args.Location);
-                Color color = ((Bitmap)(this.mImage.Image)).GetPixel(point.X, point.Y);
 
-                using (Graphics graphics = Graphics.FromHwnd(this.mImage.Handle))
-                {
-                    GraphicsPath graphicsPath = this.mProvinceBorders.GetProvinceBorder(color);
-                    Matrix matrix = new Matrix();
-                    matrix.Translate(-1*mScale/2, -1*mScale/2);
-                    matrix.Scale(this.mScale, this.mScale);
-                    graphicsPath.Transform(matrix);
-                    graphics.DrawPath(new Pen(Color.Black, 1), graphicsPath);
-                }
-            }
-        }
-        #endregion
-
-        #region Point Translations
         private Point ScaledBitmap2OriginalBitmap(Point point)
         {
             point.X =(int)(point.X / this.mScale);
@@ -120,43 +118,13 @@ namespace EU4_Game_Editing_Tool_WinForm
             point.Y = (int)(point.Y * this.mScale);
             return point;
         }
-        #endregion
 
-        #region Methods
         private void ScrollBitmapPoint2FramePoint(Point framePoint, Point bitmapPoint)
         {
             Point scaledPoint = this.OriginalBitmap2ScaledBitmap(bitmapPoint);
             int scrollX = Math.Max(0, scaledPoint.X - framePoint.X + this.mHorizontalMargin);
             int scrollY = Math.Max(0, scaledPoint.Y - framePoint.Y + this.mVerticalMargin);
             ((Panel)(this.Parent)).AutoScrollPosition = new Point(scrollX, scrollY);
-        }
-
-        private void LoadBitmap()
-        {
-            this.mScale = 1.0f;
-            this.mParentHeight = this.Parent.Height;
-            this.mParentWidth = this.Parent.Width;
-            ((Panel)this.Parent).Resize += new EventHandler(Callback_cPictureBoxPanel);
-            this.mVerticalMargin = mImageOriginalHeight + 200 > this.mParentHeight ? 100 : (int)((this.mParentHeight - mImageOriginalHeight) / 2.0f);
-            this.mHorizontalMargin = mImageOriginalWidth + 200 > this.mParentWidth ? 100 : (int)((this.mParentWidth - mImageOriginalWidth) / 2.0f);
-            int height = mImageOriginalHeight + mVerticalMargin * 2;
-            int width = mImageOriginalWidth + mHorizontalMargin * 2;
-            this.SuspendLayout();
-            this.mImage = new CustomPictureBox();
-            this.mImage.SizeMode = PictureBoxSizeMode.Zoom;
-            this.mImage.Height = this.mImageOriginalHeight;
-            this.mImage.Width = this.mImageOriginalWidth;
-            this.mImage.Location = new Point(this.mHorizontalMargin, this.mVerticalMargin);
-            this.mImage.Image = this.mOriginalBitmap;
-            this.mImage.MouseWheel += new MouseEventHandler(this.Callback_mImage_MouseWheel);
-            this.mImage.MouseClick += new MouseEventHandler(this.Callback_mImage_MouseClick);
-            Graphics.FromHwnd(this.mImage.Handle).InterpolationMode = InterpolationMode.NearestNeighbor;
-            this.Controls.Add(this.mImage);
-            this.Height = height;
-            this.Width = width;
-            this.BackColor = Color.DimGray;
-            this.ResumeLayout();
-            this.mProvinceBorders = ProvinceBorders.GetProvinceBorders(this.mOriginalBitmap);
         }
 
         private void Render()
@@ -189,16 +157,5 @@ namespace EU4_Game_Editing_Tool_WinForm
                 this.ScrollBitmapPoint2FramePoint(framePoint, bitmapPoint);
             }
         }
-        public void DrawBorder(Color color)
-        {
-            using (GraphicsPath path = this.mProvinceBorders.GetProvinceBorder(color))
-            {
-                using (Graphics graphics = Graphics.FromHwnd(this.mImage.Handle))
-                {
-                    graphics.DrawPath(new Pen(Color.Black, 1), path);
-                }
-            }
-        }
-        #endregion
-    }
+    }      
 }
