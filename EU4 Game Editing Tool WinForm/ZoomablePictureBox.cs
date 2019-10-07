@@ -28,17 +28,39 @@ namespace EU4_Game_Editing_Tool_WinForm
             }
         }
 
+        private Task<ProvinceBorders> mPBTask;
+
         private float mScale;
 
         private CustomPictureBox mImage;
 
-        private ProvinceBorders mProvinceBorders;
+        private ProvinceBorders _mProvinceBorders;
+
+        private ProvinceBorders mProvinceBorders
+        {
+            get
+            {
+                if (this._mProvinceBorders != null)
+                {
+                    return this._mProvinceBorders;
+                }
+                else
+                {
+                    this._mProvinceBorders = this.mPBTask.Result;
+                    return this._mProvinceBorders;
+                }
+            }
+            set
+            {
+                this._mProvinceBorders = value;
+            }
+        }
 
         private Bitmap _mOriginalBitmap;
 
         public Bitmap mOriginalBitmap
         {
-            get => _mOriginalBitmap;
+            get => (Bitmap)_mOriginalBitmap.Clone();
             set
             {
                 if(value != null)
@@ -78,6 +100,7 @@ namespace EU4_Game_Editing_Tool_WinForm
             this.mParentWidth = ((Panel)(obj)).Width;
             this.Render();
         }
+
         private void Callback_mImage_MouseClick(object obj, MouseEventArgs args)
         {
             if (args.Button == MouseButtons.Left)
@@ -150,13 +173,17 @@ namespace EU4_Game_Editing_Tool_WinForm
             this.mImage.Image = this.mOriginalBitmap;
             this.mImage.MouseWheel += new MouseEventHandler(this.Callback_mImage_MouseWheel);
             this.mImage.MouseClick += new MouseEventHandler(this.Callback_mImage_MouseClick);
-            Graphics.FromHwnd(this.mImage.Handle).InterpolationMode = InterpolationMode.NearestNeighbor;
             this.Controls.Add(this.mImage);
             this.Height = height;
             this.Width = width;
             this.BackColor = Color.DimGray;
             this.ResumeLayout();
-            this.mProvinceBorders = ProvinceBorders.GetProvinceBorders(this.mOriginalBitmap);
+            this.mPBTask = new Task<ProvinceBorders>(() =>
+            {
+                ProvinceBorders borders = ProvinceBorders.GetProvinceBorders(this.mOriginalBitmap);
+                return borders;
+            });
+            this.mPBTask.Start();
         }
 
         private void Render()
@@ -189,6 +216,7 @@ namespace EU4_Game_Editing_Tool_WinForm
                 this.ScrollBitmapPoint2FramePoint(framePoint, bitmapPoint);
             }
         }
+
         public void DrawBorder(Color color)
         {
             using (GraphicsPath path = this.mProvinceBorders.GetProvinceBorder(color))
