@@ -60,7 +60,8 @@ namespace EU4_Game_Editing_Tool_WinForm
 
         public Bitmap mOriginalBitmap
         {
-            get => (Bitmap)_mOriginalBitmap.Clone();
+            // Create deep-copy of bitmap
+            get => this._mOriginalBitmap.Clone(new Rectangle(0, 0, this._mOriginalBitmap.Width, this._mOriginalBitmap.Height), this._mOriginalBitmap.PixelFormat);
             set
             {
                 if(value != null)
