@@ -7,6 +7,8 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
+using System.Diagnostics;
 
 
 namespace EU4_Game_Editing_Tool_WinForm
@@ -34,80 +36,129 @@ namespace EU4_Game_Editing_Tool_WinForm
 
         private Bitmap mBitmap;
 
-        private Color[,] mPixelColors;
-
         private Dictionary<Color, HashSet<Point[]>> mProvincesLines;
 
         private void GenerateBordersPaths()
         {
-
+            Stopwatch stopwatch = Stopwatch.StartNew();
             Rectangle rect = new Rectangle(0, 0, this.mBitmap.Width, this.mBitmap.Height);
             BitmapData bmpData = this.mBitmap.LockBits(rect, System.Drawing.Imaging.ImageLockMode.ReadWrite, this.mBitmap.PixelFormat);
             IntPtr ptr = bmpData.Scan0;
             int bytes = Math.Abs(bmpData.Stride) * this.mBitmap.Height;
             byte[] rgbValues = new byte[bytes];
             Marshal.Copy(ptr, rgbValues, 0, bytes);
+            int height = this.mBitmap.Height;
+            int width = this.mBitmap.Width;
+            Color[,] pixelColors = new Color[this.mBitmap.Height, this.mBitmap.Width];
+;
+            Parallel.For(0, bytes / 3, (int i) =>
+                {
+                    i *= 3;
+                    int pRow = (i / 3) / width;
+                    int pCol = (i / 3) % width;
+                    pixelColors[pRow, pCol] = Color.FromArgb(rgbValues[i + 2], rgbValues[i + 1], rgbValues[i]);
+                });
 
-            int col, row;
-            mPixelColors = new Color[this.mBitmap.Height, this.mBitmap.Width];
-            for (int i = 0; i < bytes; i += 3)
-            {
-                row = (i / 3) / this.mBitmap.Width;
-                col = (i / 3) % this.mBitmap.Width;
-                mPixelColors[row, col] = Color.FromArgb(rgbValues[i + 2], rgbValues[i + 1], rgbValues[i]);
-            }
             this.mBitmap.UnlockBits(bmpData);
             bmpData = null;
             GraphicsPath path = new GraphicsPath();
             Dictionary<Color, HashSet<Point[]>> provinces = new Dictionary<Color, HashSet<Point[]>>(3661);
-            for (row = 0; row < this.mBitmap.Height; row++)
+
+            object lockObj = new Object();
+            Parallel.For(0, this.mBitmap.Height, (int prow) =>
             {
-                for (col = 0; col < this.mBitmap.Width; col++)
+                for (int col = 0; col < width; col++)
+                 {
+                     Color color = pixelColors[prow, col];
+                     lock (lockObj)
+                     {
+                         if (!provinces.ContainsKey(color))
+                         {
+                             provinces.Add(color, new HashSet<Point[]>());
+                         }
+                     }
+                     Point[] colorLine = new Point[3];
+                     colorLine[0] = new Point(col, prow);
+                     do
+                     {
+                         if(col < width)
+                         {
+                             if(color == pixelColors[prow, col])
+                             {
+                                 col++;
+                             }
+                             else
+                             {
+                                 break;
+                             }
+                         }
+                         else
+                         {
+                             break;
+                         }
+                     } while (true);
+
+                     colorLine[1] = new Point(col, prow);
+                     colorLine[2] = new Point(-1, 0); // horizontal line
+                     lock (lockObj)
+                     {
+                         HashSet<Point[]> Lines = provinces[color];
+                         Lines.Add(colorLine);
+                     }
+                 }
+             });
+            Parallel.For(0, width, (int col) =>
+            {
+                for (int row = 0; row < height; row++)
                 {
-                    Color color = mPixelColors[row, col];
-                    if (!provinces.ContainsKey(color))
+                    Color color = pixelColors[row, col];
+                    lock (lockObj)
                     {
-                        provinces.Add(color, new HashSet<Point[]>());
+                        if (!provinces.ContainsKey(color))
+                        {
+                            provinces.Add(color, new HashSet<Point[]>());
+                        }
                     }
                     Point[] colorLine = new Point[3];
                     colorLine[0] = new Point(col, row);
                     do
                     {
-                        col++;
-                    } while (col < this.mBitmap.Width && color == mPixelColors[row, col]);
-
-                    col--;
-                    colorLine[1] = new Point(col, row);
-                    colorLine[2] = new Point(-1, 0); // horizontal line
-                    HashSet<Point[]> Lines = provinces[color];
-                    Lines.Add(colorLine);
-                }
-            }
-            for (col = 0; col < this.mBitmap.Width; col++)
-            {
-                for (row = 0; row < this.mBitmap.Height; row++)
-                {
-                    Color color = mPixelColors[row, col];
-                    Point[] colorLine = new Point[3];
-                    colorLine[0] = new Point(col, row);
-                    do
-                    {
-                        row++;
-                    } while (row < this.mBitmap.Height && color == mPixelColors[row, col]);
-
-                    row--;
+                        if (row < height)
+                        {
+                            if (color == pixelColors[row, col])
+                            {
+                                row++;
+                            }
+                            else
+                            {
+                                break;
+                            }
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    } while (true);
                     colorLine[1] = new Point(col, row);
                     colorLine[2] = new Point(-2, 0); // vertical line
-                    HashSet<Point[]> Lines = provinces[color];
-                    Lines.Add(colorLine);
+                    lock (lockObj)
+                    {
+                        HashSet<Point[]> Lines = provinces[color];
+                        Lines.Add(colorLine);
+                    }
                 }
-            }
-            this.mPixelColors = null;
-            foreach (KeyValuePair<Color, HashSet<Point[]>> keyValue in provinces)
-            {
-                this.mProvincesLines.Add(keyValue.Key, new HashSet<Point[]>());
-                this.ProccessProvince(keyValue.Value, keyValue.Key);
-            }
+            });
+            object lockobj = new Object();
+            Parallel.ForEach(provinces, (KeyValuePair<Color, HashSet<Point[]>> keyValue) =>
+             {
+                 lock (lockobj)
+                 {
+                     this.mProvincesLines.Add(keyValue.Key, new HashSet<Point[]>(keyValue.Value.Count / 4));
+                 }
+                 this.ProccessProvince(keyValue.Value, keyValue.Key);
+             });
+
+            Debug.WriteLine("double for time - " + stopwatch.ElapsedMilliseconds.ToString());
         }
 
         public GraphicsPath GetProvinceBorder(Color color)
@@ -149,7 +200,6 @@ namespace EU4_Game_Editing_Tool_WinForm
             List<Point> vLeftPoints = new List<Point>(lines.Count / 4);
             List<Point> hTopPoints = new List<Point>(lines.Count / 4);
             List<Point> hBottomPoints = new List<Point>(lines.Count / 4);
-
             foreach (Point[] line in lines)
             {
                 if(line[2].X == -1)
@@ -195,148 +245,128 @@ namespace EU4_Game_Editing_Tool_WinForm
 
         private void TraceVLeftLines(List<Point> points, Color key)
         {
-            int index, y1, y2, x;
-            while (points.Count > 0)
+            int index=0, y1, y2, x, start;
+            while (points.Count > index)
             {
-                index = 0;
-                x = points[0].X;
-                y1 = points[0].Y;
+                start = index;
+                x = points[index].X;
+                y1 = points[index].Y;
                 y2 = y1;
                 do
                 {
                     y1 = y2;
-                    try
+                    index++;
+                    if (points.Count > index)
                     {
-                        y2 = points[++index].Y;
+                        y2 = points[index].Y;
                     }
-                    catch (ArgumentOutOfRangeException ex)
+                    else
                     {
                         break;
                     }
                 } while ((y2 - y1 == 1) && (points[index].X == x) && (index < points.Count));
                 index--;
                 Point[] line = new Point[2];
-                line[0] = points[0];
+                line[0] = points[start];
                 line[1] = new Point(points[index].X, points[index].Y + 1);
+                Thread.MemoryBarrier();
                 this.mProvincesLines[key].Add(line);
-                if (index > 0)
-                {
-                    points.RemoveRange(0, index);
-                }
-                else
-                {
-                    points.RemoveAt(0);
-                }
+                index++;
             }
         }
 
         private void TraceVRightLines(List<Point> points, Color key)
         {
-            int index, y1, y2, x;
-            while (points.Count > 0)
+            int index=0, y1, y2, x, start;
+            while (points.Count > index)
             {
-                index = 0;
-                x = points[0].X;
-                y1 = points[0].Y;
+                start = index;
+                x = points[index].X;
+                y1 = points[index].Y;
                 y2 = y1;
                 do
                 {
                     y1 = y2;
-                    try
+                    index++;
+                    if (points.Count > index)
                     {
-                        y2 = points[++index].Y;
+                        y2 = points[index].Y;
                     }
-                    catch (ArgumentOutOfRangeException ex)
+                    else
                     {
                         break;
                     }
                 } while ((y2 - y1 == 1) && (points[index].X == x) && (index < points.Count));
                 index--;
                 Point[] line = new Point[2];
-                line[0] = new Point(points[0].X + 1, points[0].Y);
+                line[0] = new Point(points[start].X + 1, points[start].Y);
                 line[1] = new Point(points[index].X + 1, points[index].Y + 1);
+                Thread.MemoryBarrier();
                 this.mProvincesLines[key].Add(line);
-                if (index > 0)
-                {
-                    points.RemoveRange(0, index);
-                }
-                else
-                {
-                    points.RemoveAt(0);
-                }
+                index++;
             }
         }
 
         private void TraceHTopLines(List<Point> points, Color key)
         {
-            int index, x1, x2, y;
-            while (points.Count > 0)
+            int index = 0, x1, x2, y, start;
+            while (points.Count > index)
             {
-                index = 0;
-                y = points[0].Y;
-                x1 = points[0].X;
+                start = index;
+                y = points[index].Y;
+                x1 = points[index].X;
                 x2 = x1;
                 do
                 {
                     x1 = x2;
-                    try
+                    index++;
+                    if (points.Count > index)
                     {
-                        x2 = points[++index].X;
+                        x2 = points[index].X;
                     }
-                    catch(ArgumentOutOfRangeException ex)
+                    else
                     {
                         break;
                     }
                 } while ((x2 - x1 == 1) && (points[index].Y == y) && (index < points.Count));
                 index--;
                 Point[] line = new Point[2];
-                line[0] = points[0];
+                line[0] = points[start];
                 line[1] = new Point(points[index].X + 1, points[index].Y);
+                Thread.MemoryBarrier();
                 this.mProvincesLines[key].Add(line);
-                if (index > 0)
-                {
-                    points.RemoveRange(0, index);
-                }
-                else
-                {
-                    points.RemoveAt(0);
-                }
+                index++;
             }
         }
         private void TraceHBottomLines(List<Point> points, Color key)
         {
-            int index, x1, x2, y;
-            while (points.Count > 0)
+            int index=0, x1, x2, y, start;
+            while (points.Count > index)
             {
-                index = 0;
-                y = points[0].Y;
-                x1 = points[0].X;
+                start = index;
+                y = points[index].Y;
+                x1 = points[index].X;
                 x2 = x1;
                 do
                 {
                     x1 = x2;
-                    try
+                    index++;
+                    if (points.Count > index)
                     {
-                        x2 = points[++index].X;
+                        x2 = points[index].X;
                     }
-                    catch (ArgumentOutOfRangeException ex)
+                    else
                     {
                         break;
                     }
                 } while ((x2 - x1 == 1) && (points[index].Y == y) && (index < points.Count));
                 index--;
                 Point[] line = new Point[2];
-                line[0] = new Point(points[0].X, points[0].Y + 1);
+                line[0] = new Point(points[start].X, points[start].Y + 1);
                 line[1] = new Point(points[index].X + 1, points[index].Y + 1);
+                Thread.MemoryBarrier();
                 this.mProvincesLines[key].Add(line);
-                if (index > 0)
-                {
-                    points.RemoveRange(0, index);
-                }
-                else
-                {
-                    points.RemoveAt(0);
-                }
+                index++;
             }
         }
     }
