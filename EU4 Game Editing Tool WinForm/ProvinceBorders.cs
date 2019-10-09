@@ -22,6 +22,8 @@ namespace EU4_Game_Editing_Tool_WinForm
             mProvincesLines = new Dictionary<Color, HashSet<Point[]>>(3661);
         }
 
+        #region Members
+
         private static ProvinceBorders instance;
 
         public static ProvinceBorders GetProvinceBorders(Bitmap bitmap)
@@ -38,9 +40,12 @@ namespace EU4_Game_Editing_Tool_WinForm
 
         private Dictionary<Color, HashSet<Point[]>> mProvincesLines;
 
+        #endregion
+
+        #region Instance Generation
+
         private void GenerateBordersPaths()
         {
-            Stopwatch stopwatch = Stopwatch.StartNew();
             Rectangle rect = new Rectangle(0, 0, this.mBitmap.Width, this.mBitmap.Height);
             BitmapData bmpData = this.mBitmap.LockBits(rect, System.Drawing.Imaging.ImageLockMode.ReadWrite, this.mBitmap.PixelFormat);
             IntPtr ptr = bmpData.Scan0;
@@ -50,7 +55,7 @@ namespace EU4_Game_Editing_Tool_WinForm
             int height = this.mBitmap.Height;
             int width = this.mBitmap.Width;
             Color[,] pixelColors = new Color[this.mBitmap.Height, this.mBitmap.Width];
-;
+            // Store pixel color in matrix
             Parallel.For(0, bytes / 3, (int i) =>
                 {
                     i *= 3;
@@ -60,12 +65,12 @@ namespace EU4_Game_Editing_Tool_WinForm
                 });
 
             this.mBitmap.UnlockBits(bmpData);
-            bmpData = null;
-            GraphicsPath path = new GraphicsPath();
+            // Stores vertical and horizontal border pixels of a province
             Dictionary<Color, HashSet<Point[]>> provinces = new Dictionary<Color, HashSet<Point[]>>(3661);
 
             object lockObj = new Object();
-            Parallel.For(0, this.mBitmap.Height, (int prow) =>
+            //Traverse lines
+            Parallel.For(0, height, (int prow) =>
             {
                 for (int col = 0; col < width; col++)
                  {
@@ -107,6 +112,7 @@ namespace EU4_Game_Editing_Tool_WinForm
                      }
                  }
              });
+            //Traverse columns
             Parallel.For(0, width, (int col) =>
             {
                 for (int row = 0; row < height; row++)
@@ -148,6 +154,8 @@ namespace EU4_Game_Editing_Tool_WinForm
                     }
                 }
             });
+
+            // Get border lines from border pixels
             object lockobj = new Object();
             Parallel.ForEach(provinces, (KeyValuePair<Color, HashSet<Point[]>> keyValue) =>
              {
@@ -157,10 +165,17 @@ namespace EU4_Game_Editing_Tool_WinForm
                  }
                  this.ProccessProvince(keyValue.Value, keyValue.Key);
              });
-
-            Debug.WriteLine("double for time - " + stopwatch.ElapsedMilliseconds.ToString());
         }
 
+        #endregion
+
+        #region Path Generation
+
+        /// <summary>
+        /// Returns the <see cref="GraphicsPath"/> that borders the province
+        /// </summary>
+        /// <param name="color">Color of the province</param>
+        /// <returns></returns>
         public GraphicsPath GetProvinceBorder(Color color)
         {
             HashSet<Point[]> provinceLines = new HashSet<Point[]>(this.mProvincesLines[color]);
@@ -193,6 +208,10 @@ namespace EU4_Game_Editing_Tool_WinForm
             }
             return path;
         }
+
+        #endregion
+
+        #region Line Tracing
 
         private void ProccessProvince(HashSet<Point[]> lines,Color key)
         {
@@ -338,6 +357,7 @@ namespace EU4_Game_Editing_Tool_WinForm
                 index++;
             }
         }
+
         private void TraceHBottomLines(List<Point> points, Color key)
         {
             int index=0, x1, x2, y, start;
@@ -369,5 +389,7 @@ namespace EU4_Game_Editing_Tool_WinForm
                 index++;
             }
         }
+
+        #endregion
     }
 }

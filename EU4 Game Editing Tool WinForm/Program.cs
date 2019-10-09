@@ -17,7 +17,6 @@ namespace EU4_Game_Editing_Tool_WinForm
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-
             Application.Run(new MainForm());
         }
     }
