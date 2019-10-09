@@ -97,7 +97,7 @@ namespace EU4_Game_Editing_Tool_WinForm
                              break;
                          }
                      } while (true);
-
+                     col--;
                      colorLine[1] = new Point(col, prow);
                      colorLine[2] = new Point(-1, 0); // horizontal line
                      lock (lockObj)
@@ -139,6 +139,7 @@ namespace EU4_Game_Editing_Tool_WinForm
                             break;
                         }
                     } while (true);
+                    row--;
                     colorLine[1] = new Point(col, row);
                     colorLine[2] = new Point(-2, 0); // vertical line
                     lock (lockObj)
