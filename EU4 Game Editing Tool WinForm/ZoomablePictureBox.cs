@@ -61,7 +61,7 @@ namespace EU4_Game_Editing_Tool_WinForm
         public Bitmap mOriginalBitmap
         {
             // Create deep-copy of bitmap
-            get => (Bitmap)this._mOriginalBitmap.Clone();
+            get => new Bitmap(this._mOriginalBitmap);
             set
             {
                 if(value != null)
@@ -171,7 +171,8 @@ namespace EU4_Game_Editing_Tool_WinForm
             this.mImage.Height = this.mImageOriginalHeight;
             this.mImage.Width = this.mImageOriginalWidth;
             this.mImage.Location = new Point(this.mHorizontalMargin, this.mVerticalMargin);
-            this.mImage.Image = new Bitmap(this._mOriginalBitmap);
+            // mImage and ZoomablePictureBox share the same field
+            this.mImage.Image = this._mOriginalBitmap;
             this.mImage.MouseWheel += new MouseEventHandler(this.Callback_mImage_MouseWheel);
             this.mImage.MouseClick += new MouseEventHandler(this.Callback_mImage_MouseClick);
             this.Controls.Add(this.mImage);
