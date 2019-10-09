@@ -30,11 +30,8 @@
         {
             this.cOpenImageButton = new System.Windows.Forms.Button();
             this.cPictureBoxPanel = new System.Windows.Forms.Panel();
-            this.cColorPictureBox = new System.Windows.Forms.PictureBox();
-            this.cSelectColorButton = new System.Windows.Forms.Button();
             this.cImagePictureBox = new EU4_Game_Editing_Tool_WinForm.ZoomablePictureBox();
             this.cPictureBoxPanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.cColorPictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cImagePictureBox)).BeginInit();
             this.SuspendLayout();
             // 
@@ -69,32 +66,13 @@
             this.cPictureBoxPanel.Size = new System.Drawing.Size(1315, 470);
             this.cPictureBoxPanel.TabIndex = 3;
             // 
-            // cColorPictureBox
+            // cImagePictureBox
             // 
-            this.cColorPictureBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.cColorPictureBox.Location = new System.Drawing.Point(226, 12);
-            this.cColorPictureBox.Name = "cColorPictureBox";
-            this.cColorPictureBox.Size = new System.Drawing.Size(100, 29);
-            this.cColorPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.cColorPictureBox.TabIndex = 4;
-            this.cColorPictureBox.TabStop = false;
-            // 
-            // cSelectColorButton
-            // 
-            this.cSelectColorButton.AutoSize = true;
-            this.cSelectColorButton.BackColor = System.Drawing.Color.Transparent;
-            this.cSelectColorButton.FlatAppearance.BorderColor = System.Drawing.Color.White;
-            this.cSelectColorButton.FlatAppearance.BorderSize = 0;
-            this.cSelectColorButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cSelectColorButton.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.cSelectColorButton.Location = new System.Drawing.Point(119, 12);
-            this.cSelectColorButton.Name = "cSelectColorButton";
-            this.cSelectColorButton.Size = new System.Drawing.Size(101, 29);
-            this.cSelectColorButton.TabIndex = 5;
-            this.cSelectColorButton.TabStop = false;
-            this.cSelectColorButton.Text = "Select Color";
-            this.cSelectColorButton.UseVisualStyleBackColor = false;
-            this.cSelectColorButton.Click += new System.EventHandler(this.Callback_SelectColorButton_OnClick);
+            this.cImagePictureBox.Location = new System.Drawing.Point(0, 0);
+            this.cImagePictureBox.Name = "cImagePictureBox";
+            this.cImagePictureBox.Size = new System.Drawing.Size(100, 50);
+            this.cImagePictureBox.TabIndex = 0;
+            this.cImagePictureBox.TabStop = false;
             // 
             // MainForm
             // 
@@ -102,8 +80,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(1339, 529);
-            this.Controls.Add(this.cSelectColorButton);
-            this.Controls.Add(this.cColorPictureBox);
             this.Controls.Add(this.cPictureBoxPanel);
             this.Controls.Add(this.cOpenImageButton);
             this.Name = "MainForm";
@@ -121,8 +97,6 @@
         private System.Windows.Forms.Button cOpenImageButton;
         private ZoomablePictureBox cImagePictureBox;
         private System.Windows.Forms.Panel cPictureBoxPanel;
-        private System.Windows.Forms.PictureBox cColorPictureBox;
-        private System.Windows.Forms.Button cSelectColorButton;
         #endregion
     }
 }
