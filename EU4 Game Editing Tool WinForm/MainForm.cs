@@ -21,24 +21,26 @@ namespace EU4_Game_Editing_Tool_WinForm
 
         #region Members
 
+        private string mRootFolder;
+
+
+
         #endregion
 
         #region Callbacks
 
-        private void Callback_OpenImageButton_OnClick(object sender, EventArgs e)
+        private void Callback_OpenModButton_OnClick(object sender, EventArgs e)
         {
-            OpenFileDialog loadImageDialog = new OpenFileDialog()
-            {
-                Filter = "Image Files (*.bmp)|*.bmp",
-                InitialDirectory = "C:/Users/nxf56462/Downloads/Phoenix 3 - DW 5.2/Phoenix"
-            };
+            FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog();
 
-            if (loadImageDialog.ShowDialog() == DialogResult.OK)
+            if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
             {
-                this.cImagePictureBox.mOriginalBitmap = new Bitmap(loadImageDialog.FileName); ;
+                this.mRootFolder = folderBrowserDialog.SelectedPath;
             }
 
-            loadImageDialog.Dispose();
+            folderBrowserDialog.Dispose();
+
+            this.cImagePictureBox.mOriginalBitmap = new Bitmap(this.mRootFolder + @"\map\provinces.bmp");
 
             this.cImagePictureBox.MouseWheel += new MouseEventHandler(this.Callback_PictureBoxPanel_MouseWheel);
         }

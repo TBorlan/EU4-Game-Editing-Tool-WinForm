@@ -28,29 +28,29 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.cOpenImageButton = new System.Windows.Forms.Button();
+            this.cOpenModButton = new System.Windows.Forms.Button();
             this.cPictureBoxPanel = new System.Windows.Forms.Panel();
             this.cImagePictureBox = new EU4_Game_Editing_Tool_WinForm.ZoomablePictureBox();
             this.cPictureBoxPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cImagePictureBox)).BeginInit();
             this.SuspendLayout();
             // 
-            // cOpenImageButton
+            // cOpenModButton
             // 
-            this.cOpenImageButton.AutoSize = true;
-            this.cOpenImageButton.BackColor = System.Drawing.Color.Transparent;
-            this.cOpenImageButton.FlatAppearance.BorderColor = System.Drawing.Color.White;
-            this.cOpenImageButton.FlatAppearance.BorderSize = 0;
-            this.cOpenImageButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cOpenImageButton.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.cOpenImageButton.Location = new System.Drawing.Point(12, 12);
-            this.cOpenImageButton.Name = "cOpenImageButton";
-            this.cOpenImageButton.Size = new System.Drawing.Size(101, 29);
-            this.cOpenImageButton.TabIndex = 0;
-            this.cOpenImageButton.TabStop = false;
-            this.cOpenImageButton.Text = "Open Picture";
-            this.cOpenImageButton.UseVisualStyleBackColor = false;
-            this.cOpenImageButton.Click += new System.EventHandler(this.Callback_OpenImageButton_OnClick);
+            this.cOpenModButton.AutoSize = true;
+            this.cOpenModButton.BackColor = System.Drawing.Color.Transparent;
+            this.cOpenModButton.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.cOpenModButton.FlatAppearance.BorderSize = 0;
+            this.cOpenModButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cOpenModButton.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.cOpenModButton.Location = new System.Drawing.Point(12, 12);
+            this.cOpenModButton.Name = "cOpenModButton";
+            this.cOpenModButton.Size = new System.Drawing.Size(101, 29);
+            this.cOpenModButton.TabIndex = 0;
+            this.cOpenModButton.TabStop = false;
+            this.cOpenModButton.Text = "Open Mod";
+            this.cOpenModButton.UseVisualStyleBackColor = false;
+            this.cOpenModButton.Click += new System.EventHandler(this.Callback_OpenModButton_OnClick);
             // 
             // cPictureBoxPanel
             // 
@@ -81,7 +81,7 @@
             this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(1339, 529);
             this.Controls.Add(this.cPictureBoxPanel);
-            this.Controls.Add(this.cOpenImageButton);
+            this.Controls.Add(this.cOpenModButton);
             this.Name = "MainForm";
             this.Text = "EU4 Menu";
             this.cPictureBoxPanel.ResumeLayout(false);
@@ -94,10 +94,11 @@
         #endregion
 
         #region Controls
-        private System.Windows.Forms.Button cOpenImageButton;
+        private System.Windows.Forms.Button cOpenModButton;
         private ZoomablePictureBox cImagePictureBox;
         private System.Windows.Forms.Panel cPictureBoxPanel;
         #endregion
+
     }
 }
 
