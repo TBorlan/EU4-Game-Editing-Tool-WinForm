@@ -27,8 +27,6 @@ namespace EU4_Game_Editing_Tool_WinForm
 
         private Dictionary<Color, HashSet<Point[]>> mProvincesLines;
 
-        private Dictionary<Color, List<Point[]>> mCachedProvincesBorders = new Dictionary<Color, List<Point[]>>();
-
         #endregion
 
         #region Instance Generation
@@ -178,46 +176,13 @@ namespace EU4_Game_Editing_Tool_WinForm
         /// <returns></returns>
         public GraphicsPath GetProvinceBorder(Color color)
         {
-            if (this.mCachedProvincesBorders.ContainsKey(color))
-            {
-                return this.GetCachedBorder(color);
-            }
-            else
-            {
-                return this.CreateBorder(color);
-            }
-        }
-
-        private GraphicsPath GetCachedBorder(Color color)
-        {
-            List<Point[]> provinceLines = this.mCachedProvincesBorders[color];
+            HashSet<Point[]> provinceLines = new HashSet<Point[]>(this.mProvincesLines[color]);
             GraphicsPath path = new GraphicsPath();
-            int i = 0;
-
-            foreach(Point[] line in provinceLines)
-            {
-                i++;
-                path.AddLine(line[0], line[1]);
-                if(i < provinceLines.Count && provinceLines[i][0] != line[1])
-                {
-                    path.StartFigure();
-                }
-            }
-
-            return path;
-        }
-
-        private GraphicsPath CreateBorder(Color color)
-        {
-            HashSet<Point[]> provinceLines = this.mProvincesLines[color];
-            GraphicsPath path = new GraphicsPath();
-            this.mCachedProvincesBorders.Add(color, new List<Point[]>());
             int x;
             Point[] points = provinceLines.First<Point[]>();
 
             path.StartFigure();
             path.AddLine(points[0], points[1]);
-            this.mCachedProvincesBorders[color].Add(new Point[2] { points[0], points[1] });
             provinceLines.Remove(points);
             while (provinceLines.Count > 0)
             {
@@ -227,7 +192,6 @@ namespace EU4_Game_Editing_Tool_WinForm
                     if (path.GetLastPoint() == (PointF)line[0])
                     {
                         path.AddLine(line[0], line[1]);
-                        this.mCachedProvincesBorders[color].Add(new Point[2] { line[0], line[1] });
                         provinceLines.Remove(line);
                         break;
                     }
@@ -237,11 +201,9 @@ namespace EU4_Game_Editing_Tool_WinForm
                     path.StartFigure();
                     points = provinceLines.First<Point[]>();
                     path.AddLine(points[0], points[1]);
-                    this.mCachedProvincesBorders[color].Add(new Point[2] { points[0], points[1] });
                     provinceLines.Remove(points);
                 }
             }
-            this.mProvincesLines.Remove(color);
             return path;
         }
 
