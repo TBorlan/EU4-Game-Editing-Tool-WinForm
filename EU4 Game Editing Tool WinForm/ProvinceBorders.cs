@@ -16,9 +16,8 @@ namespace EU4_Game_Editing_Tool_WinForm
     class ProvinceBorders
     {
 
-        private ProvinceBorders(Bitmap bitmap)
+        private ProvinceBorders()
         {
-            mBitmap = bitmap;
             mProvincesLines = new Dictionary<Color, HashSet<Point[]>>(3661);
         }
 
@@ -26,35 +25,33 @@ namespace EU4_Game_Editing_Tool_WinForm
 
         private static ProvinceBorders instance;
 
-        public static ProvinceBorders GetProvinceBorders(Bitmap bitmap)
-        {
-            if (instance == null)
-            {
-                instance = new ProvinceBorders(bitmap);
-                instance.GenerateBordersPaths();
-            }
-            return instance;
-        }
-
-        private Bitmap mBitmap;
-
         private Dictionary<Color, HashSet<Point[]>> mProvincesLines;
 
         #endregion
 
         #region Instance Generation
 
-        private void GenerateBordersPaths()
+        public static ProvinceBorders GetProvinceBorders(Bitmap bitmap)
         {
-            Rectangle rect = new Rectangle(0, 0, this.mBitmap.Width, this.mBitmap.Height);
-            BitmapData bmpData = this.mBitmap.LockBits(rect, System.Drawing.Imaging.ImageLockMode.ReadWrite, this.mBitmap.PixelFormat);
+            if (instance == null)
+            {
+                instance = new ProvinceBorders();
+                instance.GenerateBordersPaths(bitmap);
+            }
+            return instance;
+        }
+
+        private void GenerateBordersPaths(Bitmap bitmap)
+        {
+            Rectangle rect = new Rectangle(0, 0, bitmap.Width, bitmap.Height);
+            BitmapData bmpData = bitmap.LockBits(rect, System.Drawing.Imaging.ImageLockMode.ReadWrite, bitmap.PixelFormat);
             IntPtr ptr = bmpData.Scan0;
-            int bytes = Math.Abs(bmpData.Stride) * this.mBitmap.Height;
+            int bytes = Math.Abs(bmpData.Stride) * bitmap.Height;
             byte[] rgbValues = new byte[bytes];
             Marshal.Copy(ptr, rgbValues, 0, bytes);
-            int height = this.mBitmap.Height;
-            int width = this.mBitmap.Width;
-            Color[,] pixelColors = new Color[this.mBitmap.Height, this.mBitmap.Width];
+            int height = bitmap.Height;
+            int width = bitmap.Width;
+            Color[,] pixelColors = new Color[bitmap.Height, bitmap.Width];
             // Store pixel color in matrix
             Parallel.For(0, bytes / 3, (int i) =>
                 {
@@ -64,7 +61,7 @@ namespace EU4_Game_Editing_Tool_WinForm
                     pixelColors[pRow, pCol] = Color.FromArgb(rgbValues[i + 2], rgbValues[i + 1], rgbValues[i]);
                 });
 
-            this.mBitmap.UnlockBits(bmpData);
+            bitmap.UnlockBits(bmpData);
             // Stores vertical and horizontal border pixels of a province
             Dictionary<Color, HashSet<Point[]>> provinces = new Dictionary<Color, HashSet<Point[]>>(3661);
 
