@@ -20,17 +20,25 @@ namespace EU4_Game_Editing_Tool_WinForm
             InitializeComponent();
         }
 
+        #region Events and Delegates
+
+        public event EventHandler ProvincesParsed;
+
+        #endregion
+
         #region Members
 
         private string mRootFolder;
 
-        private Province[] mProvinces;
+        private Province[] _mProvinces;
+
+        public IReadOnlyList<Province> mProvinces { get => (Array.AsReadOnly<Province>(this._mProvinces)); }
 
         #endregion
 
         #region Callbacks
 
-        private void Callback_OpenModButton_OnClick(object sender, EventArgs e)
+        private void Callback_OpenModButton_Click(object sender, EventArgs e)
         {
             FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog();
 
@@ -47,14 +55,26 @@ namespace EU4_Game_Editing_Tool_WinForm
 
             StreamReader reader = DefinitionParser.GetReader(this.mRootFolder + @"\map\definition.csv");
 
-            this.mProvinces = DefinitionParser.ReadAllElements(reader);
+            this._mProvinces = DefinitionParser.ReadAllElements(reader);
 
             DefinitionParser.CloseReader(reader);
+
+            this.OnProvincesParsed(null);
         }
 
         private void Callback_PictureBoxPanel_MouseWheel(object obj, MouseEventArgs args)
         {
             ((HandledMouseEventArgs)args).Handled = true;
+        }
+
+        #endregion
+
+        #region Invokes
+
+        protected virtual void OnProvincesParsed(EventArgs args)
+        {
+            EventHandler @event = this.ProvincesParsed;
+            @event?.Invoke(this, args);
         }
 
         #endregion
