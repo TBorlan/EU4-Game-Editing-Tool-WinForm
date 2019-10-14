@@ -86,6 +86,7 @@ namespace EU4_Game_Editing_Tool_WinForm
             {
                 if(value != null)
                 {
+                    ((MainForm)(MainForm.ActiveForm)).ProvincesParsed += new EventHandler(this.Callback_MainForm_ProvincesParsed);
                     _mOriginalBitmap = (Bitmap)value.Clone(); //gets a shallow copy, so the underlying file is locked
                     // Update height and width members
                     mImageOriginalHeight = mOriginalBitmap.Height;
@@ -106,6 +107,8 @@ namespace EU4_Game_Editing_Tool_WinForm
         /// width and height of the parent Panel
         private int mParentHeight;
         private int mParentWidth;
+
+        private IReadOnlyList<Province> mProvinces;
         #endregion
 
         #region Callbacks
@@ -160,6 +163,18 @@ namespace EU4_Game_Editing_Tool_WinForm
                     graphics.DrawPath(new Pen(Color.Black, 1), graphicsPath);
                 }
             }
+        }
+
+        private void Callback_MainForm_ProvincesParsed(Object obj, EventArgs args)
+        {
+            this.mProvinces = ((MainForm)(MainForm.ActiveForm)).mProvinces;
+
+            this.mPBTask = new Task<ProvinceBorders>(() =>
+            {
+                ProvinceBorders borders = ProvinceBorders.GetProvinceBorders(this.mOriginalBitmap, this.mProvinces.Count);
+                return borders;
+            });
+            this.mPBTask.Start();
         }
 
         #endregion
@@ -245,12 +260,6 @@ namespace EU4_Game_Editing_Tool_WinForm
             this.Width = width;
             this.BackColor = Color.DimGray;
             this.ResumeLayout();
-            this.mPBTask = new Task<ProvinceBorders>(() =>
-            {
-                ProvinceBorders borders = ProvinceBorders.GetProvinceBorders(this.mOriginalBitmap);
-                return borders;
-            });
-            this.mPBTask.Start();
         }
 
         private void Render()

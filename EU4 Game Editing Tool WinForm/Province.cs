@@ -4,7 +4,7 @@
 
 namespace EU4_Game_Editing_Tool_WinForm
 {
-    struct Province
+    public struct Province
     {
         public Color color;
 
