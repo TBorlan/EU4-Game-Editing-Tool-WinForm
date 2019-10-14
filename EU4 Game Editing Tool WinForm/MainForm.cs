@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,7 +24,7 @@ namespace EU4_Game_Editing_Tool_WinForm
 
         private string mRootFolder;
 
-
+        private Province[] mProvinces;
 
         #endregion
 
@@ -43,6 +44,12 @@ namespace EU4_Game_Editing_Tool_WinForm
             this.cImagePictureBox.mOriginalBitmap = new Bitmap(this.mRootFolder + @"\map\provinces.bmp");
 
             this.cImagePictureBox.MouseWheel += new MouseEventHandler(this.Callback_PictureBoxPanel_MouseWheel);
+
+            StreamReader reader = DefinitionParser.GetReader(this.mRootFolder + @"\map\definition.csv");
+
+            this.mProvinces = DefinitionParser.ReadAllElements(reader);
+
+            DefinitionParser.CloseReader(reader);
         }
 
         private void Callback_PictureBoxPanel_MouseWheel(object obj, MouseEventArgs args)
