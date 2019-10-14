@@ -16,9 +16,10 @@ namespace EU4_Game_Editing_Tool_WinForm
     class ProvinceBorders
     {
 
-        private ProvinceBorders()
+        private ProvinceBorders(int provinceCount)
         {
-            mProvincesLines = new Dictionary<Color, HashSet<Point[]>>(3661);
+            this.mProvinceCount = provinceCount;
+            //mProvincesLines = new Dictionary<Color, HashSet<Point[]>>(this.mProvinceCount);
         }
 
         #region Members
@@ -27,15 +28,17 @@ namespace EU4_Game_Editing_Tool_WinForm
 
         private Dictionary<Color, HashSet<Point[]>> mProvincesLines;
 
+        private readonly int mProvinceCount;
+
         #endregion
 
         #region Instance Generation
 
-        public static ProvinceBorders GetProvinceBorders(Bitmap bitmap)
+        public static ProvinceBorders GetProvinceBorders(Bitmap bitmap, int provinceCount)
         {
             if (instance == null)
             {
-                instance = new ProvinceBorders();
+                instance = new ProvinceBorders(provinceCount);
                 instance.GenerateBordersPaths(bitmap);
             }
             return instance;
@@ -63,7 +66,7 @@ namespace EU4_Game_Editing_Tool_WinForm
 
             bitmap.UnlockBits(bmpData);
             // Stores vertical and horizontal border pixels of a province
-            Dictionary<Color, HashSet<Point[]>> provinces = new Dictionary<Color, HashSet<Point[]>>(3661);
+            Dictionary<Color, HashSet<Point[]>> provinces = new Dictionary<Color, HashSet<Point[]>>(this.mProvinceCount);
 
             object lockObj = new Object();
             //Traverse lines
@@ -152,7 +155,7 @@ namespace EU4_Game_Editing_Tool_WinForm
                     }
                 }
             });
-
+            this.mProvincesLines = new Dictionary<Color, HashSet<Point[]>>(provinces.Count);
             // Get border lines from border pixels
             object lockobj = new Object();
             Parallel.ForEach(provinces, (KeyValuePair<Color, HashSet<Point[]>> keyValue) =>
