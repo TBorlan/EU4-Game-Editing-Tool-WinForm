@@ -50,7 +50,7 @@
             this.cOpenModButton.TabStop = false;
             this.cOpenModButton.Text = "Open Mod";
             this.cOpenModButton.UseVisualStyleBackColor = false;
-            this.cOpenModButton.Click += new System.EventHandler(this.Callback_OpenModButton_OnClick);
+            this.cOpenModButton.Click += new System.EventHandler(this.Callback_OpenModButton_Click);
             // 
             // cPictureBoxPanel
             // 
