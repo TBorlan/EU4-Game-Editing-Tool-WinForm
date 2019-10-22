@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EU4_Game_Editing_Tool_WinForm.File_Parsing;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -58,6 +59,10 @@ namespace EU4_Game_Editing_Tool_WinForm
             this._mProvinces = DefinitionParser.ReadAllElements(reader);
 
             DefinitionParser.CloseReader(reader);
+
+            CulturesParser culturesParser = new CulturesParser(this.mRootFolder + @"\common\cultures\00_cultures.txt");
+
+            TextNode node = culturesParser.GetNodes();
 
             this.OnProvincesParsed(null);
         }
