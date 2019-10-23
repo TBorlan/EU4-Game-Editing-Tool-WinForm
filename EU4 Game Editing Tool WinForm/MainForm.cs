@@ -1,5 +1,4 @@
-﻿using EU4_Game_Editing_Tool_WinForm.File_Parsing;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -10,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Media;
+using EU4_Game_Editing_Tool_WinForm.FileParsing;
 
 
 namespace EU4_Game_Editing_Tool_WinForm
@@ -53,18 +53,6 @@ namespace EU4_Game_Editing_Tool_WinForm
             this.cImagePictureBox.mOriginalBitmap = new Bitmap(this.mRootFolder + @"\map\provinces.bmp");
 
             this.cImagePictureBox.MouseWheel += new MouseEventHandler(this.Callback_PictureBoxPanel_MouseWheel);
-
-            StreamReader reader = DefinitionParser.GetReader(this.mRootFolder + @"\map\definition.csv");
-
-            this._mProvinces = DefinitionParser.ReadAllElements(reader);
-
-            DefinitionParser.CloseReader(reader);
-
-            CulturesParser culturesParser = new CulturesParser(this.mRootFolder + @"\common\cultures\00_cultures.txt");
-
-            TextNode node = culturesParser.GetNodes();
-
-            this.OnProvincesParsed(null);
         }
 
         private void Callback_PictureBoxPanel_MouseWheel(object obj, MouseEventArgs args)
@@ -80,6 +68,19 @@ namespace EU4_Game_Editing_Tool_WinForm
         {
             EventHandler @event = this.ProvincesParsed;
             @event?.Invoke(this, args);
+        }
+
+        #endregion
+
+        #region Data Methods
+
+        void LoadProvinceData()
+        {
+            TextNode provinces;
+            using(CsvParser csvParser = new CsvParser())
+            {
+                provinces = csvParser.ParseFile(this.mRootFolder + @"\map\definition.csv");
+            }
         }
 
         #endregion
