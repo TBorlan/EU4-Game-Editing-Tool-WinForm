@@ -31,7 +31,7 @@ namespace EU4_Game_Editing_Tool_WinForm.File_Parsing
             stream.Close();
         }
 
-        private List<String> ParseLine(String line)
+        protected virtual List<String> ParseLine(String line)
         {
             LineParseState state = LineParseState.SimpleElement;
             StringBuilder currentElement = null;
@@ -79,7 +79,7 @@ namespace EU4_Game_Editing_Tool_WinForm.File_Parsing
             return newElements;
         }
 
-        private String[] ReadTextData(StreamReader stream)
+        protected virtual String[] ReadTextData(StreamReader stream)
         {
             List<String> data = new List<string>();
             while (!stream.EndOfStream)
@@ -93,7 +93,7 @@ namespace EU4_Game_Editing_Tool_WinForm.File_Parsing
             return data.ToArray();
         }
 
-        protected TextNode ConvertToSerializedNode()
+        protected virtual TextNode ConvertToSerializedNode()
         {
             String[] values = ReadTextData(mReader);
             Stack<TextNode> nodes = new Stack<TextNode>(1);
