@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 
-namespace EU4_Game_Editing_Tool_WinForm.File_Parsing
+namespace EU4_Game_Editing_Tool_WinForm.FileParsing
 {
     class TextParser : FileParser, IParser
     {
