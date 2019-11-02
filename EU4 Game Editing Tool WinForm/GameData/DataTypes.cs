@@ -27,7 +27,32 @@ namespace EU4_Game_Editing_Tool_WinForm.GameData
             [15] = "add_core",
             [16] = "is_city",
             [17] = "remove_core",
-            [18] = "type"
+        };
+
+        private static readonly Dictionary<int, int[]> AllowedValueTypes = new Dictionary<int, int[]>()
+        {
+            [1] = new int[] { 1 },
+            [2] = new int[] { 1 },
+            [3] = new int[] { 2 },
+            [4] = new int[] { 3 },
+            [5] = new int[] { 3 },
+            [6] = new int[] { 3 },
+            [7] = new int[] { 1 },
+            [8] = new int[] { 1 },
+            [9] = new int[] { 3 },
+            [10] = new int[] { 3 },
+            [11] = new int[] { 3 },
+            [12] = new int[] { 4 },
+            [13] = new int[] { 4 },
+            [14] = new int[] { 4 },
+            [15] = new int[] { 4 },
+            [16] = new int[] { 2 },
+            [17] = new int[] { 4 },
+        };
+
+        private static readonly Dictionary<int, ILookupable> DataToLUTCorespondence = new Dictionary<int, ILookupable>
+        {
+
         };
 
         public static int GetIndex(string data)
@@ -46,6 +71,18 @@ namespace EU4_Game_Editing_Tool_WinForm.GameData
             else
             {
                 return 0;
+            }
+        }
+
+        public static ILookupable GetDataTypeLUT(int id)
+        {
+            if (DataToLUTCorespondence.ContainsKey(id))
+            {
+                return DataToLUTCorespondence[id];
+            }
+            else
+            {
+                return null;
             }
         }
     }

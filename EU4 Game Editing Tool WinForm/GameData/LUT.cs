@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections;
+using System.Linq;
 
 namespace EU4_Game_Editing_Tool_WinForm.GameData
 {
-    class LUT<T> : IEnumerable<KeyValuePair<int,T>>, IEnumerable where T : IEquatable<T>
+    class LUT<T> : IEnumerable<KeyValuePair<int,T>>, IEnumerable, ILookupable
     {
         public LUT(int count)
         {
@@ -110,6 +111,30 @@ namespace EU4_Game_Editing_Tool_WinForm.GameData
         IEnumerator IEnumerable.GetEnumerator()
         {
             return this.GetEnumerator();
+        }
+
+        public string LookUpId(int id)
+        {
+            if (this.mKeys.Contains(id))
+            {
+                return this.mTable[id].ToString();
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public int LookUpValue(string value)
+        {
+            foreach (KeyValuePair<int, T> keyValuePair in mTable)
+            {
+                if(keyValuePair.Value.ToString() == value)
+                {
+                    return keyValuePair.Key;
+                }
+            }
+            return 0;
         }
     }
 }
