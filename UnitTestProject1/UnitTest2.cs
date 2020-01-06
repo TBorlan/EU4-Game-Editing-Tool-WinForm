@@ -1,11 +1,10 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using EU4_Game_Editing_Tool_WinForm.GameData;
 
-namespace EU4UnitTests
+namespace UnitTestProject1
 {
     [TestClass]
-    public class FileParserTests
+    public class UnitTest2
     {
         [TestMethod]
         public void TestMethod1()
