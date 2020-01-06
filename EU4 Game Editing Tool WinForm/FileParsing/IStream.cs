@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace EU4_Game_Editing_Tool_WinForm.FileParsing
 {
-    public interface IFileReader
+    public interface IStream
     {
-        string[] GetTokens(string filePath);
+        bool ReadLine(out String[] line, out int lineNumber);
     }
 }

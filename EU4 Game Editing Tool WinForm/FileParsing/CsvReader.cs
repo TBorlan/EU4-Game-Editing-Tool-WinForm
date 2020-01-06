@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace EU4_Game_Editing_Tool_WinForm.FileParsing
 {
-    public interface IFileReader
+    class CsvReader
     {
-        string[] GetTokens(string filePath);
     }
 }
