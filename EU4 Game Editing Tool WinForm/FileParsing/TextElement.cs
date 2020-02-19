@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EU4_Game_Editing_Tool_WinForm.FileParsing
 {
-    class TextElement : IEquatable<TextElement>
+    public class TextElement : IEquatable<TextElement>
     {
         public string mLeftValue;
 
@@ -19,12 +15,12 @@ namespace EU4_Game_Editing_Tool_WinForm.FileParsing
 
         public override bool Equals(object obj)
         {
-            if(obj == null)
+            if (obj == null)
             {
                 return false;
             }
             TextElement element = obj as TextElement;
-            if(element == null)
+            if (element == null)
             {
                 return false;
             }

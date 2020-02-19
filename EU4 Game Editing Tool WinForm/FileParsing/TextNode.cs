@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EU4_Game_Editing_Tool_WinForm.FileParsing
 {
-    class TextNode
+    public class TextNode
     {
         public List<TextNode> mChildNodes = new List<TextNode>();
 
