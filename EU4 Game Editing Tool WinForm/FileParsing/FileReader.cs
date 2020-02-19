@@ -1,23 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
 
 namespace EU4_Game_Editing_Tool_WinForm.FileParsing
 {
     public class FileReader : IFileReader
     {
-        protected virtual string[] GetTextTokens()
+        protected virtual TextNode ReadText()
         {
             throw new Exception(this.GetType().Name + " doesn't implement Text parsing");
         }
 
-        protected virtual string[] GetCsvTokens()
+        protected virtual TextNode ReadCsv()
         {
             throw new Exception(this.GetType().Name + " doesn't implement CSV parsing");
         }
+
+        private protected IDeserializer mDeserializer;
 
         private string _mFilePath;
 
@@ -27,7 +25,7 @@ namespace EU4_Game_Editing_Tool_WinForm.FileParsing
             {
                 if (File.Exists(value))
                 {
-                    _mFilePath = value;
+                    this._mFilePath = value;
                 }
                 else
                 {
@@ -35,20 +33,20 @@ namespace EU4_Game_Editing_Tool_WinForm.FileParsing
                     throw new Exception(message);
                 }
             }
-            get => _mFilePath;
+            get => this._mFilePath;
         }
 
-        public string[] GetTokens(string filePath)
+        public TextNode ReadFile(string filePath)
         {
             this.mFilePath = filePath;
             string extension = Path.GetExtension(this.mFilePath);
             if (extension.Equals(".txt"))
             {
-                return this.GetTextTokens();
+                return this.ReadText();
             }
             else if (extension.Equals(".csv"))
             {
-                return this.GetCsvTokens();
+                return this.ReadCsv();
             }
             else
             {

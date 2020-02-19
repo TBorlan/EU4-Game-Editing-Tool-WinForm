@@ -7,9 +7,9 @@ using EU4_Game_Editing_Tool_WinForm.Factory.FileParsing;
 
 namespace EU4_Game_Editing_Tool_WinForm.FileParsing
 {
-    class CsvReader : FileReader
+    class TextReader : FileReader
     {
-        protected override TextNode ReadCsv()
+        protected override TextNode ReadText()
         {
             this.mDeserializer = new DeserializerFactory().GetDeserializer(this.mFilePath);
             return this.mDeserializer.Deserialize(this.mFilePath);
