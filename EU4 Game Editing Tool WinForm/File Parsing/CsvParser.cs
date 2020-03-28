@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace EU4_Game_Editing_Tool_WinForm.File_Parsing
 {
-    class CsvParser : FileParser, IParser
+    class CsvParser : FileParser, IParserfdffef
     {
         public CsvParser()
         {
