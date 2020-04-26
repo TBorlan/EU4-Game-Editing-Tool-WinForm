@@ -134,6 +134,8 @@
       <DependentUpon>ZoomablePictureBox.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.manifest" />
+    <None Include="Class Diagrams\MainForm.cd" />
+    <None Include="Class Diagrams\FileParsing.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
