@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  This file is used to declare the location of files containing "definitions"
+  used in-game
+  All files are enclosed in the <defines></defines> tag
+  Each entry must have the following attributes :
+    -> id - this is the reference of the define.
+    -> path - location in file-system 
+    -> cstype - the C# type of the define
+-->
+
+<defines>
+    <define id="tradegoods" path="MOD/common/tradegoods" cstype="string#0"/>
+    <define id="buildings" path="MOD/common/buildings" cstype="string#0"/>
+</defines>

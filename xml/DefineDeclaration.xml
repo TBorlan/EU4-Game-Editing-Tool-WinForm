@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--                      Introduction
+
+  Each xml document must be enclosed in the root element <document>
+  There are three types of data structures:
+    - node : node_name = { .... }
+    - element : element_type = value_data
+    - value : value_data
+  To represent each one in xml we use the following notation:
+    for a node:
+      <node type="type_name" id="id_name">
+        <...>
+      </node>
+      where :
+        - type is a category name for the node. More on this subject later
+        - id is used to identify the node in the said category
+    for an element:
+      <element type="type_name">
+        <value_xml_element>
+      </element>
+      where :
+        - type is the element_type of the element
+    for a value:
+      <value type="type_name" id="id_name"/>
+      where :
+        - type is the type of the data, either cstype for no dependecy or define for a list of defined values
+        - id is the data's id from the type above    
+-->
+
+<!--                              Nodes
+  
+  As we mentioned earlier, nodes have a type and an id. For types, we have three main ones:
+    1. Defines
+      - These are node types that mean game data, ie. buildings, trade goods, countries etc.
+      - Their name must be unique. There can't be two countries with the same name, buildings etc.
+    2. Structs
+      - These are node types that are used for scripting arguments ie. triggers, modifiers etc.
+    TBD : Boolean ? or are they also structs ?
+        
+  How do we store node values?
+-->
+
+<!--                              Conditional declaration
+
+  When declaring node structure, it is useful for parsing to define rules for certain attributes
+  Several tags are available:
+    <requiered></required>  This tag is used to signal that the child elements inside the tag are
+    required to exist in order to consider it a valid entry. The opposite tag, <optional></optional>
+    is by default and it's not needed to specify it
+    
+    <single></single> This tag specifies that only one occurrence if the child tags should appear in a
+    valid entry. The opposite tag, <multiple></multiple> is enabled by default and not needed explicitly
+    
+    <exclusive>
+      <option name="Option_name0">
+      <option>
+      <option name="Option_name1">
+      </option>
+      ...
+    </exclusive>  This tag specifies that the entry must follow the pattern of only one of the child options
+    
+    
+    *Note : the optional tags may be added for added verbosity, but omitting them will not affect parsing logic
+    
+-->
+<document>
+  
+</document>

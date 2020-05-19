@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+  <title></title>
+  <structure>
+    <node type="define" id="buildings">
+      <exclusive>
+        <option name="Building">
+          <required>
+            <element type="cost">
+              <value type="cstype" id="int"/>
+            </element>
+            <element type="time">
+              <value type="cstype" id="int"/>
+            </element>
+            <node type="struct" id="modifier"/>
+            <node type="struct" id="ai_will_do"/>
+          </required>
+          <optional>
+            <element type="allow_in_gold_provinces">
+              <value type="cstype" id="bool"/>
+            </element>
+            <element type="make_obsolete">
+              <value type="define" id="building"/>
+            </element>
+            <node type="struct" id="trigger"/>
+          </optional>
+          <exclusive>
+            <option>
+
+            </option>
+          </exclusive>
+        </option>
+        <option name="Factory">
+        </option>
+      </exclusive>
+    </node>
+  </structure>
+</document>

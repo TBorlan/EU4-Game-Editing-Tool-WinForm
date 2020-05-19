@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+  <title></title>
+  <structure>
+    <node type="define" id="tradegood">
+      <requiered>
+        <single>
+          <node type="struct" id="modifier">
+          </node>
+          <node type="struct" id="province">
+          </node>
+          <node type="struct" id="chance">
+          </node>
+        </single>
+      </requiered>
+    </node>
+  </structure>
+</document>
