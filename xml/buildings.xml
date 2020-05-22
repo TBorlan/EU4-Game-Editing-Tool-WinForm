@@ -2,7 +2,7 @@
 <document>
   <title></title>
   <structure>
-    <node type="define" id="buildings">
+    <node type="define" id="building" cstype="string#0" save="true">
       <exclusive>
         <option name="Building">
           <required>

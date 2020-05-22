@@ -2,7 +2,7 @@
 <document>
   <title></title>
   <structure>
-    <node type="define" id="tradegood">
+    <node type="define" id="tradegood" cstype="string#0" save="true">
       <requiered>
         <single>
           <node type="struct" id="modifier">

@@ -37,8 +37,31 @@
     2. Structs
       - These are node types that are used for scripting arguments ie. triggers, modifiers etc.
     TBD : Boolean ? or are they also structs ?
+    
+  There are two ways a node can appear in an xml file:
+    1. As a reference, when it is used inside the structure definiton of another node
+      - Here there are only 2 parameters, "type" and "id" . They are used as a search query for the node definition
+    2. As a structural definition:
+      - Here there are several parameters:
+        - "id" and "type" , same as above
+        - "cstype", representing the value type of the node, only aplicable to define node types
+        - "save", is indication that this value should be stored in a LUT entry. Only aplicable to define node types
+        - "value", representing the value of the node, only aplicable to struct nodes
+      
         
   How do we store node values?
+-->
+
+<!--                             Defines
+
+  Defines declaration is a two step process:
+    1. In the file Defines.xml we declare every Defines type data that will be present in the game.
+        As mentioned earlier, defines will be by default unique values, so if game data contains a define type
+        with two identical values, it will give a parsing error.
+    2. Each define type will have a valid structure specification xml file. This file will represent the validation
+        structure for the specified define type.
+       
+
 -->
 
 <!--                              Conditional declaration
