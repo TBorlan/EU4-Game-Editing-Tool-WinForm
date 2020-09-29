@@ -13,7 +13,7 @@ using System.Diagnostics;
 
 namespace EU4_Game_Editing_Tool_WinForm
 {
-    class ProvinceBorders
+    public class ProvinceBorders
     {
 
         private ProvinceBorders(int provinceCount)
@@ -27,6 +27,10 @@ namespace EU4_Game_Editing_Tool_WinForm
         private static ProvinceBorders instance;
 
         private Dictionary<Color, HashSet<Point[]>> mProvincesLines;
+
+        private Dictionary<Color, HashSet<Point[]>> mProvincesPoints;
+
+        private Dictionary<Color, GraphicsPath> mProvincePaths;
 
         private readonly int mProvinceCount;
 
@@ -65,8 +69,9 @@ namespace EU4_Game_Editing_Tool_WinForm
                 });
 
             bitmap.UnlockBits(bmpData);
+            bitmap.Dispose();
             // Stores vertical and horizontal border pixels of a province
-            Dictionary<Color, HashSet<Point[]>> provinces = new Dictionary<Color, HashSet<Point[]>>(this.mProvinceCount);
+            mProvincesPoints = new Dictionary<Color, HashSet<Point[]>>(this.mProvinceCount);
 
             object lockObj = new Object();
             //Traverse lines
@@ -77,9 +82,9 @@ namespace EU4_Game_Editing_Tool_WinForm
                      Color color = pixelColors[prow, col];
                      lock (lockObj)
                      {
-                         if (!provinces.ContainsKey(color))
+                         if (!mProvincesPoints.ContainsKey(color))
                          {
-                             provinces.Add(color, new HashSet<Point[]>());
+                            mProvincesPoints.Add(color, new HashSet<Point[]>());
                          }
                      }
                      Point[] colorLine = new Point[3];
@@ -107,7 +112,7 @@ namespace EU4_Game_Editing_Tool_WinForm
                      colorLine[2] = new Point(-1, 0); // horizontal line
                      lock (lockObj)
                      {
-                         HashSet<Point[]> Lines = provinces[color];
+                         HashSet<Point[]> Lines = mProvincesPoints[color];
                          Lines.Add(colorLine);
                      }
                  }
@@ -120,9 +125,9 @@ namespace EU4_Game_Editing_Tool_WinForm
                     Color color = pixelColors[row, col];
                     lock (lockObj)
                     {
-                        if (!provinces.ContainsKey(color))
+                        if (!mProvincesPoints.ContainsKey(color))
                         {
-                            provinces.Add(color, new HashSet<Point[]>());
+                            mProvincesPoints.Add(color, new HashSet<Point[]>());
                         }
                     }
                     Point[] colorLine = new Point[3];
@@ -150,21 +155,21 @@ namespace EU4_Game_Editing_Tool_WinForm
                     colorLine[2] = new Point(-2, 0); // vertical line
                     lock (lockObj)
                     {
-                        HashSet<Point[]> Lines = provinces[color];
+                        HashSet<Point[]> Lines = mProvincesPoints[color];
                         Lines.Add(colorLine);
                     }
                 }
             });
-            this.mProvincesLines = new Dictionary<Color, HashSet<Point[]>>(provinces.Count);
+            this.mProvincesLines = new Dictionary<Color, HashSet<Point[]>>(mProvincesPoints.Count);
             // Get border lines from border pixels
             object lockobj = new Object();
-            Parallel.ForEach(provinces, (KeyValuePair<Color, HashSet<Point[]>> keyValue) =>
+            Parallel.ForEach(mProvincesPoints, (KeyValuePair<Color, HashSet<Point[]>> keyValue) =>
              {
                  lock (lockobj)
                  {
                      this.mProvincesLines.Add(keyValue.Key, new HashSet<Point[]>(keyValue.Value.Count / 4));
                  }
-                 this.ProccessProvince(keyValue.Value, keyValue.Key);
+                 this.ProccessProvince(keyValue.Value, mProvincesLines[keyValue.Key]);
              });
         }
 
@@ -179,32 +184,51 @@ namespace EU4_Game_Editing_Tool_WinForm
         /// <returns></returns>
         public GraphicsPath GetProvinceBorder(Color color)
         {
-            HashSet<Point[]> provinceLines = new HashSet<Point[]>(this.mProvincesLines[color]);
+            HashSet<Point[]> provinceLines = GetProvinceLines(color);
+            if(this.mProvincePaths == null)
+            {
+                this.mProvincePaths = new Dictionary<Color, GraphicsPath>(this.mProvincesLines.Count);
+            }
+            this.mProvincePaths[color] = this.BuildPath(provinceLines);
+            return (GraphicsPath)this.mProvincePaths[color].Clone();
+        }
+
+        public HashSet<Point[]> GetProvinceLines(Color color)
+        {
+            return new HashSet<Point[]>(this.mProvincesLines[color]);
+        }
+
+
+
+
+        public GraphicsPath BuildPath(HashSet<Point[]> lines)
+        {
+            lines = new HashSet<Point[]>(lines);
             GraphicsPath path = new GraphicsPath();
             int x;
-            Point[] points = provinceLines.First<Point[]>();
+            Point[] points = lines.First<Point[]>();
 
             path.StartFigure();
             path.AddLine(points[0], points[1]);
-            provinceLines.Remove(points);
-            while (provinceLines.Count > 0)
+            lines.Remove(points);
+            while (lines.Count > 0)
             {
-                x = provinceLines.Count;
-                foreach (Point[] line in provinceLines)
+                x = lines.Count;
+                foreach (Point[] line in lines)
                 {
                     if (path.GetLastPoint() == (PointF)line[0])
                     {
                         path.AddLine(line[0], line[1]);
-                        provinceLines.Remove(line);
+                        lines.Remove(line);
                         break;
                     }
                 }
-                if (x == provinceLines.Count)
+                if (x == lines.Count)
                 {
                     path.StartFigure();
-                    points = provinceLines.First<Point[]>();
+                    points = lines.First<Point[]>();
                     path.AddLine(points[0], points[1]);
-                    provinceLines.Remove(points);
+                    lines.Remove(points);
                 }
             }
             return path;
@@ -214,7 +238,139 @@ namespace EU4_Game_Editing_Tool_WinForm
 
         #region Line Tracing
 
-        private void ProccessProvince(HashSet<Point[]> lines,Color key)
+        public void ComplementVirtualProvince(HashSet<Point[]> provincePixels, Color complementingProvince)
+        {
+            foreach (Point[] pixel1 in this.mProvincesPoints[complementingProvince])
+            {
+                Point[][] newLine = new Point[2][];
+                newLine[0] = new Point[3];
+                Point[][] removeLine = new Point[2][];
+                bool found = false;
+                foreach (Point[] pixel2 in provincePixels)
+                {
+                    if (pixel1[2] == pixel2[2])
+                    {
+
+                        if ((pixel1[0] == pixel2[0]) && (pixel1[1] == pixel2[1]))
+                        {
+                            if (pixel2[2].X == -2)
+                            {
+                                removeLine[0] = pixel2;
+                            }
+                            removeLine[0] = pixel2;
+                            newLine[0] = null;
+                            break;
+                        }
+                        else
+                        {
+                            Point testPoint1 = new Point();
+                            Point testPoint2 = new Point();
+                            testPoint1 = pixel1[1];
+                            testPoint2 = pixel2[1];
+                            if (pixel2[2].X == -1)
+                            {
+                                testPoint1.X += 1;
+                                testPoint2.X += 1;
+                            }
+                            else
+                            {
+                                testPoint1.Y += 1;
+                                testPoint2.Y += 1;
+                            }
+                            if (testPoint2 == pixel1[0])
+                            {
+                                if (found)
+                                {
+                                    newLine[0][0] = pixel2[0];
+                                    removeLine[1] = pixel2;
+                                    break;
+                                }
+                                newLine[0][0] = pixel2[0];
+                                newLine[0][1] = pixel1[1];
+                                newLine[0][2] = pixel2[2];
+                                removeLine[0] = pixel2;
+                                found = true;
+                            }
+                            else if (pixel2[0] == testPoint1)
+                            {
+                                if (found)
+                                {
+                                    newLine[0][1] = pixel2[1];
+                                    removeLine[1] = pixel2;
+                                    break;
+                                }
+                                newLine[0][0] = pixel1[0];
+                                newLine[0][1] = pixel2[1];
+                                newLine[0][2] = pixel2[2];
+                                removeLine[0] = pixel2;
+                                found = true;
+                            }
+                            else if (pixel2[0] == pixel1[0])
+                            {
+                                newLine[0][0] = pixel1[1] + (pixel2[2].X == -1 ? new Size(1, 0) : new Size(0, 1));
+                                newLine[0][1] = pixel2[1];
+                                newLine[0][2] = pixel2[2];
+                                removeLine[0] = pixel2;
+                                break;
+                            }
+                            else if (testPoint2 == testPoint1)
+                            {
+                                newLine[0][0] = pixel2[0];
+                                newLine[0][1] = pixel1[0] - (pixel2[2].X == -1 ? new Size(1, 0) : new Size(0, 1));
+                                newLine[0][2] = pixel2[2];
+                                removeLine[0] = pixel2;
+                                break;
+                            }
+                            else if (((pixel1[0].X == pixel2[0].X) && (pixel2[2].X == -2)) || ((pixel1[0].Y == pixel2[0].Y) && (pixel2[2].X == -1)))
+                            {
+                                Size start = (Size)pixel1[0] - (Size)pixel2[0];
+                                Size end = (Size)pixel1[1] - (Size)pixel2[1];
+                                if (((start.Width + start.Height) > 0) && ((end.Width + end.Height) < 0))
+                                {
+                                    newLine[0][0] = pixel2[0];
+                                    newLine[0][1] = pixel1[0] - (pixel2[2].X == -1 ? new Size(1, 0) : new Size(0, 1));
+                                    newLine[0][2] = pixel2[2];
+                                    newLine[1] = new Point[3];
+                                    newLine[1][0] = pixel1[1] + (pixel2[2].X == -1 ? new Size(1, 0) : new Size(0, 1));
+                                    newLine[1][1] = pixel2[1];
+                                    newLine[1][2] = pixel2[2];
+                                    removeLine[0] = pixel2;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+                if (removeLine[0] == null)
+                {
+                    newLine[0] = new Point[3];
+                    newLine[0][0] = pixel1[0];
+                    newLine[0][1] = pixel1[1];
+                    newLine[0][2] = pixel1[2];
+                }
+                else
+                {
+                    for (int i = 0; (i < 2) && (removeLine[i] != null); i++)
+                    {
+                        provincePixels.Remove(removeLine[i]);
+                    }
+                }
+                for (int i = 0; (i < 2) && (newLine[i] != null); i++)
+                {
+                    provincePixels.Add(newLine[i]);
+                }
+            }
+        }
+
+        public GraphicsPath ProcessVirtualProvince(HashSet<Point[]> lines)
+        {
+            HashSet<Point[]> result = new HashSet<Point[]>(lines.Count / 4);
+            this.ProccessProvince(lines, result);
+            return BuildPath(result);
+
+        }
+
+        private void ProccessProvince(HashSet<Point[]> lines,HashSet<Point[]> result)
         {
             List<Point> vRightPoints = new List<Point>(lines.Count / 4);
             List<Point> vLeftPoints = new List<Point>(lines.Count / 4);
@@ -257,13 +413,13 @@ namespace EU4_Game_Editing_Tool_WinForm
                 int val2 = p2.Y * 5616 + p2.X;
                 return val1.CompareTo(val2);
             });
-            this.TraceHTopLines(hTopPoints, key);
-            this.TraceHBottomLines(hBottomPoints, key);
-            this.TraceVLeftLines(vLeftPoints, key);
-            this.TraceVRightLines(vRightPoints, key);
+            this.TraceHTopLines(hTopPoints, result);
+            this.TraceHBottomLines(hBottomPoints, result);
+            this.TraceVLeftLines(vLeftPoints, result);
+            this.TraceVRightLines(vRightPoints, result);
         }
 
-        private void TraceVLeftLines(List<Point> points, Color key)
+        private void TraceVLeftLines(List<Point> points, HashSet<Point[]> result)
         {
             int index=0, y1, y2, x, start;
             while (points.Count > index)
@@ -290,12 +446,12 @@ namespace EU4_Game_Editing_Tool_WinForm
                 line[0] = points[start];
                 line[1] = new Point(points[index].X, points[index].Y + 1);
                 Thread.MemoryBarrier();
-                this.mProvincesLines[key].Add(line);
+                result.Add(line);
                 index++;
             }
         }
 
-        private void TraceVRightLines(List<Point> points, Color key)
+        private void TraceVRightLines(List<Point> points, HashSet<Point[]> result)
         {
             int index=0, y1, y2, x, start;
             while (points.Count > index)
@@ -322,12 +478,12 @@ namespace EU4_Game_Editing_Tool_WinForm
                 line[0] = new Point(points[start].X + 1, points[start].Y);
                 line[1] = new Point(points[index].X + 1, points[index].Y + 1);
                 Thread.MemoryBarrier();
-                this.mProvincesLines[key].Add(line);
+                result.Add(line);
                 index++;
             }
         }
 
-        private void TraceHTopLines(List<Point> points, Color key)
+        private void TraceHTopLines(List<Point> points, HashSet<Point[]> result)
         {
             int index = 0, x1, x2, y, start;
             while (points.Count > index)
@@ -354,12 +510,12 @@ namespace EU4_Game_Editing_Tool_WinForm
                 line[0] = points[start];
                 line[1] = new Point(points[index].X + 1, points[index].Y);
                 Thread.MemoryBarrier();
-                this.mProvincesLines[key].Add(line);
+                result.Add(line);
                 index++;
             }
         }
 
-        private void TraceHBottomLines(List<Point> points, Color key)
+        private void TraceHBottomLines(List<Point> points, HashSet<Point[]> result)
         {
             int index=0, x1, x2, y, start;
             while (points.Count > index)
@@ -386,10 +542,12 @@ namespace EU4_Game_Editing_Tool_WinForm
                 line[0] = new Point(points[start].X, points[start].Y + 1);
                 line[1] = new Point(points[index].X + 1, points[index].Y + 1);
                 Thread.MemoryBarrier();
-                this.mProvincesLines[key].Add(line);
+                result.Add(line);
                 index++;
             }
         }
+
+
 
         #endregion
     }
