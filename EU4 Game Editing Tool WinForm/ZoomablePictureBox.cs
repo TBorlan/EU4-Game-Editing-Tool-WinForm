@@ -456,8 +456,8 @@ namespace EU4_Game_Editing_Tool_WinForm
             this.mScale = newScale;
             this.SuspendLayout();
             UpdateInternalMarginsAndSize();
-            int scrollX = this.mHorizontalMargin + (int)(referencePoint.X * this.mScale) + zoomPoint.X;
-            int scrollY = this.mVerticalMargin + (int)(referencePoint.Y * this.mScale) + zoomPoint.Y;
+            int scrollX = this.mHorizontalMargin + (int)(referencePoint.X * this.mScale) - zoomPoint.X;
+            int scrollY = this.mVerticalMargin + (int)(referencePoint.Y * this.mScale) - zoomPoint.Y;
             if (scrollX > 0 && scrollX < this._mhScrollBar.Maximum)
             {
                 this._mhScrollBar.Value = scrollX;
@@ -469,18 +469,21 @@ namespace EU4_Game_Editing_Tool_WinForm
             Matrix matrix = new Matrix();
             //matrix.Translate((float)(-0.5*(mScale)), (float)(-0.5*(mScale)));
             GraphicsPath graphicsPath = this.mSelectionManager.mActivePath;
-            matrix.Scale(this.mScale, this.mScale);
-            matrix.Translate(-mScale / 2, -mScale / 2, MatrixOrder.Append);
-            graphicsPath.Transform(matrix);
-            if (mActivePaths != null)
+            if (graphicsPath != null)
             {
-                mActivePaths.Reset();
+                matrix.Scale(this.mScale, this.mScale);
+                matrix.Translate(-mScale / 2, -mScale / 2, MatrixOrder.Append);
+                graphicsPath.Transform(matrix);
+                if (mActivePaths != null)
+                {
+                    mActivePaths.Reset();
+                }
+                else
+                {
+                    mActivePaths = new GraphicsPath();
+                }
+                mActivePaths.AddPath(graphicsPath, false);
             }
-            else
-            {
-                mActivePaths = new GraphicsPath();
-            }
-            mActivePaths.AddPath(graphicsPath, false);
             this.ResumeLayout();
             this.Invalidate();
 
