@@ -1,6 +1,6 @@
 ﻿namespace EU4_Game_Editing_Tool_WinForm
 {
-    partial class ZoomablePictureBox
+    partial class MapDislpay
     {
         /// <summary> 
         /// Required designer variable.

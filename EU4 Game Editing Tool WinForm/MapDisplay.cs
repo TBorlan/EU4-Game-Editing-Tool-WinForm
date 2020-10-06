@@ -14,7 +14,7 @@ namespace EU4_Game_Editing_Tool_WinForm
     ///<summary>
     ///Helper Class for displaying images
     ///</summary>
-    public partial class ZoomablePictureBox : Control
+    public partial class MapDislpay : Control
     {
         #region Members
 

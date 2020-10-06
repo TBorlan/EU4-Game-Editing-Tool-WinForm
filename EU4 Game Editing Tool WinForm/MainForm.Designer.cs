@@ -32,7 +32,7 @@
             this.cPictureBoxPanel = new System.Windows.Forms.Panel();
             this.vScrollBar1 = new System.Windows.Forms.VScrollBar();
             this.hScrollBar1 = new System.Windows.Forms.HScrollBar();
-            this.cImagePictureBox = new EU4_Game_Editing_Tool_WinForm.ZoomablePictureBox();
+            this.cImagePictureBox = new EU4_Game_Editing_Tool_WinForm.MapDislpay();
             this.cPictureBoxPanel.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -128,7 +128,7 @@
 
         #region Controls
         private System.Windows.Forms.Button cOpenModButton;
-        private ZoomablePictureBox cImagePictureBox;
+        private MapDislpay cImagePictureBox;
         private System.Windows.Forms.Panel cPictureBoxPanel;
         private System.Windows.Forms.VScrollBar vScrollBar1;
         private System.Windows.Forms.HScrollBar hScrollBar1;
