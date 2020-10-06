@@ -76,11 +76,6 @@ namespace EU4_Game_Editing_Tool_WinForm
 
         void LoadProvinceData()
         {
-            TextNode provinces;
-            using(CsvParser csvParser = new CsvParser())
-            {
-                provinces = csvParser.ParseFile(this.mRootFolder + @"\map\definition.csv");
-            }
         }
 
         #endregion
