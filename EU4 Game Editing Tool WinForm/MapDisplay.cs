@@ -14,7 +14,7 @@ namespace EU4_Game_Editing_Tool_WinForm
     ///<summary>
     ///Helper Class for displaying images
     ///</summary>
-    public partial class MapDislpay : Control
+    public partial class MapDisplay : Control
     {
         #region Members
 
@@ -67,6 +67,8 @@ namespace EU4_Game_Editing_Tool_WinForm
         private int _mHorizontalMargin;
 
         private IReadOnlyList<Province> _mProvinces;
+
+        public event EventHandler<Point> Pan;
 
         /// <summary>
         /// Represents the instance used to generate province borders

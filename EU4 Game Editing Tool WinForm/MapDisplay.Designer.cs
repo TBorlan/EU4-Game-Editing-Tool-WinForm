@@ -1,6 +1,6 @@
 ﻿namespace EU4_Game_Editing_Tool_WinForm
 {
-    partial class MapDislpay
+    partial class MapDisplay
     {
         /// <summary> 
         /// Required designer variable.

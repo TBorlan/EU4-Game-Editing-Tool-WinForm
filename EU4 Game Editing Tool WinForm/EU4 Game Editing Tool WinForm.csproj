@@ -71,6 +71,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DisplayPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DisplayPanel.Designer.cs">
+      <DependentUpon>DisplayPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DisplayRenderingEngine.cs" />
     <Compile Include="Factory\FileParsing\DeserializerFactory.cs" />
     <Compile Include="Factory\FileParsing\StreamReaderFactory.cs" />
     <Compile Include="FileParsing\CsvReader.cs" />
@@ -114,6 +121,9 @@
     <Compile Include="MapDisplay.Designer.cs">
       <DependentUpon>MapDisplay.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="DisplayPanel.resx">
+      <DependentUpon>DisplayPanel.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
