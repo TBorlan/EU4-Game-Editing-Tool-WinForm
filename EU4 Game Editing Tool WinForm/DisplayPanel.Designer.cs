@@ -38,15 +38,14 @@
             this.cMapDisplay.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.cMapDisplay.Enabled = false;
+            this.cMapDisplay.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.cMapDisplay.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.cMapDisplay.Location = new System.Drawing.Point(0, 0);
             this.cMapDisplay.Margin = new System.Windows.Forms.Padding(0);
             this.cMapDisplay.mOriginalBitmap = null;
             this.cMapDisplay.Name = "cMapDisplay";
             this.cMapDisplay.Size = new System.Drawing.Size(1209, 540);
             this.cMapDisplay.TabIndex = 0;
-            this.cMapDisplay.Text = "mapDisplay1";
-            this.cMapDisplay.Visible = false;
             // 
             // cVScrollBar
             // 
@@ -57,7 +56,6 @@
             this.cVScrollBar.Name = "cVScrollBar";
             this.cVScrollBar.Size = new System.Drawing.Size(21, 540);
             this.cVScrollBar.TabIndex = 1;
-            this.cVScrollBar.Visible = false;
             // 
             // cHScrollBar
             // 
@@ -68,7 +66,6 @@
             this.cHScrollBar.Name = "cHScrollBar";
             this.cHScrollBar.Size = new System.Drawing.Size(1209, 21);
             this.cHScrollBar.TabIndex = 2;
-            this.cHScrollBar.Visible = false;
             // 
             // DisplayPanel
             // 
