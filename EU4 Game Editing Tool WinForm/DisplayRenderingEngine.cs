@@ -279,7 +279,10 @@ namespace EU4_Game_Editing_Tool_WinForm
 
         public void Render(object mapDisplay, PaintEventArgs args)
         {
-            args.Graphics.DrawImage(((MapDisplay)mapDisplay).mOriginalBitmap, this._mDisplayRectangle, this._mSelectionRectangle, GraphicsUnit.Pixel);
+            if (this._mMapDisplay.mOriginalBitmap != null)
+            {
+                args.Graphics.DrawImage(((MapDisplay)mapDisplay).mOriginalBitmap, this._mDisplayRectangle, this._mSelectionRectangle, GraphicsUnit.Pixel);
+            }
         }
     }
 }
