@@ -28,24 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.cMapDisplay = new EU4_Game_Editing_Tool_WinForm.MapDisplay();
             this.cVScrollBar = new System.Windows.Forms.VScrollBar();
             this.cHScrollBar = new System.Windows.Forms.HScrollBar();
+            this.cMapDisplay = new EU4_Game_Editing_Tool_WinForm.MapDisplay();
             this.SuspendLayout();
-            // 
-            // cMapDisplay
-            // 
-            this.cMapDisplay.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.cMapDisplay.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.cMapDisplay.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.cMapDisplay.Location = new System.Drawing.Point(0, 0);
-            this.cMapDisplay.Margin = new System.Windows.Forms.Padding(0);
-            this.cMapDisplay.mOriginalBitmap = null;
-            this.cMapDisplay.Name = "cMapDisplay";
-            this.cMapDisplay.Size = new System.Drawing.Size(1209, 540);
-            this.cMapDisplay.TabIndex = 0;
             // 
             // cVScrollBar
             // 
@@ -67,6 +53,20 @@
             this.cHScrollBar.Size = new System.Drawing.Size(1209, 21);
             this.cHScrollBar.TabIndex = 2;
             // 
+            // cMapDisplay
+            // 
+            this.cMapDisplay.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.cMapDisplay.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.cMapDisplay.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.cMapDisplay.Location = new System.Drawing.Point(0, 0);
+            this.cMapDisplay.Margin = new System.Windows.Forms.Padding(0);
+            this.cMapDisplay.mOriginalBitmap = null;
+            this.cMapDisplay.Name = "cMapDisplay";
+            this.cMapDisplay.Size = new System.Drawing.Size(1209, 540);
+            this.cMapDisplay.TabIndex = 0;
+            // 
             // DisplayPanel
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -82,8 +82,8 @@
 
         #endregion
 
-        private MapDisplay cMapDisplay;
-        private System.Windows.Forms.VScrollBar cVScrollBar;
-        private System.Windows.Forms.HScrollBar cHScrollBar;
+        internal MapDisplay cMapDisplay;
+        internal System.Windows.Forms.VScrollBar cVScrollBar;
+        internal System.Windows.Forms.HScrollBar cHScrollBar;
     }
 }

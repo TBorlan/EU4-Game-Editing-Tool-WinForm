@@ -43,6 +43,8 @@ namespace EU4_Game_Editing_Tool_WinForm
 
         public event EventHandler<Point> Pan;
 
+        public event MouseEventHandler Zoom;
+
         /// <summary>
         /// Represents the instance used to generate province borders
         /// </summary>
@@ -134,7 +136,7 @@ namespace EU4_Game_Editing_Tool_WinForm
         protected override void OnPaint(PaintEventArgs e)
         {
             //this.Render();
-            //e.Graphics.InterpolationMode = InterpolationMode.NearestNeighbor;
+            e.Graphics.InterpolationMode = InterpolationMode.NearestNeighbor;
             //e.Graphics.DrawImage(this.mOriginalBitmap, this._mDisplayRectangle, this._mSelectionRectangle, GraphicsUnit.Pixel);
 
             //if (_mActivePaths != null)
@@ -150,12 +152,13 @@ namespace EU4_Game_Editing_Tool_WinForm
             //    paths.Dispose();
             //}
             base.OnPaint(e);
+            
         }
 
         protected override void OnMouseWheel(MouseEventArgs e)
         {
-            //this.Zoom(e.Location, e.Delta > 0);
-            //base.OnMouseWheel(e);
+            this.Zoom?.Invoke(this, e);
+            base.OnMouseWheel(e);
         }
 
         #region Callbacks
@@ -307,26 +310,26 @@ namespace EU4_Game_Editing_Tool_WinForm
             //                           (int)(this._mSelectionRectangle.Height * this._mScale + 1));
         }
 
-        private void Zoom(Point zoomPoint, bool magnify)
-        {
-            //float newScale = Math.Min(20f, Math.Max(0.1f, _mScale + (magnify ? 0.2f : -0.2f)));
-            //Point referencePoint = ScaledBitmap2OriginalBitmap(zoomPoint);
-            //this._mScale = newScale;
-            //this.SuspendLayout();
-            //UpdateInternalMarginsAndSize();
-            //int scrollX = this._mHorizontalMargin + (int)(referencePoint.X * this._mScale) - zoomPoint.X;
-            //int scrollY = this._mVerticalMargin + (int)(referencePoint.Y * this._mScale) - zoomPoint.Y;
-            //if (scrollX > 0 && scrollX < this._mHScrollBar.Maximum)
-            //{
-            //    this._mHScrollBar.Value = scrollX;
-            //}
-            //if (scrollY > 0 && scrollY < this._mVScrollBar.Maximum)
-            //{
-            //    this._mVScrollBar.Value = scrollY;
-            //}
-            //this.ResumeLayout();
-            //this.Invalidate();
-        }
+        //private void Zoom(Point zoomPoint, bool magnify)
+        //{
+        //    //float newScale = Math.Min(20f, Math.Max(0.1f, _mScale + (magnify ? 0.2f : -0.2f)));
+        //    //Point referencePoint = ScaledBitmap2OriginalBitmap(zoomPoint);
+        //    //this._mScale = newScale;
+        //    //this.SuspendLayout();
+        //    //UpdateInternalMarginsAndSize();
+        //    //int scrollX = this._mHorizontalMargin + (int)(referencePoint.X * this._mScale) - zoomPoint.X;
+        //    //int scrollY = this._mVerticalMargin + (int)(referencePoint.Y * this._mScale) - zoomPoint.Y;
+        //    //if (scrollX > 0 && scrollX < this._mHScrollBar.Maximum)
+        //    //{
+        //    //    this._mHScrollBar.Value = scrollX;
+        //    //}
+        //    //if (scrollY > 0 && scrollY < this._mVScrollBar.Maximum)
+        //    //{
+        //    //    this._mVScrollBar.Value = scrollY;
+        //    //}
+        //    //this.ResumeLayout();
+        //    //this.Invalidate();
+        //}
         #endregion
     }
 }

@@ -41,18 +41,20 @@ namespace EU4_Game_Editing_Tool_WinForm
 
         private void Callback_OpenModButton_Click(object sender, EventArgs e)
         {
-            FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog();
+            //FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog();
 
-            if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
+            //if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
+            //{
+            //    this.mRootFolder = folderBrowserDialog.SelectedPath;
+            //}
+
+            //folderBrowserDialog.Dispose();
+            using (Bitmap image = new Bitmap(@"C:\Users\Tudor\Desktop\temp\provinces.bmp"))
             {
-                this.mRootFolder = folderBrowserDialog.SelectedPath;
+                this.cDisplayPanel.mImage = image;
             }
 
-            folderBrowserDialog.Dispose();
-
-            this.cImagePictureBox.mOriginalBitmap = new Bitmap(this.mRootFolder + @"\map\provinces.bmp");
-
-            this.cImagePictureBox.MouseWheel += new MouseEventHandler(this.Callback_PictureBoxPanel_MouseWheel);
+            
         }
 
         private void Callback_PictureBoxPanel_MouseWheel(object obj, MouseEventArgs args)

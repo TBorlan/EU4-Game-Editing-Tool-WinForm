@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.cOpenModButton = new System.Windows.Forms.Button();
+            this.cDisplayPanel = new EU4_Game_Editing_Tool_WinForm.DisplayPanel();
             this.SuspendLayout();
             // 
             // cOpenModButton
@@ -48,12 +49,27 @@
             this.cOpenModButton.UseVisualStyleBackColor = false;
             this.cOpenModButton.Click += new System.EventHandler(this.Callback_OpenModButton_Click);
             // 
+            // cDisplayPanel
+            // 
+            this.cDisplayPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.cDisplayPanel.Location = new System.Drawing.Point(12, 44);
+            this.cDisplayPanel.Margin = new System.Windows.Forms.Padding(3, 0, 0, 0);
+            this.cDisplayPanel.mImage = null;
+            this.cDisplayPanel.mMargins = new System.Drawing.Size(604, 270);
+            this.cDisplayPanel.mScale = 0F;
+            this.cDisplayPanel.Name = "cDisplayPanel";
+            this.cDisplayPanel.Size = new System.Drawing.Size(1318, 476);
+            this.cDisplayPanel.TabIndex = 1;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(1339, 529);
+            this.Controls.Add(this.cDisplayPanel);
             this.Controls.Add(this.cOpenModButton);
             this.Name = "MainForm";
             this.Text = "EU4 Menu";
@@ -68,6 +84,7 @@
         private System.Windows.Forms.Button cOpenModButton;
         #endregion
 
+        private DisplayPanel cDisplayPanel;
     }
 }
 
