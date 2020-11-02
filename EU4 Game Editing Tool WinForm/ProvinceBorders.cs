@@ -18,17 +18,17 @@ namespace EU4_Game_Editing_Tool_WinForm
 
         private ProvinceBorders(int provinceCount)
         {
-            this.mProvinceCount = provinceCount;
+            this._mProvinceCount = provinceCount;
             //mProvincesLines = new Dictionary<Color, HashSet<Point[]>>(this.mProvinceCount);
         }
 
         #region Members
 
-        private static ProvinceBorders instance;
+        private static ProvinceBorders _mInstance;
 
-        private Dictionary<Color, HashSet<Point[]>> mProvincesLines;
+        private Dictionary<Color, HashSet<Point[]>> _mProvincesLines;
 
-        private readonly int mProvinceCount;
+        private readonly int _mProvinceCount;
 
         #endregion
 
@@ -36,12 +36,12 @@ namespace EU4_Game_Editing_Tool_WinForm
 
         public static ProvinceBorders GetProvinceBorders(Bitmap bitmap, int provinceCount)
         {
-            if (instance == null)
+            if (_mInstance == null)
             {
-                instance = new ProvinceBorders(provinceCount);
-                instance.GenerateBordersPaths(bitmap);
+                _mInstance = new ProvinceBorders(provinceCount);
+                _mInstance.GenerateBordersPaths(bitmap);
             }
-            return instance;
+            return _mInstance;
         }
 
         private void GenerateBordersPaths(Bitmap bitmap)
@@ -66,7 +66,7 @@ namespace EU4_Game_Editing_Tool_WinForm
 
             bitmap.UnlockBits(bmpData);
             // Stores vertical and horizontal border pixels of a province
-            Dictionary<Color, HashSet<Point[]>> provinces = new Dictionary<Color, HashSet<Point[]>>(this.mProvinceCount);
+            Dictionary<Color, HashSet<Point[]>> provinces = new Dictionary<Color, HashSet<Point[]>>(this._mProvinceCount);
 
             object lockObj = new Object();
             //Traverse lines
@@ -155,14 +155,14 @@ namespace EU4_Game_Editing_Tool_WinForm
                     }
                 }
             });
-            this.mProvincesLines = new Dictionary<Color, HashSet<Point[]>>(provinces.Count);
+            this._mProvincesLines = new Dictionary<Color, HashSet<Point[]>>(provinces.Count);
             // Get border lines from border pixels
             object lockobj = new Object();
             Parallel.ForEach(provinces, (KeyValuePair<Color, HashSet<Point[]>> keyValue) =>
              {
                  lock (lockobj)
                  {
-                     this.mProvincesLines.Add(keyValue.Key, new HashSet<Point[]>(keyValue.Value.Count / 4));
+                     this._mProvincesLines.Add(keyValue.Key, new HashSet<Point[]>(keyValue.Value.Count / 4));
                  }
                  this.ProccessProvince(keyValue.Value, keyValue.Key);
              });
@@ -179,7 +179,7 @@ namespace EU4_Game_Editing_Tool_WinForm
         /// <returns></returns>
         public GraphicsPath GetProvinceBorder(Color color)
         {
-            HashSet<Point[]> provinceLines = new HashSet<Point[]>(this.mProvincesLines[color]);
+            HashSet<Point[]> provinceLines = new HashSet<Point[]>(this._mProvincesLines[color]);
             GraphicsPath path = new GraphicsPath();
             int x;
             Point[] points = provinceLines.First<Point[]>();
@@ -290,7 +290,7 @@ namespace EU4_Game_Editing_Tool_WinForm
                 line[0] = points[start];
                 line[1] = new Point(points[index].X, points[index].Y + 1);
                 Thread.MemoryBarrier();
-                this.mProvincesLines[key].Add(line);
+                this._mProvincesLines[key].Add(line);
                 index++;
             }
         }
@@ -322,7 +322,7 @@ namespace EU4_Game_Editing_Tool_WinForm
                 line[0] = new Point(points[start].X + 1, points[start].Y);
                 line[1] = new Point(points[index].X + 1, points[index].Y + 1);
                 Thread.MemoryBarrier();
-                this.mProvincesLines[key].Add(line);
+                this._mProvincesLines[key].Add(line);
                 index++;
             }
         }
@@ -354,7 +354,7 @@ namespace EU4_Game_Editing_Tool_WinForm
                 line[0] = points[start];
                 line[1] = new Point(points[index].X + 1, points[index].Y);
                 Thread.MemoryBarrier();
-                this.mProvincesLines[key].Add(line);
+                this._mProvincesLines[key].Add(line);
                 index++;
             }
         }
@@ -386,7 +386,7 @@ namespace EU4_Game_Editing_Tool_WinForm
                 line[0] = new Point(points[start].X, points[start].Y + 1);
                 line[1] = new Point(points[index].X + 1, points[index].Y + 1);
                 Thread.MemoryBarrier();
-                this.mProvincesLines[key].Add(line);
+                this._mProvincesLines[key].Add(line);
                 index++;
             }
         }
