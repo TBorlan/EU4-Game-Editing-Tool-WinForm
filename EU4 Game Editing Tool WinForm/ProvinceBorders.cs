@@ -70,7 +70,7 @@ namespace EU4_Game_Editing_Tool_WinForm
 
             bitmap.UnlockBits(bmpData);
             // Stores vertical and horizontal border pixels of a province
-            Dictionary<Color, HashSet<Point[]>> _mProvincesPoints = new Dictionary<Color, HashSet<Point[]>>(this._mProvinceCount);
+            this._mProvincesPoints = new Dictionary<Color, HashSet<Point[]>>(this._mProvinceCount);
 
             object lockObj = new Object();
             //Traverse lines
@@ -81,9 +81,9 @@ namespace EU4_Game_Editing_Tool_WinForm
                      Color color = pixelColors[prow, col];
                      lock (lockObj)
                      {
-                         if (!_mProvincesPoints.ContainsKey(color))
+                         if (!this._mProvincesPoints.ContainsKey(color))
                          {
-                             _mProvincesPoints.Add(color, new HashSet<Point[]>());
+                             this._mProvincesPoints.Add(color, new HashSet<Point[]>());
                          }
                      }
                      Point[] colorLine = new Point[3];
@@ -111,7 +111,7 @@ namespace EU4_Game_Editing_Tool_WinForm
                      colorLine[2] = new Point(-1, 0); // horizontal line
                      lock (lockObj)
                      {
-                         HashSet<Point[]> Lines = _mProvincesPoints[color];
+                         HashSet<Point[]> Lines = this._mProvincesPoints[color];
                          Lines.Add(colorLine);
                      }
                  }
@@ -124,9 +124,9 @@ namespace EU4_Game_Editing_Tool_WinForm
                     Color color = pixelColors[row, col];
                     lock (lockObj)
                     {
-                        if (!_mProvincesPoints.ContainsKey(color))
+                        if (!this._mProvincesPoints.ContainsKey(color))
                         {
-                            _mProvincesPoints.Add(color, new HashSet<Point[]>());
+                            this._mProvincesPoints.Add(color, new HashSet<Point[]>());
                         }
                     }
                     Point[] colorLine = new Point[3];
@@ -154,21 +154,21 @@ namespace EU4_Game_Editing_Tool_WinForm
                     colorLine[2] = new Point(-2, 0); // vertical line
                     lock (lockObj)
                     {
-                        HashSet<Point[]> Lines = _mProvincesPoints[color];
+                        HashSet<Point[]> Lines = this._mProvincesPoints[color];
                         Lines.Add(colorLine);
                     }
                 }
             });
-            this._mProvincesLines = new Dictionary<Color, HashSet<Point[]>>(_mProvincesPoints.Count);
+            this._mProvincesLines = new Dictionary<Color, HashSet<Point[]>>(this._mProvincesPoints.Count);
             // Get border lines from border pixels
             object lockobj = new Object();
-            Parallel.ForEach(_mProvincesPoints, (KeyValuePair<Color, HashSet<Point[]>> keyValue) =>
+            Parallel.ForEach(this._mProvincesPoints, (KeyValuePair<Color, HashSet<Point[]>> keyValue) =>
              {
                  lock (lockobj)
                  {
                      this._mProvincesLines.Add(keyValue.Key, new HashSet<Point[]>(keyValue.Value.Count / 4));
                  }
-                 this.ProccessProvince(keyValue.Value, _mProvincesLines[keyValue.Key]);
+                 this.ProccessProvince(keyValue.Value, this._mProvincesLines[keyValue.Key]);
              });
         }
 
@@ -353,7 +353,7 @@ namespace EU4_Game_Editing_Tool_WinForm
         {
             HashSet<Point[]> result = new HashSet<Point[]>(lines.Count / 4);
             this.ProccessProvince(lines, result);
-            return BuildPath(result);
+            return this.BuildPath(result);
 
         }
 
