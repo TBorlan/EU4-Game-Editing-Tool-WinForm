@@ -170,18 +170,6 @@ namespace EU4_Game_Editing_Tool_WinForm
 
         }
 
-        private void Callback_MainForm_ProvincesParsed(Object obj, EventArgs args)
-        {
-            this._mProvinces = ((MainForm)(MainForm.ActiveForm)).mProvinces;
-
-            this._mPBTask = new Task<ProvinceBorders>(() =>
-            {
-                ProvinceBorders borders = ProvinceBorders.GetProvinceBorders(this.mOriginalBitmap, this._mProvinces.Count);
-                return borders;
-            });
-            this._mPBTask.Start();
-        }
-
         #endregion
 
         #region Point Translations

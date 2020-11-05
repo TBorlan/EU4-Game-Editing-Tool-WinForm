@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -129,6 +130,7 @@ namespace EU4_Game_Editing_Tool_WinForm
             this._mMapDisplay.Paint += this.Render;
             this._mMapDisplay.Pan += this.GetScrollOffset;
             this._mMapDisplay.Zoom += this.GetZoom;
+            this._mMapDisplay.MouseClick += this.GetSelectedColor;
         }
 
         public void Unbind()
@@ -138,6 +140,7 @@ namespace EU4_Game_Editing_Tool_WinForm
             this._mMapDisplay.Paint -= this.Render;
             this._mMapDisplay.Pan -= this.GetScrollOffset;
             this._mMapDisplay.Zoom -= this.GetZoom;
+            this._mMapDisplay.MouseClick -= this.GetSelectedColor;
             this._mMapDisplay = null;
             this._mHScrollBar.Scroll -= this.ProcessScroll;
             this._mHScrollBar = null;
@@ -221,14 +224,13 @@ namespace EU4_Game_Editing_Tool_WinForm
         private void GetZoom(object mapDisplay, MouseEventArgs args)
         {
             Point point = Point.Subtract(args.Location, (Size)this._mDisplayRectangle.Location);
-            point = new Point((int)(point.X / this.mScale), (int)(point.Y / this.mScale));
+            point = this.TranslateScaledToOriginal(point);
             // This is the real location on the bitmap where we made the zoom
             Point referencePoint = Point.Add(this._mSelectionRectangle.Location, (Size)point);
             this._mRenderingSuspended = true;
             this.mScale = Math.Min(20f, Math.Max(0.1f, _mScale + (args.Delta > 0 ? 0.2f : -0.2f)));
             this.ProccessSize();
-            referencePoint.X = (int)(referencePoint.X * this.mScale);
-            referencePoint.Y = (int)(referencePoint.Y * this.mScale);
+            this.TranslateOriginalToScaled(referencePoint);
             referencePoint = Point.Add(referencePoint, this.mMargins);
             referencePoint = Point.Subtract(referencePoint, (Size)(args.Location));       
             if ((referencePoint.X > 0) && (referencePoint.X < (this._mHScrollBar.Maximum - this._mHScrollBar.LargeChange + 1)))
@@ -242,7 +244,43 @@ namespace EU4_Game_Editing_Tool_WinForm
             this._mRenderingSuspended = false;
             this.ProccessView();
         }
-       
+
+        private void GetSelectedColor(object mapDisplay, MouseEventArgs args)
+        {
+            if (args.Button == MouseButtons.Left)
+            {
+                Point translatedUpperLeft = Point.Subtract(args.Location, (Size)(this._mDisplayRectangle.Location));
+                Point translatedLowerRight = Point.Subtract(args.Location, new Size(this._mDisplayRectangle.Right, _mDisplayRectangle.Bottom));
+                if ((translatedUpperLeft.X >= 0) && (translatedUpperLeft.Y >= 0) && (translatedLowerRight.X <= 0) && (translatedLowerRight.Y <= 0))
+                {
+                    Point selectedPoint = this.TranslateScaledToOriginal(translatedUpperLeft);
+                    selectedPoint = Point.Add(selectedPoint, (Size)(this._mSelectionRectangle.Location));
+                    Color selectedColor = this._mMapDisplay.mOriginalBitmap.GetPixel(selectedPoint.X, selectedPoint.Y);
+                    this._mDisplayPanel._mSelectionManager.Select(selectedColor);
+                    if (!this._mRenderingSuspended)
+                    {
+                        this.ProccessView();
+                    }
+                }
+            }
+        }
+
+        private Point TranslateScaledToOriginal(Point selection)
+        {
+            Point translated = selection;
+            translated.X = (int)(translated.X / this.mScale);
+            translated.Y = (int)(translated.Y / this.mScale);
+            return translated;
+        }
+
+        private Point TranslateOriginalToScaled(Point selection)
+        {
+            Point translated = selection;
+            translated.X = (int)(translated.X * this.mScale);
+            translated.Y = (int)(translated.Y * this.mScale);
+            return translated;
+        }
+
 
         public void ResumeRendering()
         {
@@ -282,6 +320,17 @@ namespace EU4_Game_Editing_Tool_WinForm
             if (this._mMapDisplay.mOriginalBitmap != null)
             {
                 args.Graphics.DrawImage(((MapDisplay)mapDisplay).mOriginalBitmap, this._mDisplayRectangle, this._mSelectionRectangle, GraphicsUnit.Pixel);
+                if (this._mDisplayPanel._mSelectionManager.mActivePath != null)
+                {
+                    Matrix matrix = new Matrix();
+                    matrix.Scale(this.mScale, this.mScale);
+                    matrix.Translate((float)(Math.Round((double)(-mScale / 2))), (float)(Math.Round((double)(-mScale / 2))), MatrixOrder.Append);
+                    matrix.Translate(-this._mSelectionRectangle.X * this._mScale + this._mDisplayRectangle.X, -this._mSelectionRectangle.Y * this._mScale + this._mDisplayRectangle.Y, MatrixOrder.Append);
+                    GraphicsPath paths = this._mDisplayPanel._mSelectionManager.mActivePath;
+                    paths.Transform(matrix);
+                    args.Graphics.DrawPath(new Pen(Color.Black, 1), paths);
+                    paths.Dispose();
+                }
             }
         }
     }

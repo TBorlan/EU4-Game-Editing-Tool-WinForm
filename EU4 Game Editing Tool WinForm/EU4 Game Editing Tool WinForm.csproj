@@ -121,6 +121,7 @@
     <Compile Include="MapDisplay.Designer.cs">
       <DependentUpon>MapDisplay.cs</DependentUpon>
     </Compile>
+    <Compile Include="SelectionManager.cs" />
     <EmbeddedResource Include="DisplayPanel.resx">
       <DependentUpon>DisplayPanel.cs</DependentUpon>
     </EmbeddedResource>
