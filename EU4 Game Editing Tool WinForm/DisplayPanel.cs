@@ -14,6 +14,8 @@ namespace EU4_Game_Editing_Tool_WinForm
     {
         private DisplayRenderingEngine _mDisplayRenderingEngine;
 
+        public SelectionManager _mSelectionManager;
+
         public Size mMargins
         {
             get
@@ -50,11 +52,8 @@ namespace EU4_Game_Editing_Tool_WinForm
                 if (value != null)
                 {
                     this.cMapDisplay.mOriginalBitmap?.Dispose();
-                    this.cMapDisplay.mOriginalBitmap = new Bitmap(value);
-                    this.Enabled = true;
-                    this.Visible = true;
-                    this._mDisplayRenderingEngine.Initialize(1.0f, new Size(100, 100));
-                    this._mDisplayRenderingEngine.ResumeRendering();
+                    this.cMapDisplay.mOriginalBitmap = new Bitmap((Image)value);
+                    this.EnablePanel(this.cMapDisplay.mOriginalBitmap);
                 }
             }
         }
@@ -79,5 +78,24 @@ namespace EU4_Game_Editing_Tool_WinForm
             this._mDisplayRenderingEngine.Bind(this);
             this._mDisplayRenderingEngine.SuspendRendering();
         }
-    }
+
+        private async Task<ProvinceBorders> GetProvinceBordersAsync(Bitmap bitmap)
+        {
+            ProvinceBorders provinceBorders = await Task.Run<ProvinceBorders>(() =>
+           {
+               ProvinceBorders borders = ProvinceBorders.GetProvinceBorders(bitmap, 3000);
+               return borders;
+           });
+            return provinceBorders;
+        }
+
+        private async Task EnablePanel(Bitmap bitmap)
+        {
+            this._mSelectionManager ??= new SelectionManager(await this.GetProvinceBordersAsync(bitmap));
+            this._mDisplayRenderingEngine.Initialize(1.0f, new Size(100, 100));
+            this.Enabled = true;
+            this.Visible = true;
+            this._mDisplayRenderingEngine.ResumeRendering();
+        }
+    }   
 }

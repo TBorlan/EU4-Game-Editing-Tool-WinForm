@@ -13,7 +13,7 @@ using System.Diagnostics;
 
 namespace EU4_Game_Editing_Tool_WinForm
 {
-    class ProvinceBorders
+    public class ProvinceBorders
     {
 
         private ProvinceBorders(int provinceCount)
@@ -51,7 +51,7 @@ namespace EU4_Game_Editing_Tool_WinForm
         private void GenerateBordersPaths(Bitmap bitmap)
         {
             Rectangle rect = new Rectangle(0, 0, bitmap.Width, bitmap.Height);
-            BitmapData bmpData = bitmap.LockBits(rect, System.Drawing.Imaging.ImageLockMode.ReadWrite, bitmap.PixelFormat);
+            BitmapData bmpData = bitmap.LockBits(rect, System.Drawing.Imaging.ImageLockMode.ReadWrite, PixelFormat.Format24bppRgb);
             IntPtr ptr = bmpData.Scan0;
             int bytes = Math.Abs(bmpData.Stride) * bitmap.Height;
             byte[] rgbValues = new byte[bytes];
@@ -60,14 +60,27 @@ namespace EU4_Game_Editing_Tool_WinForm
             int width = bitmap.Width;
             Color[,] pixelColors = new Color[bitmap.Height, bitmap.Width];
             // Store pixel color in matrix
-            Parallel.For(0, bytes / 3, (int i) =>
-                {
-                    i *= 3;
-                    int pRow = (i / 3) / width;
-                    int pCol = (i / 3) % width;
-                    pixelColors[pRow, pCol] = Color.FromArgb(rgbValues[i + 2], rgbValues[i + 1], rgbValues[i]);
-                });
-
+            try
+            {
+                Parallel.For(0, bytes / 3, (int i) =>
+                    {
+                        i *= 3;
+                        int pRow = (i / 3) / width;
+                        int pCol = (i / 3) % width;
+                        try
+                        {
+                            pixelColors[pRow, pCol] = Color.FromArgb(rgbValues[i + 2], rgbValues[i + 1], rgbValues[i]);
+                        }
+                        catch (Exception e)
+                        {
+                            System.Windows.Forms.MessageBox.Show(i.ToString());
+                        }
+                    });
+            }
+            catch (AggregateException e)
+            {
+                //System.Windows.Forms.MessageBox.Show(e.InnerExceptions.ToString());
+            }
             bitmap.UnlockBits(bmpData);
             // Stores vertical and horizontal border pixels of a province
             this._mProvincesPoints = new Dictionary<Color, HashSet<Point[]>>(this._mProvinceCount);

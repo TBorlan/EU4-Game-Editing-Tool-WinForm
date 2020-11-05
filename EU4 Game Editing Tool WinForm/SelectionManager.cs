@@ -10,7 +10,7 @@ using System.Windows.Shapes;
 
 namespace EU4_Game_Editing_Tool_WinForm
 {
-    class SelectionManager
+    public class SelectionManager
     {
         public SelectionManager(ProvinceBorders provinceBorders)
         {
