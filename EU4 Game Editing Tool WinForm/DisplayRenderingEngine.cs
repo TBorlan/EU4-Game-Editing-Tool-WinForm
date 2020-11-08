@@ -189,6 +189,7 @@ namespace EU4_Game_Editing_Tool_WinForm
             this._mMapDisplay.Paint += this.Render;
             this._mMapDisplay.Pan += this.GetScrollOffset;
             this._mMapDisplay.Zoom += this.GetZoom;
+            this._mMapDisplay.MouseClick += this.GetSelectedColor;
         }
 
         /// <summary>
@@ -201,6 +202,7 @@ namespace EU4_Game_Editing_Tool_WinForm
             this._mMapDisplay.Paint -= this.Render;
             this._mMapDisplay.Pan -= this.GetScrollOffset;
             this._mMapDisplay.Zoom -= this.GetZoom;
+            this._mMapDisplay.MouseClick -= this.GetSelectedColor;
             this._mMapDisplay = null;
             this._mHScrollBar.Scroll -= this.ProcessScroll;
             this._mHScrollBar = null;

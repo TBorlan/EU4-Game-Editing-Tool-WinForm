@@ -356,56 +356,63 @@ namespace EU4_Game_Editing_Tool_WinForm
                 foreach (BorderLine line2 in provinceLines)
                 {
                     BorderLine[] newLines = line1.Exclude(line2);
+                    // if line we want to add has some common segment with an existing line from contour
                     if (newLines != null)
                     {
+                        // if we didn't find the same line in existing contour
                         if (newLines.Count<BorderLine>() > 0)
                         {
+                            // look to see if this segment has any common subsegment with the segments we already want to add
                             if (lineToAdd.Count > 0)
-                            {      
+                            {
+                                bool[] outerInclude = new bool[newLines.Count()];
+                                for (int i = 0; i < outerInclude.Count(); i++)
+                                {
+                                    outerInclude[i] = false;
+                                }
                                 for (int i = 0; i < lineToAdd.Count; i++)
                                 {
-                                    bool[] outerInclude = new bool[newLines.Count()];
                                     bool innerInclude = false;
                                     for (int j = 0; j < newLines.Count<BorderLine>(); j++)
                                     {
+                                        // if we found a common segment
                                         BorderLine temp;
                                         if ((lineToAdd[i] != newLines[j]) && ((temp = lineToAdd[i].Intersect(newLines[j])) != BorderLine.EmptyLine))
                                         {
+                                            // add this common segment
                                             lineToAdd.Add(temp);
                                             innerInclude = true;
                                             outerInclude[j] = true;
                                         }
-                                        else
-                                        {
-                                            outerInclude[j] = false;
-                                        }
                                     }
+                                    // we found a common segment with lineToAdd[i], so remove it
                                     if (innerInclude)
                                     {
                                         lineToAdd.Remove(lineToAdd[i]);
-                                        for (int j = 0; j < newLines.Count(); j++)
-                                        {
-                                            if (outerInclude[j])
-                                            {
-                                                lineToAdd.Add(newLines[j]);
-                                            }
-                                        }
                                     }
                                 }
-                                if (newLines.Count() > 0)
+                                // add all new lines for which no common segment was found with lines pending add
+                                for (int j = 0; j < newLines.Count(); j++)
                                 {
-                                    lineToAdd.AddRange(newLines);
-                                }
-                            }
-                            else
-                            {
-                                lineToAdd.AddRange(newLines);
+                                    // this was the line we found a common segment for, so remove this too
+                                    if (!outerInclude[j])
+                                    {
+                                        lineToAdd.Add(newLines[j]);
+                                    }
+                                }                         
                             }
                         }
+                        // No lines are pending add so we just add the ones found
+                        else
+                        {
+                            lineToAdd.AddRange(newLines);
+                        }
+                        // Remove the original line we used in the exclude operation
                         lineToRemove.Add(line2);
                         found = true;
-                    }
+                    }               
                 }
+                // if exclude returned null every time for this line
                 if (!found)
                 {
                     lineToAdd.Add(line1);

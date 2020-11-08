@@ -108,6 +108,12 @@ namespace EU4_Game_Editing_Tool_WinForm
             return (mStart, mEnd).GetHashCode();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="line"></param>
+        /// <returns> <see langword="true"/> if lines are on the same infinite line, <see langword="false"/> if not
+        /// </returns>
         public bool IsColinear(BorderLine line)
         {
             if(this.mOrientation == line.mOrientation)
@@ -117,7 +123,13 @@ namespace EU4_Game_Editing_Tool_WinForm
             return false;
         }
 
-        public bool IsOverlaping(BorderLine line)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="line"></param>
+        /// <returns> <see langword="true"/> if lines are overlapping , <see langword="false"/> if not
+        /// </returns>
+        public bool IsOverlapping(BorderLine line)
         {
             if (this.IsColinear(line))
             {
@@ -133,10 +145,17 @@ namespace EU4_Game_Editing_Tool_WinForm
             return false;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="line"></param>
+        /// <returns> <see langword="null"/> if lines don't overlap, <seealso cref="Array.Empty{BorderLine}"/> if lines 
+        /// are the same, <seealso cref="BorderLine"/>[] containing segments that aren't part of <paramref name="line"/>
+        /// </returns>
         public BorderLine[] Exclude(BorderLine line)
         {
             BorderLine[] result = null;
-            if (this.IsOverlaping(line))
+            if (this.IsOverlapping(line))
             {
                 //if (this.mEnd < line.mEnd)
                 //{
@@ -246,10 +265,17 @@ namespace EU4_Game_Editing_Tool_WinForm
             return result;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="line"></param>
+        /// <returns> <see cref="BorderLine"/> of the line segment that is found in <paramref name="line"/> 
+        /// or <seealso cref="BorderLine.EmptyLine"/> if no segment is common
+        /// </returns>
         public BorderLine Intersect(BorderLine line)
         {
             BorderLine result = BorderLine.EmptyLine;
-            if (this.IsOverlaping(line))
+            if (this.IsOverlapping(line))
             {
                 BorderPoint start = this.mStart > line.mStart ? this.mStart : line.mStart;
                 BorderPoint end = this.mEnd > line.mEnd ? line.mEnd : this.mEnd;

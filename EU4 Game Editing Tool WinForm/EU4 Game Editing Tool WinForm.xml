@@ -1,0 +1,294 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>EU4 Game Editing Tool WinForm</name>
+    </assembly>
+    <members>
+        <member name="M:EU4_Game_Editing_Tool_WinForm.BorderLine.IsColinear(EU4_Game_Editing_Tool_WinForm.BorderLine)">
+            <summary>
+            
+            </summary>
+            <param name="line"></param>
+            <returns> <see langword="true"/> if lines are on the same infinite line, <see langword="false"/> if not
+            </returns>
+        </member>
+        <member name="M:EU4_Game_Editing_Tool_WinForm.BorderLine.IsOverlapping(EU4_Game_Editing_Tool_WinForm.BorderLine)">
+            <summary>
+            
+            </summary>
+            <param name="line"></param>
+            <returns> <see langword="true"/> if lines are overlapping , <see langword="false"/> if not
+            </returns>
+        </member>
+        <member name="M:EU4_Game_Editing_Tool_WinForm.BorderLine.Exclude(EU4_Game_Editing_Tool_WinForm.BorderLine)">
+            <summary>
+            
+            </summary>
+            <param name="line"></param>
+            <returns> <see langword="null"/> if lines don't overlap, <seealso cref="M:System.Array.Empty``1"/> if lines 
+            are the same, <seealso cref="T:EU4_Game_Editing_Tool_WinForm.BorderLine"/>[] containing segments that aren't part of <paramref name="line"/>
+            </returns>
+        </member>
+        <member name="M:EU4_Game_Editing_Tool_WinForm.BorderLine.Intersect(EU4_Game_Editing_Tool_WinForm.BorderLine)">
+            <summary>
+            
+            </summary>
+            <param name="line"></param>
+            <returns> <see cref="T:EU4_Game_Editing_Tool_WinForm.BorderLine"/> of the line segment that is found in <paramref name="line"/> 
+            or <seealso cref="F:EU4_Game_Editing_Tool_WinForm.BorderLine.EmptyLine"/> if no segment is common
+            </returns>
+        </member>
+        <member name="P:EU4_Game_Editing_Tool_WinForm.DisplayPanel.mMargins">
+            <summary>
+            Get or set the margins used when displaying the <seealso cref="P:EU4_Game_Editing_Tool_WinForm.DisplayPanel.mImage"/>.
+            </summary>
+            <remarks>
+            Value returned may be different than the one set, depending on the size of <seealso cref="P:EU4_Game_Editing_Tool_WinForm.DisplayPanel.mImage"/>
+            or <seealso cref="P:EU4_Game_Editing_Tool_WinForm.DisplayPanel.mScale"/> value.
+            </remarks>
+        </member>
+        <member name="P:EU4_Game_Editing_Tool_WinForm.DisplayPanel.mScale">
+            <summary>
+            Get or set the zoom factor of the <seealso cref="P:EU4_Game_Editing_Tool_WinForm.DisplayPanel.mImage"/>.
+            </summary>
+            <remarks>
+            You can also change this value using the mouse wheel instead of programmatically changing it .
+            </remarks>
+        </member>
+        <member name="P:EU4_Game_Editing_Tool_WinForm.DisplayPanel.mImage">
+            <summary>
+            Get or set the bitmap currently displayed.
+            </summary>
+            <remarks>
+            When assigning the bitmap, an internal copy is created so the bitmap assigned can be safely disposed.
+            </remarks>
+        </member>
+        <member name="F:EU4_Game_Editing_Tool_WinForm.DisplayPanel.components">
+            <summary> 
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:EU4_Game_Editing_Tool_WinForm.DisplayPanel.Dispose(System.Boolean)">
+            <summary> 
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:EU4_Game_Editing_Tool_WinForm.DisplayPanel.InitializeComponent">
+            <summary> 
+            Required method for Designer support - do not modify 
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="P:EU4_Game_Editing_Tool_WinForm.DisplayRenderingEngine.mPhysicalSize">
+            <summary>
+            Get or set the physical size of the <seealso cref="T:EU4_Game_Editing_Tool_WinForm.MapDisplay"/>
+            </summary>
+            <remarks>
+            When setting, if <seealso cref="F:EU4_Game_Editing_Tool_WinForm.DisplayRenderingEngine._mRenderingSuspended"/> is not set,
+            triggers margins and scrollbar value recalculation.
+            </remarks>
+        </member>
+        <member name="P:EU4_Game_Editing_Tool_WinForm.DisplayRenderingEngine.mMargins">
+            <summary>
+            Get the current margin size or set the minimum size
+            </summary>
+            <remarks>
+            When setting, if <seealso cref="F:EU4_Game_Editing_Tool_WinForm.DisplayRenderingEngine._mRenderingSuspended"/> is not set,
+            triggers margins and scrollbar value recalculation.
+            </remarks>
+        </member>
+        <member name="P:EU4_Game_Editing_Tool_WinForm.DisplayRenderingEngine.mBoundPanel">
+            <summary>
+            Get or set the parent panel
+            </summary>
+            <remarks>
+            When setting, also sets the reference to the control's scrollbars and MapDisplay
+            </remarks>
+        </member>
+        <member name="P:EU4_Game_Editing_Tool_WinForm.DisplayRenderingEngine.mScale">
+            <summary>
+            Get or set the zoom factor
+            </summary>
+            <remarks>
+            When setting, triggers margins and scrollbar value recalculation
+            </remarks>
+        </member>
+        <member name="M:EU4_Game_Editing_Tool_WinForm.DisplayRenderingEngine.Initialize(System.Single,System.Drawing.Size)">
+            <summary>
+            Sets rendering parameters
+            </summary>
+            <param name="scale"></param>
+            <param name="marginsSize"></param>
+        </member>
+        <member name="M:EU4_Game_Editing_Tool_WinForm.DisplayRenderingEngine.Initialize(System.Single)">
+            <summary>
+            Sets rendering parameters
+            </summary>
+            <param name="scale"></param>
+        </member>
+        <member name="M:EU4_Game_Editing_Tool_WinForm.DisplayRenderingEngine.Initialize(System.Drawing.Size)">
+            <summary>
+            Sets rendering parameters
+            </summary>
+            <param name="marginsSize"></param>
+        </member>
+        <member name="M:EU4_Game_Editing_Tool_WinForm.DisplayRenderingEngine.Initialize">
+            <summary>
+            Sets no zoom factor and no margins rendering parameters
+            </summary>
+        </member>
+        <member name="M:EU4_Game_Editing_Tool_WinForm.DisplayRenderingEngine.Bind(EU4_Game_Editing_Tool_WinForm.DisplayPanel)">
+            <summary>
+            Binds to <paramref name="parent"/> and installs callbacks for necessary events
+            </summary>
+            <param name="parent"></param>
+            <remarks>
+            When disposing the parent panel, make sure to first call <seealso cref="M:EU4_Game_Editing_Tool_WinForm.DisplayRenderingEngine.Unbind"/>
+            </remarks>
+        </member>
+        <member name="M:EU4_Game_Editing_Tool_WinForm.DisplayRenderingEngine.Unbind">
+            <summary>
+            Deletes references to controls and uninstalls event handlers
+            </summary>
+        </member>
+        <member name="M:EU4_Game_Editing_Tool_WinForm.DisplayRenderingEngine.ProcessScroll(System.Object,System.Windows.Forms.ScrollEventArgs)">
+            <summary>
+            Event handler for scroll events from the scrollbars
+            </summary>
+            <param name="scrollBar"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:EU4_Game_Editing_Tool_WinForm.DisplayRenderingEngine.ProccessView">
+            <summary>
+            Create the <seealso cref="F:EU4_Game_Editing_Tool_WinForm.DisplayRenderingEngine._mSelectionRectangle"/> and <seealso cref="F:EU4_Game_Editing_Tool_WinForm.DisplayRenderingEngine._mDisplayRectangle"/> and trigger rendering
+            </summary>
+        </member>
+        <member name="M:EU4_Game_Editing_Tool_WinForm.DisplayRenderingEngine.GetSize(System.Object,System.EventArgs)">
+            <summary>
+            Event handler for <seealso cref="E:System.Windows.Forms.Control.SizeChanged"/> <see langword="event"/>
+            </summary>
+            <param name="mapDisplay"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:EU4_Game_Editing_Tool_WinForm.DisplayRenderingEngine.GetScrollOffset(System.Object,System.Drawing.Point)">
+            <summary>
+            Event handler for <seealso cref="E:EU4_Game_Editing_Tool_WinForm.MapDisplay.Pan"/> <see langword="event"/>
+            </summary>
+            <param name="mapDisplay"></param>
+            <param name="offset"></param>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:EU4_Game_Editing_Tool_WinForm.DisplayRenderingEngine.GetZoom(System.Object,System.Windows.Forms.MouseEventArgs)" -->
+        <member name="M:EU4_Game_Editing_Tool_WinForm.DisplayRenderingEngine.ResumeRendering">
+            <summary>
+            Resumes layout and rendering functionality
+            </summary>
+        </member>
+        <member name="M:EU4_Game_Editing_Tool_WinForm.DisplayRenderingEngine.SuspendRendering">
+            <summary>
+            Suspends layout and rendering functionality
+            </summary>
+        </member>
+        <member name="M:EU4_Game_Editing_Tool_WinForm.DisplayRenderingEngine.ProccessSize">
+            <summary>
+            Recalculate margin values, scrollbar maximum and large change values
+            </summary>
+        </member>
+        <member name="M:EU4_Game_Editing_Tool_WinForm.DisplayRenderingEngine.Render(System.Object,System.Windows.Forms.PaintEventArgs)">
+            <summary>
+            Paints the bitmap as per layout params calculated in <seealso cref="M:EU4_Game_Editing_Tool_WinForm.DisplayRenderingEngine.ProccessView"/>
+            </summary>
+            <param name="mapDisplay"></param>
+            <param name="args"></param>
+        </member>
+        <member name="F:EU4_Game_Editing_Tool_WinForm.MainForm.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:EU4_Game_Editing_Tool_WinForm.MainForm.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:EU4_Game_Editing_Tool_WinForm.MainForm.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="M:EU4_Game_Editing_Tool_WinForm.Program.Main">
+            <summary>
+            The main entry point for the application.
+            </summary>
+        </member>
+        <member name="M:EU4_Game_Editing_Tool_WinForm.ProvinceBorders.GetProvinceBorder(System.Drawing.Color)">
+            <summary>
+            Returns the <see cref="T:System.Drawing.Drawing2D.GraphicsPath"/> that borders the province
+            </summary>
+            <param name="color">Color of the province</param>
+            <returns></returns>
+        </member>
+        <member name="T:EU4_Game_Editing_Tool_WinForm.MapDisplay">
+            <summary>
+            Helper Class for displaying images
+            </summary>
+        </member>
+        <member name="F:EU4_Game_Editing_Tool_WinForm.MapDisplay._mPBTask">
+            <summary>
+            Holds result for later ProvinceBorder instance constructor
+            </summary>
+        </member>
+        <member name="P:EU4_Game_Editing_Tool_WinForm.MapDisplay.mProvinceBorders">
+            <summary>
+            Represents the instance used to generate province borders
+            </summary>
+        </member>
+        <member name="P:EU4_Game_Editing_Tool_WinForm.MapDisplay.mOriginalBitmap">
+            <summary>
+            Bitmap which shows the provinces layout
+            </summary>
+        </member>
+        <member name="M:EU4_Game_Editing_Tool_WinForm.MapDisplay.Callback_mImage_MouseClick(System.Object,System.Windows.Forms.MouseEventArgs)">
+            <summary>
+            Triggers border generating and drawing of the selected province
+            </summary>
+            <param name="obj"></param>
+            <param name="args"></param>
+        </member>
+        <member name="F:EU4_Game_Editing_Tool_WinForm.MapDisplay.components">
+            <summary> 
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:EU4_Game_Editing_Tool_WinForm.MapDisplay.Dispose(System.Boolean)">
+            <summary> 
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:EU4_Game_Editing_Tool_WinForm.MapDisplay.InitializeComponent">
+            <summary> 
+            Required method for Designer support - do not modify 
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:EU4_Game_Editing_Tool_WinForm.Properties.Resources">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:EU4_Game_Editing_Tool_WinForm.Properties.Resources.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:EU4_Game_Editing_Tool_WinForm.Properties.Resources.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+    </members>
+</doc>
