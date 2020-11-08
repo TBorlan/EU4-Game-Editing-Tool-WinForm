@@ -16,6 +16,13 @@ namespace EU4_Game_Editing_Tool_WinForm
 
         public SelectionManager _mSelectionManager;
 
+        /// <summary>
+        /// Get or set the margins used when displaying the <seealso cref="mImage"/>.
+        /// </summary>
+        /// <remarks>
+        /// Value returned may be different than the one set, depending on the size of <seealso cref="DisplayPanel.mImage"/>
+        /// or <seealso cref="DisplayPanel.mScale"/> value.
+        /// </remarks>
         public Size mMargins
         {
             get
@@ -27,7 +34,12 @@ namespace EU4_Game_Editing_Tool_WinForm
                 this._mDisplayRenderingEngine.Initialize(value);
             }
         }
-
+        /// <summary>
+        /// Get or set the zoom factor of the <seealso cref="mImage"/>.
+        /// </summary>
+        /// <remarks>
+        /// You can also change this value using the mouse wheel instead of programmatically changing it .
+        /// </remarks>
         public float mScale
         {
             get
@@ -39,11 +51,17 @@ namespace EU4_Game_Editing_Tool_WinForm
                 this._mDisplayRenderingEngine.Initialize(value);
             }
         }
-
+        /// <summary>
+        /// Get or set the bitmap currently displayed.
+        /// </summary>
+        /// <remarks>
+        /// When assigning the bitmap, an internal copy is created so the bitmap assigned can be safely disposed.
+        /// </remarks>
         public Bitmap mImage
         {
             get
             {
+                // Return reference
                 return this.cMapDisplay.mOriginalBitmap;
             }
             set
@@ -51,8 +69,10 @@ namespace EU4_Game_Editing_Tool_WinForm
                 // If null perform nothing
                 if (value != null)
                 {
+                    // Dispose the old reference
                     this.cMapDisplay.mOriginalBitmap?.Dispose();
                     this.cMapDisplay.mOriginalBitmap = new Bitmap((Image)value);
+                    // Enable the controls
                     this.EnablePanel(this.cMapDisplay.mOriginalBitmap);
                 }
             }
@@ -82,10 +102,10 @@ namespace EU4_Game_Editing_Tool_WinForm
         private async Task<ProvinceBorders> GetProvinceBordersAsync(Bitmap bitmap)
         {
             ProvinceBorders provinceBorders = await Task.Run<ProvinceBorders>(() =>
-           {
-               ProvinceBorders borders = ProvinceBorders.GetProvinceBorders(bitmap, 3000);
-               return borders;
-           });
+            {
+                ProvinceBorders borders = ProvinceBorders.GetProvinceBorders(bitmap, 3000);
+                return borders;
+            });
             return provinceBorders;
         }
 
@@ -97,5 +117,5 @@ namespace EU4_Game_Editing_Tool_WinForm
             this.Visible = true;
             this._mDisplayRenderingEngine.ResumeRendering();
         }
-    }   
+    }
 }
