@@ -71,6 +71,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BorderLine.cs" />
+    <Compile Include="BorderPoint.cs" />
     <Compile Include="DisplayPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>

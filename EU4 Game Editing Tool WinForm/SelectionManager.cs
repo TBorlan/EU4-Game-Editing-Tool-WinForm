@@ -23,7 +23,7 @@ namespace EU4_Game_Editing_Tool_WinForm
 
         private List<Color> _mActiveProvinces;
 
-        private HashSet<Point[]> _mActivePixels = new HashSet<Point[]>();
+        private HashSet<BorderLine> _mActivePixels = new HashSet<BorderLine>();
 
         private ProvinceBorders _mProvinceBorders;
 
@@ -52,12 +52,12 @@ namespace EU4_Game_Editing_Tool_WinForm
             if (!this._mActiveProvinces.Contains(color))
             {
                 this._mActiveProvinces.Add(color);
-                _mProvinceBorders.ComplementVirtualProvince(this._mActivePixels, color);
+                _mProvinceBorders.ComplementVirtualProvince(ref this._mActivePixels, color);
             }
             else
             {
                 this._mActiveProvinces.Remove(color);
-                _mProvinceBorders.ComplementVirtualProvince(this._mActivePixels, color);
+                _mProvinceBorders.ComplementVirtualProvince(ref this._mActivePixels, color);
             }
             if (this._mActiveProvinces.Count != 0)
             {
