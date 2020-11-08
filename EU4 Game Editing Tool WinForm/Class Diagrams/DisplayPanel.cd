@@ -1,0 +1,120 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="EU4_Game_Editing_Tool_WinForm.DisplayPanel">
+    <Position X="12.75" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAIQAAACAAAAAAAQCAQAACAAAAKAEAAAAAAAAAAAA=</HashCode>
+      <FileName>DisplayPanel.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_mDisplayRenderingEngine" />
+      <Field Name="cHScrollBar" />
+      <Field Name="cVScrollBar" />
+      <Field Name="cMapDisplay" />
+      <Field Name="_mSelectionManager" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="EU4_Game_Editing_Tool_WinForm.DisplayRenderingEngine" Collapsed="true">
+    <Position X="17.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAFg4AMAgAAAAQCgAQAIAAAIAAAADEFBABYEgBBQACA=</HashCode>
+      <FileName>DisplayRenderingEngine.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_mMapDisplay" />
+      <Field Name="_mVScrollBar" />
+      <Field Name="_mHScrollBar" />
+      <Field Name="_mDisplayPanel" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="System.Windows.Forms.HScrollBar" Collapsed="true">
+    <Position X="17.75" Y="2.25" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="System.Windows.Forms.VScrollBar" Collapsed="true">
+    <Position X="17.75" Y="1.25" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="EU4_Game_Editing_Tool_WinForm.MapDisplay" Collapsed="true">
+    <Position X="17.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAigAAAAACBAAoOBEACAAAASABAEAAAAIAAAAAACJkA=</HashCode>
+      <FileName>MapDisplay.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EU4_Game_Editing_Tool_WinForm.SelectionManager">
+    <Position X="9.25" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAEABAEAAAAAEAAAAAAAgAAAAAAAQAAAAAA=</HashCode>
+      <FileName>SelectionManager.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_mActivePath" />
+      <Field Name="_mProvinceBorders" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Field Name="_mActiveProvinces" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="System.Drawing.Drawing2D.GraphicsPath" Collapsed="true">
+    <Position X="4.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="EU4_Game_Editing_Tool_WinForm.ProvinceBorders" Collapsed="true">
+    <Position X="9.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAAAQAAEACQkgACAAAAAIIAAAAJAIAQAAAAAA=</HashCode>
+      <FileName>ProvinceBorders.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Field Name="_mProvincePaths" />
+      <Field Name="_mProvincesLines" />
+      <Field Name="_mProvincesPoints" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="System.Collections.Generic.HashSet&lt;T&gt;" Collapsed="true">
+    <Position X="3.25" Y="6.25" Width="1.5" />
+    <NestedTypes>
+      <Struct Name="System.Collections.Generic.HashSet&lt;T&gt;.Enumerator" Collapsed="true">
+        <TypeIdentifier />
+        <Lollipop Position="0.2" />
+      </Struct>
+    </NestedTypes>
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Struct Name="System.Drawing.Color" Collapsed="true">
+    <Position X="1.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier />
+  </Struct>
+  <Struct Name="EU4_Game_Editing_Tool_WinForm.BorderLine" Collapsed="true">
+    <Position X="14.25" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAIAAAQAAACAAgIAEgAAAAABAAIAAAAAAAQAACiA=</HashCode>
+      <FileName>BorderLine.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_mEnd" />
+      <Field Name="_mStart" />
+      <Property Name="mOrientation" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Struct>
+  <Struct Name="EU4_Game_Editing_Tool_WinForm.BorderPoint" Collapsed="true">
+    <Position X="17.75" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAIAAwgOAAgAAAABAAIAEABAAAAAAByA=</HashCode>
+      <FileName>BorderPoint.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Struct>
+  <Enum Name="EU4_Game_Editing_Tool_WinForm.BorderPlane" Collapsed="true">
+    <Position X="10.75" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAEABAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>BorderLine.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
