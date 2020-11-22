@@ -1,37 +1,10 @@
-﻿using EU4_Game_Editing_Tool_WinForm.FileParsing;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace EU4_Game_Editing_Tool_WinForm.Factory.FileParsing
+namespace EU4_Game_Editing_Tool_WinForm.FileParsing.Internal.Streams
 {
-    internal class StreamReaderFactory
-    {
-        private String mFileName;
-
-        public StreamReaderFactory(string fileName)
-        {
-            this.mFileName = fileName;
-        }
-
-        public IStream GetStream()
-        {
-            if (Path.GetFileName(this.mFileName) == "definition.csv")
-            {
-                return new StreamReader(this.mFileName, new char[1] { ';' }, 4);
-            }
-            else if (Path.GetFileName(this.mFileName) == "adjancencies.csv")
-            {
-                return new StreamReader(this.mFileName, new char[1] { ';' }, 8);
-            }
-            else
-            {
-                return new StreamReader(this.mFileName, new char[2] { ' ', '\t' }, -1);
-            }
-        }
-    }
-
     internal class StreamReader : IStream
     {
         private System.IO.StreamReader mStreamReader;
@@ -39,19 +12,32 @@ namespace EU4_Game_Editing_Tool_WinForm.Factory.FileParsing
         private char[] mSeparators;
         private int mNumberOfLineTokens;
 
-        internal StreamReader(string file, char[] separators, int nrTokens)
+        internal StreamReader(string file, char[] separators, NumberOfSeparators nrTokens)
         {
             this.mStreamReader = File.OpenText(file);
             this.mSeparators = separators;
             this.mLineNumber = 0;
-            this.mNumberOfLineTokens = nrTokens;
+            this.mNumberOfLineTokens = (int)nrTokens;
         }
 
         public bool ReadLine(out string[] line, out int lineNumber)
         {
             if (!this.mStreamReader.EndOfStream)
             {
-                List<String> tokenList = this.mStreamReader.ReadLine().Split(this.mSeparators).ToList();
+                List<String> tokenList;
+                do
+                {
+                    if (this.mNumberOfLineTokens == 0)
+                    {
+                        tokenList = this.mStreamReader.ReadLine().Split(this.mSeparators, StringSplitOptions.RemoveEmptyEntries).ToList();
+                        lineNumber = ++this.mLineNumber;
+                        this.mNumberOfLineTokens = tokenList.Count;
+                        break;
+                    }
+                    tokenList = this.mStreamReader.ReadLine().Split(this.mSeparators, StringSplitOptions.RemoveEmptyEntries).ToList();
+                    lineNumber = ++this.mLineNumber;
+                } while (tokenList.Count == 0 && !this.mStreamReader.EndOfStream);
+
                 if (tokenList.Count > this.mNumberOfLineTokens && this.mNumberOfLineTokens > 0)
                 {
                     line = tokenList.Take(this.mNumberOfLineTokens).ToArray();
@@ -69,7 +55,6 @@ namespace EU4_Game_Editing_Tool_WinForm.Factory.FileParsing
                 {
                     line = tokenList.ToArray();
                 }
-                lineNumber = ++this.mLineNumber;
                 return true;
             }
             else
