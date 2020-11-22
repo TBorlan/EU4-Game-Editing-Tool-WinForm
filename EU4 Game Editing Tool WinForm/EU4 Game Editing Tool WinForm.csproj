@@ -41,6 +41,8 @@
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>8.0</LangVersion>
+    <DocumentationFile>
+    </DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -54,6 +56,9 @@
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <PropertyGroup>
+    <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="PresentationFramework" />
@@ -113,6 +118,7 @@
     <Compile Include="GameData\LUT.cs" />
     <Compile Include="GameData\LUTStatusEnum.cs" />
     <Compile Include="GameData\ValueTypes.cs" />
+    <Compile Include="Logic\Province.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
