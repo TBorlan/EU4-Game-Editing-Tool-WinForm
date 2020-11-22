@@ -118,6 +118,7 @@
     <Compile Include="GameData\LUT.cs" />
     <Compile Include="GameData\LUTStatusEnum.cs" />
     <Compile Include="GameData\ValueTypes.cs" />
+    <Compile Include="Logic\Country.cs" />
     <Compile Include="Logic\Province.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
