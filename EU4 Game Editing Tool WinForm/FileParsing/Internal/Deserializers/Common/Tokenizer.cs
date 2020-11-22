@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EU4_Game_Editing_Tool_WinForm.FileParsing
+namespace EU4_Game_Editing_Tool_WinForm.FileParsing.Internal.Common
 {
     class Tokenizer : ITokenizer
     {
         private Queue<String> mTokens;
 
-        readonly char[] specials = { '"', '=', '{', '}' };
+        readonly char[] specials = { '"', '=', '{', '}', '#' };
 
         public void FeedLine(String[] line)
         {
@@ -19,7 +19,7 @@ namespace EU4_Game_Editing_Tool_WinForm.FileParsing
             {
                 if (element.Length > 1)
                 {
-                    if (element.IndexOfAny(specials) > 0)
+                    if (element.IndexOfAny(specials) >= 0)
                     {
                         this.TrySplit(element);
                         continue;
@@ -47,15 +47,21 @@ namespace EU4_Game_Editing_Tool_WinForm.FileParsing
             int index;
             while(remaining < element.Length)
             {
-                if((index = element.IndexOfAny(this.specials,remaining)) > 0)
+                if((index = element.IndexOfAny(this.specials,remaining)) > remaining)
                 {
                     this.mTokens.Enqueue(element.Substring(remaining, index - remaining));
+                    this.mTokens.Enqueue(element.Substring(index, 1));
+                    remaining = index + 1;
+                }
+                else if (index == remaining)
+                {
                     this.mTokens.Enqueue(element.Substring(index, 1));
                     remaining = index + 1;
                 }
                 else
                 {
                     this.mTokens.Enqueue(element.Substring(remaining));
+                    return;
                 }
             }
         }

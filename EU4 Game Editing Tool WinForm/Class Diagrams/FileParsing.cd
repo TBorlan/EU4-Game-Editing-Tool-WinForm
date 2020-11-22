@@ -1,63 +1,22 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
-  <Class Name="EU4_Game_Editing_Tool_WinForm.Factory.FileParsing.DeserializerFactory" Collapsed="true">
-    <Position X="28.5" Y="6.25" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Factory\FileParsing\DeserializerFactory.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="EU4_Game_Editing_Tool_WinForm.Factory.FileParsing.DefinitionDeserializer" Collapsed="true">
-    <Position X="21.25" Y="7.5" Width="1.5" />
-    <Compartments>
-      <Compartment Name="Methods" Collapsed="true" />
-    </Compartments>
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAABAAAAAAAAAAAAABAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Factory\FileParsing\DeserializerFactory.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="EU4_Game_Editing_Tool_WinForm.Factory.FileParsing.AdjacenciesDeserializer" Collapsed="true">
-    <Position X="23.5" Y="7.5" Width="1.5" />
-    <Compartments>
-      <Compartment Name="Methods" Collapsed="true" />
-    </Compartments>
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Factory\FileParsing\DeserializerFactory.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="EU4_Game_Editing_Tool_WinForm.Factory.FileParsing.TextDeserializer" Collapsed="true">
-    <Position X="19" Y="7.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AACAIgAAAAIAASAAAADAAAAAQABACAIAAAAAQAgAAQA=</HashCode>
-      <FileName>Factory\FileParsing\DeserializerFactory.cs</FileName>
-    </TypeIdentifier>
-    <ShowAsAssociation>
-      <Field Name="mNodeBuilder" />
-      <Field Name="mTokenizer" />
-    </ShowAsAssociation>
-  </Class>
-  <Class Name="EU4_Game_Editing_Tool_WinForm.Factory.FileParsing.Deserializer" Collapsed="true">
-    <Position X="21.25" Y="6.25" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAEAAAAAAAAAAAAAAAAAABAAAAAgACAAAAAAAA=</HashCode>
-      <FileName>Factory\FileParsing\DeserializerFactory.cs</FileName>
-    </TypeIdentifier>
-    <ShowAsAssociation>
-      <Field Name="mStream" />
-    </ShowAsAssociation>
-    <Lollipop Position="0.2" />
-  </Class>
   <Class Name="EU4_Game_Editing_Tool_WinForm.FileParsing.NodeBuilder" Collapsed="true">
     <Position X="16.25" Y="7.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAACAAEAAABAAAAAQAAAAAAAAAAAAABAAAEQACAAAA=</HashCode>
+      <HashCode>AAAACAAEAAABAAAAAQAAAAAAAAAAAAABAAAEQAQAAAA=</HashCode>
       <FileName>FileParsing\NodeBuilder.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
       <Property Name="mNode" />
     </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="EU4_Game_Editing_Tool_WinForm.FileParsing.TextElement" Collapsed="true">
+    <Position X="11.25" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAACAA=</HashCode>
+      <FileName>FileParsing\TextElement.cs</FileName>
+    </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="EU4_Game_Editing_Tool_WinForm.FileParsing.TextNode" Collapsed="true">
@@ -78,98 +37,40 @@
       <FileName>FileParsing\TextNode.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
-      <Field Name="mChildElements" />
       <Field Name="mChildNodes" />
+      <Field Name="mChildElements" />
     </ShowAsCollectionAssociation>
   </Class>
-  <Class Name="EU4_Game_Editing_Tool_WinForm.FileParsing.Tokenizer" Collapsed="true">
-    <Position X="16.25" Y="10.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAQABAAAAACAAA=</HashCode>
-      <FileName>FileParsing\Tokenizer.cs</FileName>
-    </TypeIdentifier>
-    <Lollipop Position="0.2" />
-  </Class>
-  <Class Name="EU4_Game_Editing_Tool_WinForm.FileParsing.TextElement" Collapsed="true">
-    <Position X="11.25" Y="10.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAgAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAACAA=</HashCode>
-      <FileName>FileParsing\TextElement.cs</FileName>
-    </TypeIdentifier>
-    <Lollipop Position="0.2" />
-  </Class>
-  <Class Name="EU4_Game_Editing_Tool_WinForm.FileParsing.FileReader" Collapsed="true">
-    <Position X="26" Y="3.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAQAAAAAAAAAAAABAAACAAEAAAgAAQAAA=</HashCode>
-      <FileName>FileParsing\FileReader.cs</FileName>
-    </TypeIdentifier>
-    <ShowAsAssociation>
-      <Field Name="mDeserializer" />
-    </ShowAsAssociation>
-    <Lollipop Position="0.2" />
-  </Class>
-  <Class Name="EU4_Game_Editing_Tool_WinForm.FileParsing.CsvReader" Collapsed="true">
-    <Position X="23.5" Y="1.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAA=</HashCode>
-      <FileName>FileParsing\CsvReader.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="EU4_Game_Editing_Tool_WinForm.FileParsing.TextReader" Collapsed="true">
-    <Position X="28.5" Y="1.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAA=</HashCode>
-      <FileName>FileParsing\TextReader.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Struct Name="EU4_Game_Editing_Tool_WinForm.Factory.FileParsing.State" Collapsed="true">
-    <Position X="26" Y="7.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAACAEAAAAAAAAAAA=</HashCode>
-      <FileName>Factory\FileParsing\DeserializerFactory.cs</FileName>
-    </TypeIdentifier>
-    <ShowAsAssociation>
-      <Field Name="state" />
-    </ShowAsAssociation>
-  </Struct>
   <Interface Name="EU4_Game_Editing_Tool_WinForm.FileParsing.IDeserializer" Collapsed="true">
     <Position X="26" Y="6.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAgAAAAAAAAAA=</HashCode>
-      <FileName>FileParsing\IDeserializer.cs</FileName>
+      <FileName>FileParsing\Internal\Interfaces\IDeserializer.cs</FileName>
     </TypeIdentifier>
   </Interface>
-  <Interface Name="EU4_Game_Editing_Tool_WinForm.FileParsing.IStream" Collapsed="true">
-    <Position X="18.5" Y="6.25" Width="1.5" />
+  <Interface Name="EU4_Game_Editing_Tool_WinForm.FileParsing.IFileReader" Collapsed="true">
+    <Position X="23.5" Y="3.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>FileParsing\IStream.cs</FileName>
+      <HashCode>AAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>FileParsing\Internal\Interfaces\IFileReader.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="EU4_Game_Editing_Tool_WinForm.FileParsing.INodeBuilder" Collapsed="true">
     <Position X="11.25" Y="7.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAEAAABAAAAAQAAAAAAAAAAAAABAAAEQAAAAAA=</HashCode>
-      <FileName>FileParsing\INodeBuilder.cs</FileName>
+      <FileName>FileParsing\Internal\Interfaces\INodeBuilder.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
       <Property Name="mNode" />
     </ShowAsAssociation>
   </Interface>
-  <Interface Name="EU4_Game_Editing_Tool_WinForm.FileParsing.IFileReader" Collapsed="true">
-    <Position X="23.5" Y="3.5" Width="1.5" />
+  <Interface Name="EU4_Game_Editing_Tool_WinForm.FileParsing.IStream" Collapsed="true">
+    <Position X="18.5" Y="6.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>FileParsing\IFileReader.cs</FileName>
+      <HashCode>AABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>FileParsing\Internal\Interfaces\IStream.cs</FileName>
     </TypeIdentifier>
   </Interface>
-  <Enum Name="EU4_Game_Editing_Tool_WinForm.Factory.FileParsing.StateType" Collapsed="true">
-    <Position X="28.5" Y="7.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAABAAAAAEAAAAgAAAAAAAAEAAAAIBA=</HashCode>
-      <FileName>Factory\FileParsing\DeserializerFactory.cs</FileName>
-    </TypeIdentifier>
-  </Enum>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,7 +27,7 @@ namespace EU4_Game_Editing_Tool_WinForm.FileParsing
         {
             if (this.mActiveNode != this.mNode)
             {
-                this.TraverseNodeTree(this.mNode, this.mNode);
+                this.TraverseTreeNode(this.mNode);
             }
         }
 
@@ -44,28 +45,26 @@ namespace EU4_Game_Editing_Tool_WinForm.FileParsing
             mActiveNode = node;
         }
 
-        bool TraverseNodeTree(TextNode node, TextNode parent)
+        bool TraverseTreeNode(TextNode parent)
         {
-            if(node.mChildNodes.Count == 0)
+            if (parent.mChildNodes.Count == 0)
             {
                 return false;
             }
             else
             {
-                foreach(TextNode textNode in node.mChildNodes)
+                foreach (TextNode childNode in parent.mChildNodes)
                 {
-                    if(textNode == this.mActiveNode)
+                    if (childNode == this.mActiveNode)
                     {
                         this.mActiveNode = parent;
                         return true;
                     }
-                    else
+
+                    if (TraverseTreeNode(childNode))
                     {
-                        if (this.TraverseNodeTree(textNode, node))
-                        {
-                            return true;
-                        }
-                    }
+                        return true;
+                    }                 
                 }
                 return false;
             }
