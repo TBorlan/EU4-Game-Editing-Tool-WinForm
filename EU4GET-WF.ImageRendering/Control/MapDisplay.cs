@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using EU4_Game_Editing_Tool_WinForm;
-using EU4GET_WF.ImageRendering.Border;
 
 
 namespace EU4GET_WF.ImageRendering.Control
@@ -17,55 +13,17 @@ namespace EU4GET_WF.ImageRendering.Control
     {
         #region Members
 
-        /// <summary>
-        /// Holds result for later ProvinceBorder instance constructor
-        /// </summary>
-        private Task<ProvinceBorders> _mPBTask;
-        
-        private ProvinceBorders _mProvinceBorders;
-
         private Point _mPanPoint;
 
-        private bool _mMiddlePressed = false;
-
-        private GraphicsPath _mActivePaths = null;
-
-        private GraphicsPath _mActivePathsTransformed = new GraphicsPath();
-
-        private Region _mActiveRegion = new Region();
+        private bool _mMiddlePressed;
 
         private Bitmap _mOriginalBitmap;
 
-        private Object _mLockObject = new object();
-
-        private IReadOnlyList<Province> _mProvinces;
+        private readonly object _mLockObject = new object();
 
         public event EventHandler<Point> Pan;
 
         public event MouseEventHandler Zoom;
-
-        /// <summary>
-        /// Represents the instance used to generate province borders
-        /// </summary>
-        private ProvinceBorders mProvinceBorders
-        {
-            get
-            {
-                if (this._mProvinceBorders != null)
-                {
-                    return this._mProvinceBorders;
-                }
-                else //if singleton not yet built
-                {
-                    this._mProvinceBorders = this._mPBTask.Result; //get the instance as a task result
-                    return this._mProvinceBorders;
-                }
-            }
-            set
-            {
-                this._mProvinceBorders = value;
-            }
-        }
 
         /// <summary>
         /// Bitmap which shows the provinces layout
@@ -85,7 +43,10 @@ namespace EU4GET_WF.ImageRendering.Control
             {
                 if(value != null)
                 {
-                    this._mOriginalBitmap = value;
+                    lock (this._mLockObject)
+                    {
+                        this._mOriginalBitmap = value;
+                    }
                     this.SetStyle(ControlStyles.UserPaint 
                                   | ControlStyles.AllPaintingInWmPaint 
                                   | ControlStyles.OptimizedDoubleBuffer,
@@ -134,19 +95,6 @@ namespace EU4GET_WF.ImageRendering.Control
         protected override void OnPaint(PaintEventArgs e)
         {
             e.Graphics.InterpolationMode = InterpolationMode.NearestNeighbor;
-
-            //if (_mActivePaths != null)
-            //{
-            //    Matrix matrix = new Matrix();
-            //    matrix.Translate(-this._mSelectionOrigin.X * this._mScale + this._mDisplayRectangle.X, -this._mSelectionOrigin.Y * this._mScale + this._mDisplayRectangle.Y);
-            //    GraphicsPath paths = (GraphicsPath)this._mActivePaths.Clone();
-            //    paths.Transform(matrix);
-
-
-            //    e.Graphics.DrawPath(new Pen(Color.Black, 1), paths);
-
-            //    paths.Dispose();
-            //}
             base.OnPaint(e);
             
         }
@@ -156,25 +104,5 @@ namespace EU4GET_WF.ImageRendering.Control
             this.Zoom?.Invoke(this, e);
             base.OnMouseWheel(e);
         }
-
-        #region Callbacks
-
-        /// <summary>
-        /// Triggers border generating and drawing of the selected province
-        /// </summary>
-        /// <param name="obj"></param>
-        /// <param name="args"></param>
-        private void Callback_mImage_MouseClick(object obj, MouseEventArgs args)
-        {
-
-        }
-
-        #endregion
-
-        #region Point Translations
-        #endregion
-
-        #region Methods
-        #endregion
     }
 }
