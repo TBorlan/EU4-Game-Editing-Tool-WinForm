@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Drawing;
 
-namespace EU4_Game_Editing_Tool_WinForm.Logic
+namespace EU4GET_WF.Logic
 {
     public class Country : IEquatable<Country>
     {
@@ -19,17 +19,23 @@ namespace EU4_Game_Editing_Tool_WinForm.Logic
 
         public string mTag
         {
-            get => this._mTag;
+            get { return this._mTag; }
         }
 
         public Color mColor
         {
-            get => this._mColor;
+            get
+            {
+                return this._mColor;
+            }
         }
 
         public string mName
         {
-            get => this._mName;
+            get
+            {
+                return this._mName;
+            }
         }
 
 
@@ -42,10 +48,17 @@ namespace EU4_Game_Editing_Tool_WinForm.Logic
 
         public override bool Equals(object obj)
         {
-            if (obj is null) return false;
-            if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != this.GetType()) return false;
-            return this.Equals((Country) obj);
+            if (obj is null)
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, obj))
+            {
+                return true;
+            }
+
+            return obj.GetType() == this.GetType() && this.Equals((Country) obj);
         }
 
         public override int GetHashCode()

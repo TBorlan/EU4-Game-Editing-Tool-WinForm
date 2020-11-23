@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Drawing;
 
-namespace EU4_Game_Editing_Tool_WinForm.Logic
+namespace EU4GET_WF.Logic
 {
     internal class Province : IEquatable<Province>
     {
@@ -18,16 +18,17 @@ namespace EU4_Game_Editing_Tool_WinForm.Logic
 
         public Color mColor
         {
-            get => this._mColor;
+            get { return this._mColor; }
         }
+
         public int mID
         {
-            get => this._mId;
+            get { return this._mId; }
         }
 
         public String mName
         {
-            get => this._mName;
+            get { return this._mName; }
         }
 
         public override int GetHashCode()
@@ -62,12 +63,7 @@ namespace EU4_Game_Editing_Tool_WinForm.Logic
                 return true;
             }
 
-            if (obj.GetType() != this.GetType())
-            {
-                return false;
-            }
-
-            return this.Equals((Province) obj);
+            return obj.GetType() == this.GetType() && this.Equals((Province) obj);
         }
 
         public static bool operator ==(Province left, Province right)

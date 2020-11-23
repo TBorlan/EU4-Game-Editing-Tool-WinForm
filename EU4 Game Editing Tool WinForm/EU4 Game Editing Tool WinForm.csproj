@@ -109,8 +109,6 @@
     <Compile Include="GameData\LUT.cs" />
     <Compile Include="GameData\LUTStatusEnum.cs" />
     <Compile Include="GameData\ValueTypes.cs" />
-    <Compile Include="Logic\Country.cs" />
-    <Compile Include="Logic\Province.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -165,6 +163,7 @@
     <Folder Include="GameData\history\countries\" />
     <Folder Include="GameData\history\diplomacy\" />
     <Folder Include="GameData\history\wars\" />
+    <Folder Include="Logic\" />
     <Folder Include="SerDes\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

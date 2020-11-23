@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{EB2295E8-3505-4BB4-BA1E-58CA4D409326}</ProjectGuid>
+    <ProjectGuid>{74A2655A-382D-44D4-BD88-5DB417E6C9A3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>EU4GET_WF.ImageRendering</RootNamespace>
-    <AssemblyName>EU4GET-WF.ImageRendering</AssemblyName>
+    <RootNamespace>EU4GET_WF.Logic</RootNamespace>
+    <AssemblyName>EU4GET-WF.Logic</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -21,7 +21,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <LangVersion>8.0</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -30,50 +29,16 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <LangVersion>8.0</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Border\BorderLine.cs" />
-    <Compile Include="Border\BorderPoint.cs" />
-    <Compile Include="Control\DisplayPanel.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Control\DisplayPanel.Designer.cs">
-      <DependentUpon>DisplayPanel.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Logic\DisplayRenderingEngine.cs" />
-    <Compile Include="Control\MapDisplay.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Control\MapDisplay.Designer.cs">
-      <DependentUpon>MapDisplay.cs</DependentUpon>
-    </Compile>
+    <Compile Include="Country.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Border\ProvinceBorders.cs" />
-    <Compile Include="Logic\SelectionManager.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Control\DisplayPanel.resx">
-      <DependentUpon>DisplayPanel.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Control\MapDisplay.resx">
-      <DependentUpon>MapDisplay.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
+    <Compile Include="Province.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
