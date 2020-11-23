@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-
-namespace EU4_Game_Editing_Tool_WinForm.FileParsing
+﻿namespace EU4GET_WF.SerDes.FileParsing.Internal.Interfaces
 {
     public interface IFileReader
     {

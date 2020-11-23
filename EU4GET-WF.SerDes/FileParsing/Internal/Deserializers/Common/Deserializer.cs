@@ -1,4 +1,6 @@
-﻿namespace EU4_Game_Editing_Tool_WinForm.FileParsing.Internal.Deserializers.Common
+﻿using EU4GET_WF.SerDes.FileParsing.Internal.Interfaces;
+
+namespace EU4GET_WF.SerDes.FileParsing.Internal.Deserializers.Common
 {
     internal abstract class Deserializer : IDeserializer
     {
@@ -6,14 +8,14 @@
 
         public Deserializer(StreamReaderFactory streamReaderFactory)
         {
-            this.mStream = streamReaderFactory.GetStream();
+            this._mStream = streamReaderFactory.GetStream();
         }
 
         #endregion Constructors
 
         #region Fields
 
-        protected IStream mStream;
+        protected IStream _mStream;
 
         #endregion Fields
 
@@ -23,7 +25,7 @@
 
         protected virtual void OnNewDeserializeMessage(DeserializeMessageEventArgs args)
         {
-            NewDeserializeMessage?.Invoke(this, args);
+            this.NewDeserializeMessage?.Invoke(this, args);
         }
 
         #endregion Methods

@@ -1,7 +1,7 @@
 ﻿using System;
-using EU4_Game_Editing_Tool_WinForm.FileParsing.Internal.Deserializers.Common;
+using EU4GET_WF.SerDes.FileParsing.Internal.Deserializers.Common;
 
-namespace EU4_Game_Editing_Tool_WinForm.FileParsing.Internal.Deserializers
+namespace EU4GET_WF.SerDes.FileParsing.Internal.Deserializers
 {
     internal class AdjacenciesDeserializer : Deserializer
     {

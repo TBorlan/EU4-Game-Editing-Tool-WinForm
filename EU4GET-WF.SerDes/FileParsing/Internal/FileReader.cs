@@ -1,8 +1,8 @@
 ﻿using System;
 using System.IO;
-using System.Threading.Tasks;
+using EU4GET_WF.SerDes.FileParsing.Internal.Interfaces;
 
-namespace EU4_Game_Editing_Tool_WinForm.FileParsing.Internal
+namespace EU4GET_WF.SerDes.FileParsing.Internal
 {
     public class FileReader : IFileReader
     {
@@ -31,7 +31,10 @@ namespace EU4_Game_Editing_Tool_WinForm.FileParsing.Internal
                     throw new Exception(message);
                 }
             }
-            get => this._mFilePath;
+            get
+            {
+                return this._mFilePath;
+            }
         }
 
         #endregion Properties
@@ -41,7 +44,6 @@ namespace EU4_Game_Editing_Tool_WinForm.FileParsing.Internal
         public TextNode ReadFile(string filePath)
         {
             this.mFilePath = filePath;
-            string extension = Path.GetExtension(this.mFilePath);
             this._mDeserializer = new DeserializerFactory().GetDeserializer(this.mFilePath);
             return this._mDeserializer.Deserialize(this.mFilePath);
         }

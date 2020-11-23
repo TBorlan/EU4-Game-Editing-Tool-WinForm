@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using EU4_Game_Editing_Tool_WinForm.FileParsing.Internal;
+using EU4GET_WF.SerDes.FileParsing.Internal;
 
-namespace EU4_Game_Editing_Tool_WinForm.FileParsing
+namespace EU4GET_WF.SerDes.FileParsing
 {
     static class ReaderFactory
     {
         private static FileReader _mFileReader;
-        private static List<String> _mFilePaths = new List<string>(3) { null, null, null };
-        private static SemaphoreSlim _mSemaphore = new SemaphoreSlim(3);
+        private static readonly List<String> _mFilePaths = new List<string>(3) { null, null, null };
+        private static readonly SemaphoreSlim _mSemaphore = new SemaphoreSlim(3);
         private static SpinLock _mLockObject = new SpinLock();
         private static bool _mLockTaken = false;
         private static void InitialiseReader()

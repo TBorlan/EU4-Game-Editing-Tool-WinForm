@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Linq;
-using EU4_Game_Editing_Tool_WinForm.FileParsing.Internal.Deserializers.Common;
+using EU4GET_WF.SerDes.FileParsing.Internal.Deserializers.Common;
+using EU4GET_WF.SerDes.FileParsing.Internal.Interfaces;
 
-namespace EU4_Game_Editing_Tool_WinForm.FileParsing.Internal.Deserializers
+namespace EU4GET_WF.SerDes.FileParsing.Internal.Deserializers
 {
     internal class DefinitionDeserializer : Deserializer
     {
@@ -19,19 +20,19 @@ namespace EU4_Game_Editing_Tool_WinForm.FileParsing.Internal.Deserializers
             TextNode mainNode = new TextNode();
             String[] line;
             int lineNumber;
-            this.mStream.ReadLine(out line, out lineNumber);
-            while (this.mStream.ReadLine(out line, out lineNumber))
+            this._mStream.ReadLine(out line, out lineNumber);
+            while (this._mStream.ReadLine(out line, out lineNumber))
             {
                 if (line.Any(item => String.IsNullOrEmpty(item)))
                 {
                     DeserializeMessageEventArgs messageEventArgs = new DeserializeMessageEventArgs();
-                    messageEventArgs.LineNumber = lineNumber;
-                    messageEventArgs.Code = DesserializeMessageCode.MissingElementCsvEntry;
-                    messageEventArgs.Type = DesserializeMessageType.Warning;
+                    messageEventArgs.mLineNumber = lineNumber;
+                    messageEventArgs.mCode = DeserializeMessageCode.MissingElementCsvEntry;
+                    messageEventArgs.mType = DeserializeMessageType.Warning;
                     this.OnNewDeserializeMessage(messageEventArgs);
                     continue;
                 }
-                mainNode.mChildNodes.Add(this.CreateProvinceNode(line));
+                mainNode._mChildNodes.Add(this.CreateProvinceNode(line));
             }
             return mainNode;
         }
@@ -39,19 +40,19 @@ namespace EU4_Game_Editing_Tool_WinForm.FileParsing.Internal.Deserializers
         private TextNode CreateProvinceNode(String[] entry)
         {
             TextNode node = new TextNode();
-            node.mValue = entry[0];
+            node._mValue = entry[0];
             TextElement element = new TextElement();
-            element.mLeftValue = "red";
-            element.mRightValue = entry[1];
-            node.mChildElements.Add(element);
+            element._mLeftValue = "red";
+            element._mRightValue = entry[1];
+            node._mChildElements.Add(element);
             element = new TextElement();
-            element.mLeftValue = "green";
-            element.mRightValue = entry[2];
-            node.mChildElements.Add(element);
+            element._mLeftValue = "green";
+            element._mRightValue = entry[2];
+            node._mChildElements.Add(element);
             element = new TextElement();
-            element.mLeftValue = "blue";
-            element.mRightValue = entry[3];
-            node.mChildElements.Add(element);
+            element._mLeftValue = "blue";
+            element._mRightValue = entry[3];
+            node._mChildElements.Add(element);
             return node;
         }
 

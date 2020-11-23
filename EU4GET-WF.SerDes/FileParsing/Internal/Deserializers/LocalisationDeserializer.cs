@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Linq;
-using EU4_Game_Editing_Tool_WinForm.FileParsing.Internal.Deserializers.Common;
+using EU4GET_WF.SerDes.FileParsing.Internal.Deserializers.Common;
+using EU4GET_WF.SerDes.FileParsing.Internal.Interfaces;
 
-namespace EU4_Game_Editing_Tool_WinForm.FileParsing.Internal.Deserializers
+namespace EU4GET_WF.SerDes.FileParsing.Internal.Deserializers
 {
     internal class LocalisationDeserializer : Deserializer
     {
@@ -20,20 +21,20 @@ namespace EU4_Game_Editing_Tool_WinForm.FileParsing.Internal.Deserializers
             string[] line;
             int lineNumber;
             string[] tokenArray;
-            this.mStream.ReadLine(out line, out lineNumber);
+            this._mStream.ReadLine(out line, out lineNumber);
             tokenArray = new string[line.Length - 1];
             Array.Copy(line, 1, tokenArray, 0, tokenArray.Length);
-            while (this.mStream.ReadLine(out line, out lineNumber))
+            while (this._mStream.ReadLine(out line, out lineNumber))
             {
                 if (line.Any(item => string.IsNullOrEmpty(item)))
                 {
                     DeserializeMessageEventArgs messageEventArgs = new DeserializeMessageEventArgs();
-                    messageEventArgs.LineNumber = lineNumber;
-                    messageEventArgs.Code = DesserializeMessageCode.MissingElementCsvEntry;
-                    messageEventArgs.Type = DesserializeMessageType.Warning;
+                    messageEventArgs.mLineNumber = lineNumber;
+                    messageEventArgs.mCode = DeserializeMessageCode.MissingElementCsvEntry;
+                    messageEventArgs.mType = DeserializeMessageType.Warning;
                     this.OnNewDeserializeMessage(messageEventArgs);
                 }
-                mainNode.mChildNodes.Add(this.CreateLocalisationNode(line, tokenArray));
+                mainNode._mChildNodes.Add(this.CreateLocalisationNode(line, tokenArray));
             }
             return mainNode;
         }
@@ -41,14 +42,14 @@ namespace EU4_Game_Editing_Tool_WinForm.FileParsing.Internal.Deserializers
         private TextNode CreateLocalisationNode(string[] line, string[] tokens)
         {
             TextNode node = new TextNode();
-            node.mValue = line[0];
+            node._mValue = line[0];
             int i = 0;
             for (i = 0; i < tokens.Length; i++)
             {
                 TextElement element = new TextElement();
-                element.mLeftValue = tokens[i];
-                element.mRightValue = line[i + 1];
-                node.mChildElements.Add(element);
+                element._mLeftValue = tokens[i];
+                element._mRightValue = line[i + 1];
+                node._mChildElements.Add(element);
             }
             return node;
         }

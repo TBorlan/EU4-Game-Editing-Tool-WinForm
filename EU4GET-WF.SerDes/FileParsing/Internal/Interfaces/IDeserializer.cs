@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace EU4_Game_Editing_Tool_WinForm.FileParsing
+namespace EU4GET_WF.SerDes.FileParsing.Internal.Interfaces
 {
     internal interface IDeserializer
     {
@@ -13,21 +13,21 @@ namespace EU4_Game_Editing_Tool_WinForm.FileParsing
 
     public class DeserializeMessageEventArgs : EventArgs
     {
-        public int LineNumber { get; set; }
-        public DesserializeMessageType Type { get; set; }
-        public DesserializeMessageCode Code { get; set; }
+        public int mLineNumber { get; set; }
+        public DeserializeMessageType mType { get; set; }
+        public DeserializeMessageCode mCode { get; set; }
     }
 
-    public enum DesserializeMessageType 
+    public enum DeserializeMessageType 
     {
         Warning,
         Error
     }
 
-    public enum DesserializeMessageCode 
+    public enum DeserializeMessageCode 
     {
         MissingClosingBracket,
-        MissingLefthandValueOfElement,
+        MissingLeftHandValueOfElement,
         MissingClosingCommaOnLineEnd,
         MissingClosingCommaBeforeSpecialToken,
         MissingSpaceBetweenEqualAndWord,

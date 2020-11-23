@@ -1,43 +1,41 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using EU4GET_WF.SerDes.FileParsing.Internal.Interfaces;
 
-namespace EU4_Game_Editing_Tool_WinForm.FileParsing.Internal.Common
+namespace EU4GET_WF.SerDes.FileParsing.Internal.Deserializers.Common
 {
     class Tokenizer : ITokenizer
     {
-        private Queue<String> mTokens;
+        private Queue<String> _mTokens;
 
-        readonly char[] specials = { '"', '=', '{', '}', '#' };
+        readonly char[] _mSpecials = { '"', '=', '{', '}', '#' };
 
         public void FeedLine(String[] line)
         {
-            mTokens = new Queue<string>(line.Length);
+            this._mTokens = new Queue<string>(line.Length);
             foreach (String element in line)
             {
                 if (element.Length > 1)
                 {
-                    if (element.IndexOfAny(specials) >= 0)
+                    if (element.IndexOfAny(this._mSpecials) >= 0)
                     {
                         this.TrySplit(element);
                         continue;
                     }
                 }
-                mTokens.Enqueue(element);
+                this._mTokens.Enqueue(element);
             }
         }
 
         public string GetNextToken()
         {
-            if (mTokens.Count == 0)
+            if (this._mTokens.Count == 0)
             {
                 return null;
             }
             else
             {
-                return mTokens.Dequeue();
+                return this._mTokens.Dequeue();
             }
         }
 
@@ -47,20 +45,20 @@ namespace EU4_Game_Editing_Tool_WinForm.FileParsing.Internal.Common
             int index;
             while(remaining < element.Length)
             {
-                if((index = element.IndexOfAny(this.specials,remaining)) > remaining)
+                if((index = element.IndexOfAny(this._mSpecials,remaining)) > remaining)
                 {
-                    this.mTokens.Enqueue(element.Substring(remaining, index - remaining));
-                    this.mTokens.Enqueue(element.Substring(index, 1));
+                    this._mTokens.Enqueue(element.Substring(remaining, index - remaining));
+                    this._mTokens.Enqueue(element.Substring(index, 1));
                     remaining = index + 1;
                 }
                 else if (index == remaining)
                 {
-                    this.mTokens.Enqueue(element.Substring(index, 1));
+                    this._mTokens.Enqueue(element.Substring(index, 1));
                     remaining = index + 1;
                 }
                 else
                 {
-                    this.mTokens.Enqueue(element.Substring(remaining));
+                    this._mTokens.Enqueue(element.Substring(remaining));
                     return;
                 }
             }
