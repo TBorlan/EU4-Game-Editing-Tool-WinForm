@@ -61,6 +61,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Border\ProvinceBorders.cs" />
     <Compile Include="Logic\SelectionManager.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Control\DisplayPanel.resx">
@@ -68,6 +73,10 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Control\MapDisplay.resx">
       <DependentUpon>MapDisplay.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

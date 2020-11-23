@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using EU4GET_WF.ImageRendering.Properties;
 
 namespace EU4GET_WF.ImageRendering.Border
 {
@@ -16,16 +17,18 @@ namespace EU4GET_WF.ImageRendering.Border
             }
             set
             {
-                if (this.mEnd != BorderPoint.Empty)
+                if (this.mEnd == BorderPoint.Empty)
                 {
-                    if (!value.IsColinear(this.mEnd) || (value >= this.mEnd))
-                    {
-                        throw new ArgumentException("Changing the value will make the line inclined or change the sign", "mStart");
-                    }
-                    else
-                    {
-                        this._mStart = value;
-                    }
+                    return;
+                }
+
+                if (!value.IsCollinear(this.mEnd) || (value >= this.mEnd))
+                {
+                    throw new ArgumentException(Resources.BorderLine_mStart_or_mEnd_Exception_Message, nameof(value));
+                }
+                else
+                {
+                    this._mStart = value;
                 }
             }
         }
@@ -37,16 +40,14 @@ namespace EU4GET_WF.ImageRendering.Border
             }
             set
             {
-                if (this.mStart != BorderPoint.Empty)
+                if (this.mStart == BorderPoint.Empty) return;
+                if (!value.IsCollinear(this.mStart) || (value <= this.mStart))
                 {
-                    if (!value.IsColinear(this.mStart) || (value <= this.mStart))
-                    {
-                        throw new ArgumentException("Changing the value will make the line inclined or change the sign", "mEnd");
-                    }
-                    else
-                    {
-                        this._mEnd = value;
-                    }
+                    throw new ArgumentException(Resources.BorderLine_mStart_or_mEnd_Exception_Message, nameof(value));
+                }
+                else
+                {
+                    this._mEnd = value;
                 }
             }
         }
@@ -104,7 +105,7 @@ namespace EU4GET_WF.ImageRendering.Border
             return (this.mStart, this.mEnd).GetHashCode();
         }
 
-        public bool IsColinear(BorderLine line)
+        public bool IsCollinear(BorderLine line)
         {
             if(this.mOrientation == line.mOrientation)
             {
@@ -113,9 +114,9 @@ namespace EU4GET_WF.ImageRendering.Border
             return false;
         }
 
-        public bool IsOverlaping(BorderLine line)
+        public bool IsOverlapping(BorderLine line)
         {
-            if (this.IsColinear(line))
+            if (this.IsCollinear(line))
             {
                 if (this.mStart >= line.mEnd || this.mEnd <= line.mStart)
                 {
@@ -132,7 +133,7 @@ namespace EU4GET_WF.ImageRendering.Border
         public BorderLine[] Exclude(BorderLine line)
         {
             BorderLine[] result = null;
-            if (this.IsOverlaping(line))
+            if (this.IsOverlapping(line))
             {
                 //if (this.mEnd < line.mEnd)
                 //{
@@ -194,11 +195,11 @@ namespace EU4GET_WF.ImageRendering.Border
                 {
                     if (this.mEnd > line.mEnd) //3
                     {
-                        result = new BorderLine[] { new BorderLine(line.mEnd, this.mEnd) };
+                        result = new[] { new BorderLine(line.mEnd, this.mEnd) };
                     }
                     else if (this.mEnd < line.mEnd) // 9
                     {
-                        result = new BorderLine[] { new BorderLine(this.mEnd, line.mEnd) };
+                        result = new[] { new BorderLine(this.mEnd, line.mEnd) };
                     }
                     else // 11
                     {
@@ -209,33 +210,33 @@ namespace EU4GET_WF.ImageRendering.Border
                 {
                     if (this.mStart > line.mStart) // 10
                     {
-                        result = new BorderLine[] { new BorderLine(line.mStart, this.mStart) };
+                        result = new[] { new BorderLine(line.mStart, this.mStart) };
                     }
                     else // 4
                     {
-                        result = new BorderLine[] { new BorderLine(this.mStart, line.mStart) };
+                        result = new[] { new BorderLine(this.mStart, line.mStart) };
                     }
                 }
                 else if (this.mStart > line.mStart) // 6 and 8
                 {
                     if (this.mEnd > line.mEnd) // 6
                     {
-                        result = new BorderLine[] { new BorderLine(line.mStart, this.mStart), new BorderLine(line.mEnd, this.mEnd) };
+                        result = new[] { new BorderLine(line.mStart, this.mStart), new BorderLine(line.mEnd, this.mEnd) };
                     }
                     else // 8
                     {
-                        result = new BorderLine[] { new BorderLine(line.mStart, this.mStart), new BorderLine(this.mEnd, line.mEnd) };
+                        result = new[] { new BorderLine(line.mStart, this.mStart), new BorderLine(this.mEnd, line.mEnd) };
                     }
                 }
                 else // 5 and 7 
                 {
                     if (this.mEnd > line.mEnd) // 7
                     {
-                        result = new BorderLine[] { new BorderLine(this.mStart, line.mStart), new BorderLine(line.mEnd, this.mEnd) };
+                        result = new[] { new BorderLine(this.mStart, line.mStart), new BorderLine(line.mEnd, this.mEnd) };
                     }
                     else // 5
                     {
-                        result = new BorderLine[] { new BorderLine(this.mStart, line.mStart), new BorderLine(this.mEnd, line.mEnd) };
+                        result = new[] { new BorderLine(this.mStart, line.mStart), new BorderLine(this.mEnd, line.mEnd) };
                     }
                 }
             }
@@ -245,7 +246,7 @@ namespace EU4GET_WF.ImageRendering.Border
         public BorderLine Intersect(BorderLine line)
         {
             BorderLine result = BorderLine.EmptyLine;
-            if (this.IsOverlaping(line))
+            if (this.IsOverlapping(line))
             {
                 BorderPoint start = this.mStart > line.mStart ? this.mStart : line.mStart;
                 BorderPoint end = this.mEnd > line.mEnd ? line.mEnd : this.mEnd;
@@ -262,31 +263,36 @@ namespace EU4GET_WF.ImageRendering.Border
             while (lines.Count >= (originalCount / 2 + originalCount % 2))
             {
                 BorderLine intersection = lines[0];
-                BorderLine temp;
                 int count = 0;
                 for (int i = 1; i < lines.Count; i++)
                 {
-                    if ((temp = intersection.Intersect(lines[i])) != BorderLine.EmptyLine)
+                    BorderLine temp;
+                    if ((temp = intersection.Intersect(lines[i])) == BorderLine.EmptyLine)
                     {
-                        if (intersection == lines[0])
+                        continue;
+                    }
+
+                    if (intersection == lines[0])
+                    {
+                        intersection = temp;
+                        count++;
+                    }
+                    else
+                    {
+                        if (temp == intersection)
                         {
-                            intersection = temp;
                             count++;
-                        }
-                        else
-                        {
-                            if (temp == intersection)
-                            {
-                                count++;
-                            }
                         }
                     }
                 }
-                if ((count == (originalCount / 2 + originalCount % 2)) || (count == 0))
+
+                if ((count != (originalCount / 2 + originalCount % 2)) && (count != 0))
                 {
-                    result.Add(intersection);
-                    lines.Remove(lines[0]);
+                    continue;
                 }
+
+                result.Add(intersection);
+                lines.Remove(lines[0]);
             }
             return result.ToArray();
         }

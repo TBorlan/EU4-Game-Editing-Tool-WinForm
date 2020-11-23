@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 
 namespace EU4GET_WF.ImageRendering.Border
 {
@@ -43,7 +44,7 @@ namespace EU4GET_WF.ImageRendering.Border
             }
             else if (obj is Point point)
             {
-                return point.Equals(this);
+                return point.Equals((Point)this);
             }
             return false;
         }
@@ -60,7 +61,7 @@ namespace EU4GET_WF.ImageRendering.Border
 
         public static explicit operator PointF(BorderPoint v)
         {
-            return (PointF)((Point)v);
+            return (Point)v;
         }
 
         public static BorderPoint operator +(BorderPoint a, BorderPoint b)
@@ -124,18 +125,14 @@ namespace EU4GET_WF.ImageRendering.Border
             return new Point(this.mX, this.mY).GetHashCode();
         }
 
-        public bool IsColinear(BorderPoint point)
+        public bool IsCollinear(BorderPoint point)
         {
-            if ((this.mX == point.mX) || (this.mY == point.mY))
-            {
-                return true;
-            }
-            return false;
+            return (this.mX == point.mX) || (this.mY == point.mY);
         }
         
         public BorderPlane GetPlane(BorderPoint point)
         {
-            if (this.IsColinear(point))
+            if (this.IsCollinear(point))
             {
                 if(this.mX == point.mX)
                 {
@@ -154,7 +151,7 @@ namespace EU4GET_WF.ImageRendering.Border
 
         public BorderPlane GetPlane(BorderPoint point, ref int line)
         {
-            if (this.IsColinear(point))
+            if (this.IsCollinear(point))
             {
                 if (this.mX == point.mX)
                 {
