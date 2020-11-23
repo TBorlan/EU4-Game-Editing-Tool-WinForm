@@ -34,13 +34,15 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
-    <Optimize>true</Optimize>
+    <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>8.0</LangVersion>
+    <DocumentationFile>
+    </DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -54,6 +56,9 @@
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <PropertyGroup>
+    <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="PresentationFramework" />
@@ -71,21 +76,36 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Factory\FileParsing\DeserializerFactory.cs" />
-    <Compile Include="Factory\FileParsing\StreamReaderFactory.cs" />
-    <Compile Include="FileParsing\CsvReader.cs" />
-    <Compile Include="FileParsing\FileReader.cs" />
-    <Compile Include="FileParsing\IDeserializer.cs" />
-    <Compile Include="FileParsing\IFileReader.cs" />
-    <Compile Include="FileParsing\INodeBuilder.cs" />
-    <Compile Include="FileParsing\IStream.cs" />
-    <Compile Include="FileParsing\ITokenizer.cs" />
+    <Compile Include="BorderLine.cs" />
+    <Compile Include="BorderPoint.cs" />
+    <Compile Include="DisplayPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DisplayPanel.Designer.cs">
+      <DependentUpon>DisplayPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DisplayRenderingEngine.cs" />
+    <Compile Include="FileParsing\Internal\DeserializerFactory.cs" />
+    <Compile Include="FileParsing\Internal\Deserializers\AdjacenciesDeserializer.cs" />
+    <Compile Include="FileParsing\Internal\Deserializers\Common\Deserializer.cs" />
+    <Compile Include="FileParsing\Internal\Deserializers\Common\Tokenizer.cs" />
+    <Compile Include="FileParsing\Internal\Deserializers\DefinitionDeserializer.cs" />
+    <Compile Include="FileParsing\Internal\Deserializers\LocalisationDeserializer.cs" />
+    <Compile Include="FileParsing\Internal\Deserializers\TextDeserializer.cs" />
+    <Compile Include="FileParsing\Internal\FileReader.cs" />
+    <Compile Include="FileParsing\Internal\Interfaces\IDeserializer.cs" />
+    <Compile Include="FileParsing\Internal\Interfaces\IFileReader.cs" />
+    <Compile Include="FileParsing\Internal\Interfaces\INodeBuilder.cs" />
+    <Compile Include="FileParsing\Internal\Interfaces\IParser.cs" />
+    <Compile Include="FileParsing\Internal\Interfaces\IStream.cs" />
+    <Compile Include="FileParsing\Internal\Interfaces\ITokenizer.cs" />
+    <Compile Include="FileParsing\Internal\StreamReaderFactory.cs" />
+    <Compile Include="FileParsing\Internal\Streams\SeparatorDefines.cs" />
+    <Compile Include="FileParsing\Internal\Streams\StreamReader.cs" />
     <Compile Include="FileParsing\NodeBuilder.cs" />
-    <Compile Include="FileParsing\IParser.cs" />
+    <Compile Include="FileParsing\ReaderFactory.cs" />
     <Compile Include="FileParsing\TextElement.cs" />
     <Compile Include="FileParsing\TextNode.cs" />
-    <Compile Include="FileParsing\TextReader.cs" />
-    <Compile Include="FileParsing\Tokenizer.cs" />
     <Compile Include="GameData\DataContainer.cs" />
     <Compile Include="GameData\DataItem.cs" />
     <Compile Include="GameData\DataItemComparer.cs" />
@@ -98,6 +118,8 @@
     <Compile Include="GameData\LUT.cs" />
     <Compile Include="GameData\LUTStatusEnum.cs" />
     <Compile Include="GameData\ValueTypes.cs" />
+    <Compile Include="Logic\Country.cs" />
+    <Compile Include="Logic\Province.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -108,12 +130,16 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Province.cs" />
     <Compile Include="ProvinceBorders.cs" />
-    <Compile Include="ZoomablePictureBox.cs">
+    <Compile Include="MapDisplay.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="ZoomablePictureBox.Designer.cs">
-      <DependentUpon>ZoomablePictureBox.cs</DependentUpon>
+    <Compile Include="MapDisplay.Designer.cs">
+      <DependentUpon>MapDisplay.cs</DependentUpon>
     </Compile>
+    <Compile Include="SelectionManager.cs" />
+    <EmbeddedResource Include="DisplayPanel.resx">
+      <DependentUpon>DisplayPanel.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -127,8 +153,8 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="ZoomablePictureBox.resx">
-      <DependentUpon>ZoomablePictureBox.cs</DependentUpon>
+    <EmbeddedResource Include="MapDisplay.resx">
+      <DependentUpon>MapDisplay.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.manifest" />
     <None Include="Class Diagrams\MainForm.cd" />

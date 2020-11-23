@@ -29,10 +29,7 @@
         private void InitializeComponent()
         {
             this.cOpenModButton = new System.Windows.Forms.Button();
-            this.cPictureBoxPanel = new System.Windows.Forms.Panel();
-            this.cImagePictureBox = new EU4_Game_Editing_Tool_WinForm.ZoomablePictureBox();
-            this.cPictureBoxPanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.cImagePictureBox)).BeginInit();
+            this.cDisplayPanel = new EU4_Game_Editing_Tool_WinForm.DisplayPanel();
             this.SuspendLayout();
             // 
             // cOpenModButton
@@ -52,27 +49,19 @@
             this.cOpenModButton.UseVisualStyleBackColor = false;
             this.cOpenModButton.Click += new System.EventHandler(this.Callback_OpenModButton_Click);
             // 
-            // cPictureBoxPanel
+            // cDisplayPanel
             // 
-            this.cPictureBoxPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.cDisplayPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.cPictureBoxPanel.AutoScroll = true;
-            this.cPictureBoxPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.cPictureBoxPanel.Controls.Add(this.cImagePictureBox);
-            this.cPictureBoxPanel.Location = new System.Drawing.Point(12, 47);
-            this.cPictureBoxPanel.Name = "cPictureBoxPanel";
-            this.cPictureBoxPanel.Padding = new System.Windows.Forms.Padding(10);
-            this.cPictureBoxPanel.Size = new System.Drawing.Size(1315, 470);
-            this.cPictureBoxPanel.TabIndex = 3;
-            // 
-            // cImagePictureBox
-            // 
-            this.cImagePictureBox.Location = new System.Drawing.Point(0, 0);
-            this.cImagePictureBox.Name = "cImagePictureBox";
-            this.cImagePictureBox.Size = new System.Drawing.Size(100, 50);
-            this.cImagePictureBox.TabIndex = 0;
-            this.cImagePictureBox.TabStop = false;
+            this.cDisplayPanel.Location = new System.Drawing.Point(12, 44);
+            this.cDisplayPanel.Margin = new System.Windows.Forms.Padding(3, 0, 0, 0);
+            this.cDisplayPanel.mImage = null;
+            this.cDisplayPanel.mMargins = new System.Drawing.Size(604, 270);
+            this.cDisplayPanel.mScale = 0F;
+            this.cDisplayPanel.Name = "cDisplayPanel";
+            this.cDisplayPanel.Size = new System.Drawing.Size(1318, 476);
+            this.cDisplayPanel.TabIndex = 1;
             // 
             // MainForm
             // 
@@ -80,12 +69,10 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(1339, 529);
-            this.Controls.Add(this.cPictureBoxPanel);
+            this.Controls.Add(this.cDisplayPanel);
             this.Controls.Add(this.cOpenModButton);
             this.Name = "MainForm";
             this.Text = "EU4 Menu";
-            this.cPictureBoxPanel.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.cImagePictureBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -95,10 +82,9 @@
 
         #region Controls
         private System.Windows.Forms.Button cOpenModButton;
-        private ZoomablePictureBox cImagePictureBox;
-        private System.Windows.Forms.Panel cPictureBoxPanel;
         #endregion
 
+        private DisplayPanel cDisplayPanel;
     }
 }
 
