@@ -1,4 +1,4 @@
-﻿namespace EU4_Game_Editing_Tool_WinForm
+﻿namespace EU4GET_WF.ImageRendering.Control
 {
     partial class DisplayPanel
     {
@@ -13,9 +13,9 @@
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
-            if (disposing && (components != null))
+            if (disposing && (this.components != null))
             {
-                components.Dispose();
+                this.components.Dispose();
             }
             base.Dispose(disposing);
         }
@@ -30,7 +30,7 @@
         {
             this.cVScrollBar = new System.Windows.Forms.VScrollBar();
             this.cHScrollBar = new System.Windows.Forms.HScrollBar();
-            this.cMapDisplay = new EU4_Game_Editing_Tool_WinForm.MapDisplay();
+            this.cMapDisplay = new MapDisplay();
             this.SuspendLayout();
             // 
             // cVScrollBar

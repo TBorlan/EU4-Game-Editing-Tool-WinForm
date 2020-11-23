@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EU4 Game Editing Tool WinFo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EU4UnitTests", "EU4UnitTests\EU4UnitTests.csproj", "{A12D93A2-9552-4459-BA7A-B58E9E7762BB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EU4GET-WF.ImageRendering", "EU4GET-WF.ImageRendering\EU4GET-WF.ImageRendering.csproj", "{EB2295E8-3505-4BB4-BA1E-58CA4D409326}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -20,6 +22,10 @@ Global
 		{A12D93A2-9552-4459-BA7A-B58E9E7762BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A12D93A2-9552-4459-BA7A-B58E9E7762BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A12D93A2-9552-4459-BA7A-B58E9E7762BB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB2295E8-3505-4BB4-BA1E-58CA4D409326}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB2295E8-3505-4BB4-BA1E-58CA4D409326}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB2295E8-3505-4BB4-BA1E-58CA4D409326}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB2295E8-3505-4BB4-BA1E-58CA4D409326}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

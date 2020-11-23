@@ -1,12 +1,6 @@
 ﻿using System;
-using System.CodeDom;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace EU4_Game_Editing_Tool_WinForm
+namespace EU4GET_WF.ImageRendering.Border
 {
     public struct BorderPoint : IEquatable<BorderPoint>, IEquatable<Point>
     {
@@ -127,7 +121,7 @@ namespace EU4_Game_Editing_Tool_WinForm
 
         public override int GetHashCode()
         {
-            return new Point(mX, mY).GetHashCode();
+            return new Point(this.mX, this.mY).GetHashCode();
         }
 
         public bool IsColinear(BorderPoint point)

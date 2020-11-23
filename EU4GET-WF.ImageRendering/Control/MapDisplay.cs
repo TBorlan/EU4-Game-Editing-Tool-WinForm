@@ -1,20 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
+using System.Drawing.Drawing2D;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Drawing.Drawing2D;
+using EU4_Game_Editing_Tool_WinForm;
+using EU4GET_WF.ImageRendering.Border;
 
-namespace EU4_Game_Editing_Tool_WinForm
+
+namespace EU4GET_WF.ImageRendering.Control
 {
     ///<summary>
     ///Helper Class for displaying images
     ///</summary>
-    public partial class MapDisplay : Control
+    public partial class MapDisplay : System.Windows.Forms.Control
     {
         #region Members
 
@@ -103,30 +102,30 @@ namespace EU4_Game_Editing_Tool_WinForm
         {
             if (e.Button == MouseButtons.Middle)
             {
-                _mPanPoint = new Point((Size)(e.Location));
-                _mMiddlePressed = true;
+                this._mPanPoint = new Point((Size)(e.Location));
+                this._mMiddlePressed = true;
             }
             base.OnMouseDown(e);
         }
 
         protected override void OnMouseMove(MouseEventArgs e)
         {
-            if (_mMiddlePressed)
+            if (this._mMiddlePressed)
             {
-                Point offset = new Point((Size)(_mPanPoint) - (Size)(e.Location));
-                _mPanPoint = e.Location;
-                Pan?.Invoke(this, offset);
+                Point offset = new Point((Size)(this._mPanPoint) - (Size)(e.Location));
+                this._mPanPoint = e.Location;
+                this.Pan?.Invoke(this, offset);
             }
             base.OnMouseMove(e);
         }
 
         protected override void OnMouseUp(MouseEventArgs e)
         {
-            if (_mMiddlePressed)
+            if (this._mMiddlePressed)
             {
                 if(e.Button == MouseButtons.Middle)
                 {
-                    _mMiddlePressed = false;
+                    this._mMiddlePressed = false;
                 }
             }
             base.OnMouseUp(e);

@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using System.Threading.Tasks;
+using EU4GET_WF.ImageRendering.Border;
+using EU4GET_WF.ImageRendering.Logic;
 
-namespace EU4_Game_Editing_Tool_WinForm
+namespace EU4GET_WF.ImageRendering.Control
 {
     public partial class DisplayPanel : UserControl
     {
@@ -60,7 +54,7 @@ namespace EU4_Game_Editing_Tool_WinForm
 
         public DisplayPanel(Bitmap map)
         {
-            InitializeComponent();
+            this.InitializeComponent();
             this.Enabled = false;
             this.Visible = false;
             this._mDisplayRenderingEngine = new DisplayRenderingEngine();
@@ -71,7 +65,7 @@ namespace EU4_Game_Editing_Tool_WinForm
 
         public DisplayPanel()
         {
-            InitializeComponent();
+            this.InitializeComponent();
             this.Enabled = false;
             this.Visible = false;
             this._mDisplayRenderingEngine = new DisplayRenderingEngine();

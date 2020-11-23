@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Shapes;
+﻿using System.Collections.Generic;
+using EU4GET_WF.ImageRendering.Border;
 
-namespace EU4_Game_Editing_Tool_WinForm
+namespace EU4GET_WF.ImageRendering.Logic
 {
     public class SelectionManager
     {
@@ -31,9 +24,9 @@ namespace EU4_Game_Editing_Tool_WinForm
         {
             get
             {
-                if (_mActivePath != null)
+                if (this._mActivePath != null)
                 {
-                    return (GraphicsPath)_mActivePath.Clone();
+                    return (GraphicsPath)this._mActivePath.Clone();
                 }
                 return null;
             }
@@ -52,12 +45,12 @@ namespace EU4_Game_Editing_Tool_WinForm
             if (!this._mActiveProvinces.Contains(color))
             {
                 this._mActiveProvinces.Add(color);
-                _mProvinceBorders.ComplementVirtualProvince(ref this._mActivePixels, color);
+                this._mProvinceBorders.ComplementVirtualProvince(ref this._mActivePixels, color);
             }
             else
             {
                 this._mActiveProvinces.Remove(color);
-                _mProvinceBorders.ComplementVirtualProvince(ref this._mActivePixels, color);
+                this._mProvinceBorders.ComplementVirtualProvince(ref this._mActivePixels, color);
             }
             if (this._mActiveProvinces.Count != 0)
             {

@@ -1,13 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+using EU4GET_WF.ImageRendering.Control;
 
-namespace EU4_Game_Editing_Tool_WinForm
+namespace EU4GET_WF.ImageRendering.Logic
 {
     class DisplayRenderingEngine
     {
@@ -166,22 +160,22 @@ namespace EU4_Game_Editing_Tool_WinForm
             Point displayOrigin, selectionOrigin;
             int displayWidth, displayHeight;
 
-            selectionOrigin = new Point(Math.Max((int)((_mHScrollBar.Value - this._mMargins.Width) / this._mScale), 0),
-                                            Math.Max((int)((_mVScrollBar.Value - this._mMargins.Height) / this._mScale), 0));
-            displayOrigin = new Point(Math.Max(this._mMargins.Width - _mHScrollBar.Value, 0),
-                                          Math.Max(this._mMargins.Height - _mVScrollBar.Value, 0));
+            selectionOrigin = new Point(Math.Max((int)((this._mHScrollBar.Value - this._mMargins.Width) / this._mScale), 0),
+                                            Math.Max((int)((this._mVScrollBar.Value - this._mMargins.Height) / this._mScale), 0));
+            displayOrigin = new Point(Math.Max(this._mMargins.Width - this._mHScrollBar.Value, 0),
+                                          Math.Max(this._mMargins.Height - this._mVScrollBar.Value, 0));
             // It means we should see some upper margins
-            if (_mHScrollBar.Value - 1 + _mHScrollBar.LargeChange + this._mMargins.Width > _mHScrollBar.Maximum)
+            if (this._mHScrollBar.Value - 1 + this._mHScrollBar.LargeChange + this._mMargins.Width > this._mHScrollBar.Maximum)
             {
-                displayWidth = this._mPhysicalSize.Width - displayOrigin.X - ((this._mVirtualSize.Width + this._mMargins.Width) - (_mHScrollBar.Value - 1 + _mHScrollBar.LargeChange));
+                displayWidth = this._mPhysicalSize.Width - displayOrigin.X - ((this._mVirtualSize.Width + this._mMargins.Width) - (this._mHScrollBar.Value - 1 + this._mHScrollBar.LargeChange));
             }
             else
             {
                 displayWidth = this._mPhysicalSize.Width - displayOrigin.X;
             }
-            if (_mVScrollBar.Value - 1 + _mVScrollBar.LargeChange + this._mMargins.Height > _mVScrollBar.Maximum)
+            if (this._mVScrollBar.Value - 1 + this._mVScrollBar.LargeChange + this._mMargins.Height > this._mVScrollBar.Maximum)
             {
-                displayHeight = this._mPhysicalSize.Height - displayOrigin.Y - ((this._mVirtualSize.Height + this._mMargins.Height) - (_mVScrollBar.Value - 1 + _mVScrollBar.LargeChange));
+                displayHeight = this._mPhysicalSize.Height - displayOrigin.Y - ((this._mVirtualSize.Height + this._mMargins.Height) - (this._mVScrollBar.Value - 1 + this._mVScrollBar.LargeChange));
             }
             else
             {
@@ -228,7 +222,7 @@ namespace EU4_Game_Editing_Tool_WinForm
             // This is the real location on the bitmap where we made the zoom
             Point referencePoint = Point.Add(this._mSelectionRectangle.Location, (Size)point);
             this._mRenderingSuspended = true;
-            this.mScale = Math.Min(20f, Math.Max(0.1f, _mScale + (args.Delta > 0 ? 0.2f : -0.2f)));
+            this.mScale = Math.Min(20f, Math.Max(0.1f, this._mScale + (args.Delta > 0 ? 0.2f : -0.2f)));
             this.ProccessSize();
             this.TranslateOriginalToScaled(referencePoint);
             referencePoint = Point.Add(referencePoint, this.mMargins);
@@ -250,7 +244,7 @@ namespace EU4_Game_Editing_Tool_WinForm
             if (args.Button == MouseButtons.Left)
             {
                 Point translatedUpperLeft = Point.Subtract(args.Location, (Size)(this._mDisplayRectangle.Location));
-                Point translatedLowerRight = Point.Subtract(args.Location, new Size(this._mDisplayRectangle.Right, _mDisplayRectangle.Bottom));
+                Point translatedLowerRight = Point.Subtract(args.Location, new Size(this._mDisplayRectangle.Right, this._mDisplayRectangle.Bottom));
                 if ((translatedUpperLeft.X >= 0) && (translatedUpperLeft.Y >= 0) && (translatedLowerRight.X <= 0) && (translatedLowerRight.Y <= 0))
                 {
                     Point selectedPoint = this.TranslateScaledToOriginal(translatedUpperLeft);
@@ -324,7 +318,7 @@ namespace EU4_Game_Editing_Tool_WinForm
                 {
                     Matrix matrix = new Matrix();
                     matrix.Scale(this.mScale, this.mScale);
-                    matrix.Translate((float)(Math.Round((double)(-mScale / 2))), (float)(Math.Round((double)(-mScale / 2))), MatrixOrder.Append);
+                    matrix.Translate((float)(Math.Round((double)(-this.mScale / 2))), (float)(Math.Round((double)(-this.mScale / 2))), MatrixOrder.Append);
                     matrix.Translate(-this._mSelectionRectangle.X * this._mScale + this._mDisplayRectangle.X, -this._mSelectionRectangle.Y * this._mScale + this._mDisplayRectangle.Y, MatrixOrder.Append);
                     GraphicsPath paths = this._mDisplayPanel._mSelectionManager.mActivePath;
                     paths.Transform(matrix);

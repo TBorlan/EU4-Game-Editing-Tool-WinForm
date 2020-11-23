@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace EU4_Game_Editing_Tool_WinForm
+namespace EU4GET_WF.ImageRendering.Border
 {
     public struct BorderLine : IEquatable<BorderLine>
     {
@@ -59,7 +55,7 @@ namespace EU4_Game_Editing_Tool_WinForm
         {
             get
             {
-                if (mStart.mX == mEnd.mX)
+                if (this.mStart.mX == this.mEnd.mX)
                 {
                     return BorderPlane.Vertical;
                 }
@@ -75,8 +71,8 @@ namespace EU4_Game_Editing_Tool_WinForm
 
         public BorderLine (BorderPoint start, BorderPoint end)
         {
-            _mStart = start;
-            _mEnd = end;
+            this._mStart = start;
+            this._mEnd = end;
         }
 
         public override bool Equals(object obj)
@@ -105,7 +101,7 @@ namespace EU4_Game_Editing_Tool_WinForm
 
         public override int GetHashCode()
         {
-            return (mStart, mEnd).GetHashCode();
+            return (this.mStart, this.mEnd).GetHashCode();
         }
 
         public bool IsColinear(BorderLine line)
