@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
@@ -45,7 +48,7 @@ namespace EU4GET_WF.ImageRendering.Border
         private void GenerateBordersPaths(Bitmap bitmap)
         {
             Rectangle rect = new Rectangle(0, 0, bitmap.Width, bitmap.Height);
-            BitmapData bmpData = bitmap.LockBits(rect, System.Drawing.Imaging.ImageLockMode.ReadWrite, PixelFormat.Format24bppRgb);
+            BitmapData bmpData = bitmap.LockBits(rect, ImageLockMode.ReadWrite, PixelFormat.Format24bppRgb);
             IntPtr ptr = bmpData.Scan0;
             int bytes = Math.Abs(bmpData.Stride) * bitmap.Height;
             byte[] rgbValues = new byte[bytes];
@@ -70,45 +73,45 @@ namespace EU4GET_WF.ImageRendering.Border
             Parallel.For(0, height, (int prow) =>
             {
                 for (int col = 0; col < width; col++)
-                 {
-                     Color color = pixelColors[prow, col];
-                     lock (lockObj)
-                     {
-                         if (!this._mProvincesPoints.ContainsKey(color))
-                         {
-                             this._mProvincesPoints.Add(color, new HashSet<BorderPoint[]>());
-                         }
-                     }
-                     BorderPoint[] colorLine = new BorderPoint[3];
-                     colorLine[0] = new BorderPoint(col, prow);
-                     do
-                     {
-                         if(col < width)
-                         {
-                             if(color == pixelColors[prow, col])
-                             {
-                                 col++;
-                             }
-                             else
-                             {
-                                 break;
-                             }
-                         }
-                         else
-                         {
-                             break;
-                         }
-                     } while (true);
-                     col--;
-                     colorLine[1] = new BorderPoint(col, prow);
-                     colorLine[2] = new BorderPoint(-1, 0); // horizontal line
-                     lock (lockObj)
-                     {
-                         HashSet<BorderPoint[]> Lines = this._mProvincesPoints[color];
-                         Lines.Add(colorLine);
-                     }
-                 }
-             });
+                {
+                    Color color = pixelColors[prow, col];
+                    lock (lockObj)
+                    {
+                        if (!this._mProvincesPoints.ContainsKey(color))
+                        {
+                            this._mProvincesPoints.Add(color, new HashSet<BorderPoint[]>());
+                        }
+                    }
+                    BorderPoint[] colorLine = new BorderPoint[3];
+                    colorLine[0] = new BorderPoint(col, prow);
+                    do
+                    {
+                        if(col < width)
+                        {
+                            if(color == pixelColors[prow, col])
+                            {
+                                col++;
+                            }
+                            else
+                            {
+                                break;
+                            }
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    } while (true);
+                    col--;
+                    colorLine[1] = new BorderPoint(col, prow);
+                    colorLine[2] = new BorderPoint(-1, 0); // horizontal line
+                    lock (lockObj)
+                    {
+                        HashSet<BorderPoint[]> lines = this._mProvincesPoints[color];
+                        lines.Add(colorLine);
+                    }
+                }
+            });
             //Traverse columns
             Parallel.For(0, width, (int col) =>
             {
@@ -147,8 +150,8 @@ namespace EU4GET_WF.ImageRendering.Border
                     colorLine[2] = new BorderPoint(-2, 0); // vertical line
                     lock (lockObj)
                     {
-                        HashSet<BorderPoint[]> Lines = this._mProvincesPoints[color];
-                        Lines.Add(colorLine);
+                        HashSet<BorderPoint[]> lines = this._mProvincesPoints[color];
+                        lines.Add(colorLine);
                     }
                 }
             });
@@ -161,7 +164,7 @@ namespace EU4GET_WF.ImageRendering.Border
                 {
                     this._mProvincesLines.Add(keyValue.Key, new HashSet<BorderLine>(keyValue.Value.Count / 4));
                 }
-                this.ProccessProvince(keyValue.Value, this._mProvincesLines[keyValue.Key]);
+                this.ProcessProvince(keyValue.Value, this._mProvincesLines[keyValue.Key]);
 
             });     
         }
@@ -191,7 +194,7 @@ namespace EU4GET_WF.ImageRendering.Border
             lines = new HashSet<BorderLine>(lines);
             GraphicsPath path = new GraphicsPath();
             int x;
-            BorderLine points = lines.First<BorderLine>();
+            BorderLine points = lines.First();
 
             path.StartFigure();
             path.AddLine(points.mStart, points.mEnd);
@@ -199,19 +202,16 @@ namespace EU4GET_WF.ImageRendering.Border
             while (lines.Count > 0)
             {
                 x = lines.Count;
-                foreach (BorderLine line in lines)
+                foreach (BorderLine line in lines.Where(line => path.GetLastPoint() == (PointF)line.mStart))
                 {
-                    if (path.GetLastPoint() == (PointF)line.mStart)
-                    {
-                        path.AddLine(line.mStart, line.mEnd);
-                        lines.Remove(line);
-                        break;
-                    }
+                    path.AddLine(line.mStart, line.mEnd);
+                    lines.Remove(line);
+                    break;
                 }
                 if (x == lines.Count)
                 {
                     path.StartFigure();
-                    points = lines.First<BorderLine>();
+                    points = lines.First();
                     path.AddLine(points.mStart, points.mEnd);
                     lines.Remove(points);
                 }
@@ -343,16 +343,15 @@ namespace EU4GET_WF.ImageRendering.Border
             //}
             List<BorderLine> lineToAdd = new List<BorderLine>(this._mProvincesLines[complementingProvince].Count);
             HashSet<BorderLine> lineToRemove = new HashSet<BorderLine>(this._mProvincesLines[complementingProvince].Count);
-            bool found;
             foreach (BorderLine line1 in this._mProvincesLines[complementingProvince])
             {
-                found = false;
+                bool found = false;
                 foreach (BorderLine line2 in provinceLines)
                 {
                     BorderLine[] newLines = line1.Exclude(line2);
                     if (newLines != null)
                     {
-                        if (newLines.Count<BorderLine>() > 0)
+                        if (newLines.Any())
                         {
                             if (lineToAdd.Count > 0)
                             {      
@@ -386,7 +385,7 @@ namespace EU4GET_WF.ImageRendering.Border
                                         }
                                     }
                                 }
-                                if (newLines.Count() > 0)
+                                if (newLines.Any())
                                 {
                                     lineToAdd.AddRange(newLines);
                                 }
@@ -420,7 +419,7 @@ namespace EU4GET_WF.ImageRendering.Border
 
         #region Line Tracing
 
-        private void ProccessProvince(HashSet<BorderPoint[]> lines, HashSet<BorderLine> result)
+        private void ProcessProvince(HashSet<BorderPoint[]> lines, HashSet<BorderLine> result)
         {
             List<BorderPoint> vRightPoints = new List<BorderPoint>(lines.Count / 2);
             List<BorderPoint> vLeftPoints = new List<BorderPoint>(lines.Count / 2);
