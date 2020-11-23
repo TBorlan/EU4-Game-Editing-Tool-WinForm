@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System.Drawing;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 using EU4GET_WF.ImageRendering.Border;
 using EU4GET_WF.ImageRendering.Logic;
 
@@ -6,7 +8,7 @@ namespace EU4GET_WF.ImageRendering.Control
 {
     public partial class DisplayPanel : UserControl
     {
-        private DisplayRenderingEngine _mDisplayRenderingEngine;
+        private readonly DisplayRenderingEngine _mDisplayRenderingEngine;
 
         public SelectionManager _mSelectionManager;
 
@@ -47,7 +49,7 @@ namespace EU4GET_WF.ImageRendering.Control
                 {
                     this.cMapDisplay.mOriginalBitmap?.Dispose();
                     this.cMapDisplay.mOriginalBitmap = new Bitmap((Image)value);
-                    this.EnablePanel(this.cMapDisplay.mOriginalBitmap);
+                    _ = this.EnablePanel(this.cMapDisplay.mOriginalBitmap);
                 }
             }
         }

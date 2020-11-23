@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Windows.Forms;
 using EU4GET_WF.ImageRendering.Control;
 
 namespace EU4GET_WF.ImageRendering.Logic
@@ -12,13 +15,12 @@ namespace EU4GET_WF.ImageRendering.Logic
         private Size _mPhysicalSize;
         private Size mPhysicalSize
         {
-            get => this._mPhysicalSize;
             set
             {
                 this._mPhysicalSize = value;
                 if (!this._mRenderingSuspended)
                 {
-                    this.ProccessSize();
+                    this.ProcessSize();
                 }
             }
         }
@@ -33,13 +35,16 @@ namespace EU4GET_WF.ImageRendering.Logic
 
         public Size mMargins
         {
-            get => this._mMargins;
+            get
+            {
+                return this._mMargins;
+            }
             set
             {
                 this._mMinMargins = value;
                 if (this._mRenderingSuspended)
                 {
-                    this.ProccessSize();
+                    this.ProcessSize();
                 }
             }
         }
@@ -52,7 +57,10 @@ namespace EU4GET_WF.ImageRendering.Logic
 
         public DisplayPanel mBoundPanel
         {
-            private get => this._mDisplayPanel;
+            private get
+            {
+                return this._mDisplayPanel;
+            }
             set
             {
                 this._mDisplayPanel = value;
@@ -64,7 +72,10 @@ namespace EU4GET_WF.ImageRendering.Logic
 
         public float mScale
         {
-            get => this._mScale;
+            get
+            {
+                return this._mScale;
+            }
             set
             {
                 this._mScale = value;
@@ -73,7 +84,7 @@ namespace EU4GET_WF.ImageRendering.Logic
                 this._mVirtualSize.Height = (int)Math.Truncate(this._mVirtualSize.Height * this.mScale);
                 if (this._mRenderingSuspended)
                 {
-                    this.ProccessSize();
+                    this.ProcessSize();
                 }
             }
         }
@@ -92,7 +103,7 @@ namespace EU4GET_WF.ImageRendering.Logic
                 this.mScale = scale;
                 this.mMargins = marginsSize;
                 this._mRenderingSuspended = false;
-                this.ProccessSize();
+                this.ProcessSize();
             }
             else
             {
@@ -196,7 +207,7 @@ namespace EU4GET_WF.ImageRendering.Logic
 
         private void GetSize(object mapDisplay, EventArgs args)
         {
-            this.mPhysicalSize = ((Control)mapDisplay).Size;
+            this.mPhysicalSize = ((System.Windows.Forms.Control)mapDisplay).Size;
         }
 
         private void GetScrollOffset(object mapDisplay, Point offset)
@@ -223,8 +234,8 @@ namespace EU4GET_WF.ImageRendering.Logic
             Point referencePoint = Point.Add(this._mSelectionRectangle.Location, (Size)point);
             this._mRenderingSuspended = true;
             this.mScale = Math.Min(20f, Math.Max(0.1f, this._mScale + (args.Delta > 0 ? 0.2f : -0.2f)));
-            this.ProccessSize();
-            this.TranslateOriginalToScaled(referencePoint);
+            this.ProcessSize();
+            referencePoint = this.TranslateOriginalToScaled(referencePoint);
             referencePoint = Point.Add(referencePoint, this.mMargins);
             referencePoint = Point.Subtract(referencePoint, (Size)(args.Location));       
             if ((referencePoint.X > 0) && (referencePoint.X < (this._mHScrollBar.Maximum - this._mHScrollBar.LargeChange + 1)))
@@ -279,7 +290,7 @@ namespace EU4GET_WF.ImageRendering.Logic
         public void ResumeRendering()
         {
             this._mRenderingSuspended = false;
-            this.ProccessSize();
+            this.ProcessSize();
         }
 
         public void SuspendRendering()
@@ -287,7 +298,7 @@ namespace EU4GET_WF.ImageRendering.Logic
             this._mRenderingSuspended = true;
         }
 
-        public void ProccessSize()
+        public void ProcessSize()
         {
             this._mMargins = new Size(this._mVirtualSize.Width + (2 * this._mMinMargins.Width) > this._mPhysicalSize.Width ? this._mMinMargins.Width : (int)((this._mPhysicalSize.Width - this._mVirtualSize.Width) / 2.0f),
                                       this._mVirtualSize.Height + 2 * this._mMinMargins.Height > this._mPhysicalSize.Height ? this._mMinMargins.Height : (int)((this._mPhysicalSize.Height - this._mVirtualSize.Height) / 2.0f));
@@ -318,7 +329,7 @@ namespace EU4GET_WF.ImageRendering.Logic
                 {
                     Matrix matrix = new Matrix();
                     matrix.Scale(this.mScale, this.mScale);
-                    matrix.Translate((float)(Math.Round((double)(-this.mScale / 2))), (float)(Math.Round((double)(-this.mScale / 2))), MatrixOrder.Append);
+                    matrix.Translate((float)(Math.Round(-this.mScale / 2)), (float)(Math.Round(-this.mScale / 2)), MatrixOrder.Append);
                     matrix.Translate(-this._mSelectionRectangle.X * this._mScale + this._mDisplayRectangle.X, -this._mSelectionRectangle.Y * this._mScale + this._mDisplayRectangle.Y, MatrixOrder.Append);
                     GraphicsPath paths = this._mDisplayPanel._mSelectionManager.mActivePath;
                     paths.Transform(matrix);

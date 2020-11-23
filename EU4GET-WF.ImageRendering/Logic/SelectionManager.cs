@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Drawing2D;
 using EU4GET_WF.ImageRendering.Border;
 
 namespace EU4GET_WF.ImageRendering.Logic
@@ -14,28 +16,21 @@ namespace EU4GET_WF.ImageRendering.Logic
 
         private GraphicsPath _mActivePath;
 
-        private List<Color> _mActiveProvinces;
+        private readonly List<Color> _mActiveProvinces;
 
         private HashSet<BorderLine> _mActivePixels = new HashSet<BorderLine>();
 
-        private ProvinceBorders _mProvinceBorders;
+        private readonly ProvinceBorders _mProvinceBorders;
 
         public GraphicsPath mActivePath
         {
             get
             {
-                if (this._mActivePath != null)
-                {
-                    return (GraphicsPath)this._mActivePath.Clone();
-                }
-                return null;
+                return (GraphicsPath) this._mActivePath?.Clone();
             }
             private set
             {
-                if (this._mActivePath != null)
-                {
-                    this._mActivePath.Dispose();
-                }
+                this._mActivePath?.Dispose();
                 this._mActivePath = value;
             }
         }
@@ -52,14 +47,10 @@ namespace EU4GET_WF.ImageRendering.Logic
                 this._mActiveProvinces.Remove(color);
                 this._mProvinceBorders.ComplementVirtualProvince(ref this._mActivePixels, color);
             }
-            if (this._mActiveProvinces.Count != 0)
-            {
-                this.mActivePath = this._mProvinceBorders.ProcessVirtualProvince(this._mActivePixels);
-            }
-            else
-            {
-                this.mActivePath = null;
-            }
+
+            this.mActivePath = this._mActiveProvinces.Count != 0
+                ? this._mProvinceBorders.ProcessVirtualProvince(this._mActivePixels)
+                : null;
         }
     }
 }
