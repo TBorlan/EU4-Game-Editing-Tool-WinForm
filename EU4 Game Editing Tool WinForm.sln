@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29209.62
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EU4UnitTests", "EU4UnitTests\EU4UnitTests.csproj", "{A12D93A2-9552-4459-BA7A-B58E9E7762BB}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EU4GET-WF.ImageRendering", "EU4GET-WF.ImageRendering\EU4GET-WF.ImageRendering.csproj", "{EB2295E8-3505-4BB4-BA1E-58CA4D409326}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EU4GET-WF.Logic", "EU4GET-WF.Logic\EU4GET-WF.Logic.csproj", "{74A2655A-382D-44D4-BD88-5DB417E6C9A3}"
@@ -19,9 +17,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{A12D93A2-9552-4459-BA7A-B58E9E7762BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A12D93A2-9552-4459-BA7A-B58E9E7762BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A12D93A2-9552-4459-BA7A-B58E9E7762BB}.Release|Any CPU.Build.0 = Release|Any CPU
 		{EB2295E8-3505-4BB4-BA1E-58CA4D409326}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{EB2295E8-3505-4BB4-BA1E-58CA4D409326}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EB2295E8-3505-4BB4-BA1E-58CA4D409326}.Release|Any CPU.ActiveCfg = Release|Any CPU
