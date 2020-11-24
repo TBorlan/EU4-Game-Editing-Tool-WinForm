@@ -1,4 +1,6 @@
-﻿namespace EU4_Game_Editing_Tool_WinForm
+﻿using EU4GET_WF.ImageRendering.Control;
+
+namespace EU4GET_WF.GUI
 {
     partial class MainForm
     {
@@ -13,9 +15,9 @@
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
-            if (disposing && (components != null))
+            if (disposing && (this.components != null))
             {
-                components.Dispose();
+                this.components.Dispose();
             }
             base.Dispose(disposing);
         }
@@ -29,7 +31,7 @@
         private void InitializeComponent()
         {
             this.cOpenModButton = new System.Windows.Forms.Button();
-            this.cDisplayPanel = new EU4_Game_Editing_Tool_WinForm.DisplayPanel();
+            this.cDisplayPanel = new DisplayPanel();
             this.SuspendLayout();
             // 
             // cOpenModButton

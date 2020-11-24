@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Drawing;
+using EU4GET_WF.GUI;
 
-namespace EU4_Game_Editing_Tool_WinForm
+namespace EU4GET_WF
 {
     static class Program
     {

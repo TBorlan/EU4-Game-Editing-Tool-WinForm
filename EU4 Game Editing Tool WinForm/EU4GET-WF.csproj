@@ -6,13 +6,15 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{C6F987BE-36F3-440A-AC05-DD540F1F00C1}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>EU4_Game_Editing_Tool_WinForm</RootNamespace>
-    <AssemblyName>EU4 Game Editing Tool WinForm</AssemblyName>
+    <RootNamespace>EU4GET_WF</RootNamespace>
+    <AssemblyName>EU4GET-WF</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
     <IsWebBootstrapper>false</IsWebBootstrapper>
+    <LangVersion>8.0</LangVersion>
+    <TargetFrameworkProfile />
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -27,8 +29,6 @@
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <LangVersion>8.0</LangVersion>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -76,28 +76,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GameData\DataContainer.cs" />
-    <Compile Include="GameData\DataItem.cs" />
-    <Compile Include="GameData\DataItemComparer.cs" />
-    <Compile Include="GameData\DataSet.cs" />
-    <Compile Include="GameData\DataTypes.cs" />
-    <Compile Include="GameData\history\provinces\ProvincesDataContainer.cs" />
-    <Compile Include="GameData\history\provinces\ProvincesDataItem.cs" />
-    <Compile Include="GameData\history\provinces\ProvincesDataSet.cs" />
-    <Compile Include="GameData\ILookupable.cs" />
-    <Compile Include="GameData\LUT.cs" />
-    <Compile Include="GameData\LUTStatusEnum.cs" />
-    <Compile Include="GameData\ValueTypes.cs" />
-    <Compile Include="MainForm.cs">
+    <Compile Include="GUI\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MainForm.Designer.cs">
+    <Compile Include="GUI\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Province.cs" />
-    <EmbeddedResource Include="MainForm.resx">
+    <Compile Include="Settings.cs" />
+    <EmbeddedResource Include="GUI\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -139,11 +127,18 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="GameData\history\countries\" />
-    <Folder Include="GameData\history\diplomacy\" />
-    <Folder Include="GameData\history\wars\" />
-    <Folder Include="Logic\" />
-    <Folder Include="SerDes\" />
+    <ProjectReference Include="..\EU4GET-WF.ImageRendering\EU4GET-WF.ImageRendering.csproj">
+      <Project>{eb2295e8-3505-4bb4-ba1e-58ca4d409326}</Project>
+      <Name>EU4GET-WF.ImageRendering</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EU4GET-WF.Logic\EU4GET-WF.Logic.csproj">
+      <Project>{74a2655a-382d-44d4-bd88-5db417e6c9a3}</Project>
+      <Name>EU4GET-WF.Logic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EU4GET-WF.SerDes\EU4GET-WF.SerDes.csproj">
+      <Project>{172b28b4-3049-4dd3-99fb-a61b8271c56f}</Project>
+      <Name>EU4GET-WF.SerDes</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

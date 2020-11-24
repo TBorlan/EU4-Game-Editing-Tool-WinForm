@@ -68,9 +68,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\EU4 Game Editing Tool WinForm\EU4 Game Editing Tool WinForm.csproj">
+    <ProjectReference Include="..\EU4 Game Editing Tool WinForm\EU4GET-WF.csproj">
       <Project>{c6f987be-36f3-440a-ac05-dd540f1f00c1}</Project>
-      <Name>EU4 Game Editing Tool WinForm</Name>
+      <Name>EU4GET-WF</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />

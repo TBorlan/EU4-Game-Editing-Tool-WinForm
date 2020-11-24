@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29209.62
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EU4 Game Editing Tool WinForm", "EU4 Game Editing Tool WinForm\EU4 Game Editing Tool WinForm.csproj", "{C6F987BE-36F3-440A-AC05-DD540F1F00C1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EU4GET-WF", "EU4 Game Editing Tool WinForm\EU4GET-WF.csproj", "{C6F987BE-36F3-440A-AC05-DD540F1F00C1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EU4UnitTests", "EU4UnitTests\EU4UnitTests.csproj", "{A12D93A2-9552-4459-BA7A-B58E9E7762BB}"
 EndProject

@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections;
-using System.Linq;
 
 namespace EU4_Game_Editing_Tool_WinForm.GameData
 {

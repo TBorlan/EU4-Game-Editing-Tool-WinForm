@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.ComTypes;
 using Pose;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using EU4_Game_Editing_Tool_WinForm.FileParsing;
-using EU4_Game_Editing_Tool_WinForm.Factory.FileParsing;
 
 namespace EU4UnitTests
 {

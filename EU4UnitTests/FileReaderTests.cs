@@ -2,7 +2,6 @@
 using System.IO;
 using System.Reflection;
 using Pose;
-using EU4_Game_Editing_Tool_WinForm.FileParsing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace EU4UnitTests
