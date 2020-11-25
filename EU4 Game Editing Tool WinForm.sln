@@ -11,6 +11,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EU4GET-WF.SerDes", "EU4GET-
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EU4GET-WF", "EU4GET-WF\EU4GET-WF.csproj", "{C6F987BE-36F3-440A-AC05-DD540F1F00C1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EU4GET-WF.ImageRendering.UnitTest", "EU4GET-WF.ImageRendering.UnitTest\EU4GET-WF.ImageRendering.UnitTest.csproj", "{4E70D81D-7755-4CA8-B14E-1D8D86178EE6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EU4GET-WF.ImageRendering.OptimizationTest", "EU4GET-WF.ImageRendering.OptimizationTest\EU4GET-WF.ImageRendering.OptimizationTest.csproj", "{3A219A35-99CC-47CD-AB7F-B57421C24D98}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +37,14 @@ Global
 		{C6F987BE-36F3-440A-AC05-DD540F1F00C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C6F987BE-36F3-440A-AC05-DD540F1F00C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C6F987BE-36F3-440A-AC05-DD540F1F00C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4E70D81D-7755-4CA8-B14E-1D8D86178EE6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4E70D81D-7755-4CA8-B14E-1D8D86178EE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4E70D81D-7755-4CA8-B14E-1D8D86178EE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4E70D81D-7755-4CA8-B14E-1D8D86178EE6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A219A35-99CC-47CD-AB7F-B57421C24D98}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A219A35-99CC-47CD-AB7F-B57421C24D98}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A219A35-99CC-47CD-AB7F-B57421C24D98}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A219A35-99CC-47CD-AB7F-B57421C24D98}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
