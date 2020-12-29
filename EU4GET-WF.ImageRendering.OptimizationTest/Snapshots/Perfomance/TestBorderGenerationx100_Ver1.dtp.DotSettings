@@ -1,0 +1,156 @@
+﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	
+	<s:String x:Key="/Default/HotspotsPrecomputing/VirtualFunctionsList/=EU4GET_005FWF_002EImageRendering_002EOptimizationTest_002EVer1_002EBorder_002EProvinceBorders_002B_003C_003Ec_005F_005FDisplayClass7_005F0_002E_003CGenerateBordersPaths_003Eb_005F_005F2/@EntryIndexedValue">&lt;data&gt;&lt;Implementations&gt;&lt;Implementation FuId="0x00500087" OwnTime="127125036519" SysTime="2806104996572" TotalTime="2935114956153" /&gt;&lt;/Implementations&gt;&lt;/data&gt;</s:String>
+	<s:String x:Key="/Default/HotspotsPrecomputing/VirtualFunctionsList/=EU4GET_005FWF_002EImageRendering_002EOptimizationTest_002EVer1_002EBorder_002EProvinceBorders_002B_003C_003Ec_005F_005FDisplayClass7_005F0_002E_003CGenerateBordersPaths_003Eb_005F_005F1/@EntryIndexedValue">&lt;data&gt;&lt;Implementations&gt;&lt;Implementation FuId="0x00500086" OwnTime="104007496494" SysTime="1735029990257" TotalTime="1840068233951" /&gt;&lt;/Implementations&gt;&lt;/data&gt;</s:String>
+	<s:String x:Key="/Default/HotspotsPrecomputing/VirtualFunctionsList/=EU4GET_005FWF_002EImageRendering_002EOptimizationTest_002EVer1_002EBorder_002EProvinceBorders_002B_003C_003Ec_005F_005FDisplayClass7_005F0_002E_003CGenerateBordersPaths_003Eb_005F_005F3/@EntryIndexedValue">&lt;data&gt;&lt;Implementations&gt;&lt;Implementation FuId="0x00500088" OwnTime="17973121377" SysTime="594024404391" TotalTime="1150011510314" /&gt;&lt;/Implementations&gt;&lt;/data&gt;</s:String>
+	<s:String x:Key="/Default/HotspotsPrecomputing/VirtualFunctionsList/=EU4GET_005FWF_002EImageRendering_002EOptimizationTest_002EVer1_002EBorder_002EProvinceBorders_002B_003C_003Ec_005F_005FDisplayClass7_005F0_002E_003CGenerateBordersPaths_003Eb_005F_005F0/@EntryIndexedValue">&lt;data&gt;&lt;Implementations&gt;&lt;Implementation FuId="0x00500085" OwnTime="144675683522" SysTime="67072344769" TotalTime="211748028291" /&gt;&lt;/Implementations&gt;&lt;/data&gt;</s:String>
+	<s:String x:Key="/Default/HotspotsPrecomputing/VirtualFunctionsList/=EU4GET_005FWF_002EImageRendering_002EOptimizationTest_002EVer1_002EBorder_002EProvinceBorders_002EProcessProvince/@EntryIndexedValue">&lt;data&gt;&lt;Implementations&gt;&lt;Implementation FuId="0x0050006E" OwnTime="7068350657" SysTime="143750607032" TotalTime="538013984546" /&gt;&lt;/Implementations&gt;&lt;/data&gt;</s:String>
+	<s:String x:Key="/Default/HotspotsPrecomputing/VirtualFunctionsList/=EU4GET_005FWF_002EImageRendering_002EOptimizationTest_002EVer1_002EBorder_002EProvinceBorders_002ETraceHBottomLines/@EntryIndexedValue">&lt;data&gt;&lt;Implementations&gt;&lt;Implementation FuId="0x00500072" OwnTime="1739998833" SysTime="97615628229" TotalTime="104141350758" /&gt;&lt;/Implementations&gt;&lt;/data&gt;</s:String>
+	<s:String x:Key="/Default/HotspotsPrecomputing/VirtualFunctionsList/=EU4GET_005FWF_002EImageRendering_002EOptimizationTest_002EVer1_002EBorder_002EProvinceBorders_002ETraceVLeftLines/@EntryIndexedValue">&lt;data&gt;&lt;Implementations&gt;&lt;Implementation FuId="0x0050006F" OwnTime="1762174400" SysTime="89966308876" TotalTime="96830098764" /&gt;&lt;/Implementations&gt;&lt;/data&gt;</s:String>
+	<s:String x:Key="/Default/HotspotsPrecomputing/VirtualFunctionsList/=EU4GET_005FWF_002EImageRendering_002EOptimizationTest_002EVer1_002EBorder_002EProvinceBorders_002ETraceHTopLines/@EntryIndexedValue">&lt;data&gt;&lt;Implementations&gt;&lt;Implementation FuId="0x00500071" OwnTime="1530641977" SysTime="69341886206" TotalTime="79647817024" /&gt;&lt;/Implementations&gt;&lt;/data&gt;</s:String>
+	<s:String x:Key="/Default/HotspotsPrecomputing/VirtualFunctionsList/=EU4GET_005FWF_002EImageRendering_002EOptimizationTest_002EVer1_002EBorder_002EProvinceBorders_002ETraceVRightLines/@EntryIndexedValue">&lt;data&gt;&lt;Implementations&gt;&lt;Implementation FuId="0x00500070" OwnTime="1029859768" SysTime="37560180053" TotalTime="43983498810" /&gt;&lt;/Implementations&gt;&lt;/data&gt;</s:String>
+	<s:String x:Key="/Default/HotspotsPrecomputing/VirtualFunctionsList/=EU4GET_005FWF_002EImageRendering_002EOptimizationTest_002EVer1_002EBorder_002EProvinceBorders_002EGenerateBordersPaths/@EntryIndexedValue">&lt;data&gt;&lt;Implementations&gt;&lt;Implementation FuId="0x00500069" OwnTime="2331373525" SysTime="23995697065" TotalTime="323321886012" /&gt;&lt;/Implementations&gt;&lt;/data&gt;</s:String>
+	<s:String x:Key="/Default/HotspotsPrecomputing/VirtualFunctionsList/=EU4GET_005FWF_002EImageRendering_002EOptimizationTest_002EVer1_002EBorder_002EProvinceBorders_002B_003C_003Ec_002E_003CProcessProvince_003Eb_005F_005F12_005F3/@EntryIndexedValue">&lt;data&gt;&lt;Implementations&gt;&lt;Implementation FuId="0x00500090" OwnTime="5052817752" SysTime="12112997297" TotalTime="21026375361" /&gt;&lt;/Implementations&gt;&lt;/data&gt;</s:String>
+	<s:String x:Key="/Default/HotspotsPrecomputing/VirtualFunctionsList/=JetBrains_002ELauncher_002EMsil_002ELauncherManagedCore_002EJetBrains_002ELauncher_002EMsil_002EILauncherManagedCore_002EInvokeManagedMethod/@EntryIndexedValue">&lt;data&gt;&lt;Implementations&gt;&lt;Implementation FuId="0x002000EB" OwnTime="0" SysTime="14906869315" TotalTime="338327943871" /&gt;&lt;/Implementations&gt;&lt;/data&gt;</s:String>
+	<s:String x:Key="/Default/HotspotsPrecomputing/VirtualFunctionsList/=EU4GET_005FWF_002EImageRendering_002EOptimizationTest_002EVer1_002EBorder_002EProvinceBorders_002B_003C_003Ec_002E_003CProcessProvince_003Eb_005F_005F12_005F2/@EntryIndexedValue">&lt;data&gt;&lt;Implementations&gt;&lt;Implementation FuId="0x0050008F" OwnTime="6093152587" SysTime="8441761964" TotalTime="18107775142" /&gt;&lt;/Implementations&gt;&lt;/data&gt;</s:String>
+	<s:String x:Key="/Default/HotspotsPrecomputing/VirtualFunctionsList/=System_002EObject_002EGetHashCode/@EntryIndexedValue">&lt;data&gt;&lt;Implementations&gt;&lt;Implementation FuId="0x00500048" OwnTime="2717015908" SysTime="5705889046" TotalTime="16538620821" /&gt;&lt;Implementation FuId="0x00500062" OwnTime="2601786783" SysTime="2228300583" TotalTime="6251619812" /&gt;&lt;/Implementations&gt;&lt;/data&gt;</s:String>
+	<s:String x:Key="/Default/HotspotsPrecomputing/VirtualFunctionsList/=EU4GET_005FWF_002EImageRendering_002EOptimizationTest_002EVer1_002EBorder_002EProvinceBorders_002B_003C_003Ec_002E_003CProcessProvince_003Eb_005F_005F12_005F1/@EntryIndexedValue">&lt;data&gt;&lt;Implementations&gt;&lt;Implementation FuId="0x0050008E" OwnTime="5166321366" SysTime="5320517964" TotalTime="12389700690" /&gt;&lt;/Implementations&gt;&lt;/data&gt;</s:String>
+	<s:String x:Key="/Default/HotspotsPrecomputing/VirtualFunctionsList/=EU4GET_005FWF_002EImageRendering_002EOptimizationTest_002EVer1_002EBorder_002EProvinceBorders_002B_003C_003Ec_002E_003CProcessProvince_003Eb_005F_005F12_005F0/@EntryIndexedValue">&lt;data&gt;&lt;Implementations&gt;&lt;Implementation FuId="0x0050008D" OwnTime="5623249072" SysTime="2630965062" TotalTime="10704792659" /&gt;&lt;/Implementations&gt;&lt;/data&gt;</s:String>
+	<s:String x:Key="/Default/HotspotsPrecomputing/VirtualFunctionsList/=EU4GET_005FWF_002EImageRendering_002EOptimizationTest_002EVer1_002EBorder_002EBorderPoint_002Eget_005FmY/@EntryIndexedValue">&lt;data&gt;&lt;Implementations&gt;&lt;Implementation FuId="0x00500051" OwnTime="3676879817" SysTime="3697069979" TotalTime="7373949796" /&gt;&lt;/Implementations&gt;&lt;/data&gt;</s:String>
+	<s:String x:Key="/Default/HotspotsPrecomputing/VirtualFunctionsList/=EU4GET_005FWF_002EImageRendering_002EOptimizationTest_002EVer1_002EBorder_002EBorderPoint_002Eget_005FmX/@EntryIndexedValue">&lt;data&gt;&lt;Implementations&gt;&lt;Implementation FuId="0x0050004F" OwnTime="4581785653" SysTime="2683664150" TotalTime="7265449803" /&gt;&lt;/Implementations&gt;&lt;/data&gt;</s:String>
+	<s:String x:Key="/Default/HotspotsPrecomputing/VirtualFunctionsList/=EU4GET_005FWF_002EImageRendering_002EOptimizationTest_002EVer1_002EBorder_002EBorderPoint_002Eop_005FImplicit/@EntryIndexedValue">&lt;data&gt;&lt;Implementations&gt;&lt;Implementation FuId="0x00500058" OwnTime="1062272612" SysTime="1085018387" TotalTime="3934951275" /&gt;&lt;Implementation FuId="0x00500057" OwnTime="575165952" SysTime="850322201" TotalTime="1765754968" /&gt;&lt;/Implementations&gt;&lt;/data&gt;</s:String>
+	<s:String x:Key="/Default/HotspotsPrecomputing/VirtualFunctionsList/=EU4GET_005FWF_002EImageRendering_002EOptimizationTest_002EVer1_002EBorder_002EBorderPoint_002E_002Ector/@EntryIndexedValue">&lt;data&gt;&lt;Implementations&gt;&lt;Implementation FuId="0x00500053" OwnTime="354411143" SysTime="1429570672" TotalTime="4703330538" /&gt;&lt;/Implementations&gt;&lt;/data&gt;</s:String>
+	<s:String x:Key="/Default/HotspotsPrecomputing/VirtualFunctionsList/=EU4GET_005FWF_002EImageRendering_002EOptimizationTest_002EVer1_002EBorder_002EBorderPoint_002Eset_005FmY/@EntryIndexedValue">&lt;data&gt;&lt;Implementations&gt;&lt;Implementation FuId="0x00500052" OwnTime="1398963292" SysTime="273733854" TotalTime="1672697146" /&gt;&lt;/Implementations&gt;&lt;/data&gt;</s:String>
+	<s:String x:Key="/Default/HotspotsPrecomputing/VirtualFunctionsList/=EU4GET_005FWF_002EImageRendering_002EOptimizationTest_002EVer1_002EBorder_002EBorderPoint_002Eset_005FmX/@EntryIndexedValue">&lt;data&gt;&lt;Implementations&gt;&lt;Implementation FuId="0x00500050" OwnTime="678348819" SysTime="568302758" TotalTime="1246651577" /&gt;&lt;/Implementations&gt;&lt;/data&gt;</s:String>
+	<s:String x:Key="/Default/HotspotsPrecomputing/VirtualFunctionsList/=EU4GET_005FWF_002EImageRendering_002EOptimizationTest_002EVer1_002EBorder_002EBorderLine_002Eget_005FmStart/@EntryIndexedValue">&lt;data&gt;&lt;Implementations&gt;&lt;Implementation FuId="0x0050003E" OwnTime="498877732" SysTime="490839138" TotalTime="989716870" /&gt;&lt;/Implementations&gt;&lt;/data&gt;</s:String>
+	<s:String x:Key="/Default/HotspotsPrecomputing/VirtualFunctionsList/=EU4GET_005FWF_002EImageRendering_002EOptimizationTest_002EVer1_002EBorder_002EBorderLine_002Eget_005FmEnd/@EntryIndexedValue">&lt;data&gt;&lt;Implementations&gt;&lt;Implementation FuId="0x00500040" OwnTime="564245806" SysTime="355329389" TotalTime="919575195" /&gt;&lt;/Implementations&gt;&lt;/data&gt;</s:String>
+	<s:String x:Key="/Default/HotspotsPrecomputing/VirtualFunctionsList/=EU4GET_005FWF_002EImageRendering_002EOptimizationTest_002EVer1_002EBorder_002EBorderLine_002E_002Ector/@EntryIndexedValue">&lt;data&gt;&lt;Implementations&gt;&lt;Implementation FuId="0x00500043" OwnTime="257412604" SysTime="312042129" TotalTime="569454733" /&gt;&lt;/Implementations&gt;&lt;/data&gt;</s:String>
+	<s:String x:Key="/Default/HotspotsPrecomputing/VirtualFunctionsList/=EU4GET_005FWF_002EImageRendering_002EOptimizationTest_002EVer1_002EBorder_002EBorderPoint_002Eop_005FEquality/@EntryIndexedValue">&lt;data&gt;&lt;Implementations&gt;&lt;Implementation FuId="0x0050005C" OwnTime="207062209" SysTime="267925097" TotalTime="2240742274" /&gt;&lt;/Implementations&gt;&lt;/data&gt;</s:String>
+	<s:String x:Key="/Default/HotspotsPrecomputing/VirtualFunctionsList/=JetBrains_002ELauncher_002EMsil_002ELauncher_002ELoadManagedCoreIntoAppDomain/@EntryIndexedValue">&lt;data&gt;&lt;Implementations&gt;&lt;Implementation FuId="0x00200107" OwnTime="0" SysTime="208156518" TotalTime="208156518" /&gt;&lt;/Implementations&gt;&lt;/data&gt;</s:String>
+	<s:String x:Key="/Default/HotspotsPrecomputing/VirtualFunctionsList/=EU4GET_005FWF_002EImageRendering_002EOptimizationTest_002ETests_002ETests_002ETestBordersGenerationx100/@EntryIndexedValue">&lt;data&gt;&lt;Implementations&gt;&lt;Implementation FuId="0x00500073" OwnTime="0" SysTime="99188544" TotalTime="323421074556" /&gt;&lt;/Implementations&gt;&lt;/data&gt;</s:String>
+	<s:String x:Key="/Default/HotspotsPrecomputing/VirtualFunctionsList/=JetBrains_002ELauncher_002EMsil_002ELauncher_002ERunClr_005FLoadAndRun/@EntryIndexedValue">&lt;data&gt;&lt;Implementations&gt;&lt;Implementation FuId="0x0020010A" OwnTime="30059006" SysTime="25268828" TotalTime="338591428223" /&gt;&lt;/Implementations&gt;&lt;/data&gt;</s:String>
+	<s:String x:Key="/Default/HotspotsPrecomputing/VirtualFunctionsList/=JetBrains_002ELauncher_002EMsil_002ELauncher_002ERun/@EntryIndexedValue">&lt;data&gt;&lt;Implementations&gt;&lt;Implementation FuId="0x00200108" OwnTime="48485833" SysTime="0" TotalTime="338690134658" /&gt;&lt;/Implementations&gt;&lt;/data&gt;</s:String>
+	<s:String x:Key="/Default/HotspotsPrecomputing/VirtualFunctionsList/=JetBrains_002ELauncher_002EMsil_002EResourceValues_002BNativeResSource_002EJetBrains_002ELauncher_002EMsil_002EResourceValues_002EIResSource_002ETryGetResourceStream/@EntryIndexedValue">&lt;data&gt;&lt;Implementations&gt;&lt;Implementation FuId="0x002001E7" OwnTime="25130850" SysTime="0" TotalTime="25130850" /&gt;&lt;/Implementations&gt;&lt;/data&gt;</s:String>
+	<s:String x:Key="/Default/HotspotsPrecomputing/VirtualFunctionsList/=JetBrains_002ELauncher_002EMsil_002EResourceValues_002E_002Ector/@EntryIndexedValue">&lt;data&gt;&lt;Implementations&gt;&lt;Implementation FuId="0x00200110" OwnTime="25089752" SysTime="0" TotalTime="50220602" /&gt;&lt;/Implementations&gt;&lt;/data&gt;</s:String>
+	<s:String x:Key="/Default/PerformanceTabManager/Identity/@EntryValue">ad90df9a-93c0-4833-8902-0de0ae7a986b</s:String>
+	<s:String x:Key="/Default/PerformanceTabManager/XmlContent/@EntryValue">&lt;TabManagerStates&gt;&lt;z:anyType xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns:d1p1="http://schemas.datacontract.org/2004/07/JetBrains.dotTrace.SnapShotViews.Performance.PerformanceTab" i:type="d1p1:PerformanceTabSerializer.State" xmlns:z="http://schemas.microsoft.com/2003/10/Serialization/"&gt;&#xD;
+  &lt;d1p1:ActiveIndex&gt;0&lt;/d1p1:ActiveIndex&gt;&#xD;
+  &lt;d1p1:TabStates&gt;&#xD;
+    &lt;d1p1:PerformanceTabSerializer.State.TabState&gt;&#xD;
+      &lt;d1p1:OpenedView&gt;1&lt;/d1p1:OpenedView&gt;&#xD;
+      &lt;d1p1:TabRootState xmlns:d4p1="http://schemas.datacontract.org/2004/07/JetBrains.dotTrace.SnapShotViews.Performance.TabRoots" i:type="d4p1:SnapshotTabRoot.State"&gt;&#xD;
+        &lt;d4p1:ViewsFactoryState xmlns:d5p1="http://schemas.datacontract.org/2004/07/JetBrains.dotTrace.SnapShotViews.Performance.Views" i:type="d5p1:ViewsFactoryBase.State"&gt;&#xD;
+          &lt;d5p1:States&gt;&#xD;
+            &lt;d5p1:ViewsFactoryBase.State.ViewKeyAndState&gt;&#xD;
+              &lt;d5p1:ViewKey&gt;CallTree&lt;/d5p1:ViewKey&gt;&#xD;
+              &lt;d5p1:ViewState xmlns:d8p1="http://schemas.datacontract.org/2004/07/JetBrains.dotTrace.SnapShotViews.Performance.TreeViews" i:type="d8p1:SnapshotViewBase.State"&gt;&#xD;
+                &lt;d8p1:HorizontalScroll&gt;0&lt;/d8p1:HorizontalScroll&gt;&#xD;
+                &lt;d8p1:RootNodeData xmlns:d9p1="http://schemas.datacontract.org/2004/07/JetBrains.dotTrace.SnapShotViews.Performance.Persistence"&gt;&#xD;
+                  &lt;d9p1:Children&gt;&#xD;
+                    &lt;d9p1:AbstractTreeNodeState&gt;&#xD;
+                      &lt;d9p1:Children /&gt;&#xD;
+                      &lt;d9p1:Focused&gt;true&lt;/d9p1:Focused&gt;&#xD;
+                      &lt;d9p1:State xmlns:d12p1="http://schemas.datacontract.org/2004/07/JetBrains.dotTrace.SnapShotViews.Performance.Folding" i:type="d12p1:FilterFoldedNode.State"&gt;&#xD;
+                        &lt;d12p1:FoldRoot xmlns:d13p1="http://schemas.datacontract.org/2004/07/JetBrains.dotTrace.SnapShotApi.Nodes" i:type="d13p1:SnapshotTreeNode.State"&gt;&#xD;
+                          &lt;d13p1:mySectionNodesState&gt;&#xD;
+                            &lt;d13p1:myData&gt;1BB3/0;E52/1;1B4F/2;BFA/3;77C/5;718/7;1D43/9;1CC6/10;1DF2/11;77C/12;19F1/13;1910/14;1848/15;12E9/16;17CB/17;E6B/18;1848/19;15D7/20;1172/21;1208/22;1140/23;795/24;EE8/25;12B7/26;E84/27;DA3/28;FB0/29;D8A/30;F4C/31;DA3/32;BAF/33;A9C/34;9BB/35;844/36;A6A/37;A83/38;8F3/39;74A/40;588/41;4D9/42;650/43;24F/44&lt;/d13p1:myData&gt;&#xD;
+                          &lt;/d13p1:mySectionNodesState&gt;&#xD;
+                          &lt;d13p1:IsRecursionBanned&gt;false&lt;/d13p1:IsRecursionBanned&gt;&#xD;
+                        &lt;/d12p1:FoldRoot&gt;&#xD;
+                        &lt;d12p1:FoldedNodes xmlns:d13p1="http://schemas.microsoft.com/2003/10/Serialization/Arrays" /&gt;&#xD;
+                        &lt;d12p1:Children xmlns:d13p1="http://schemas.microsoft.com/2003/10/Serialization/Arrays"&gt;&#xD;
+                          &lt;d13p1:anyType xmlns:d14p1="http://schemas.datacontract.org/2004/07/JetBrains.dotTrace.SnapShotApi.Nodes" i:type="d14p1:SnapshotTreeNode.State"&gt;&#xD;
+                            &lt;d14p1:mySectionNodesState&gt;&#xD;
+                              &lt;d14p1:myData&gt;1A55/0;90C/1;19F1/2;812/3;443/5;42A/7;1BE5/9;1B68/10;1C94/11;1893/13;17B2/14;126C/15;DBC/16;166D/17;13C/18;12E9/19;13C/20;C2C/21;1B9/22;F1/23;9A2/25;D26/26;970/27;8DA/28;A9C/29;8A8/30;A6A/31;88F/32;6E6/33;763/34;53D/35;50B/36;5BA/37;5BA/38;4A7/40&lt;/d14p1:myData&gt;&#xD;
+                            &lt;/d14p1:mySectionNodesState&gt;&#xD;
+                            &lt;d14p1:IsRecursionBanned&gt;false&lt;/d14p1:IsRecursionBanned&gt;&#xD;
+                          &lt;/d13p1:anyType&gt;&#xD;
+                          &lt;d13p1:anyType xmlns:d14p1="http://schemas.datacontract.org/2004/07/JetBrains.dotTrace.SnapShotApi.Nodes" i:type="d14p1:SnapshotTreeNode.State"&gt;&#xD;
+                            &lt;d14p1:mySectionNodesState&gt;&#xD;
+                              &lt;d14p1:myData&gt;19D8/0;C77/1;195B/2;A9C/3;61E/5;5BA/7;1B68/9;1AEB/10;1C17/11;53D/12;182F/13;174E/14;16EA/15;118B/16;15F0/17;4C0/18;16EA/19;556/20;1014/21;5BA/22;4C0/23;53D/24;D8A/25;1159/26;D26/27;A83/28;E52/29;A6A/30;DEE/31;C45/32;A51/33;93E/34;85D/35;6CD/36;763/37;925/38;795/39;5EC/40;3C6/41;37B/42;4F2/43&lt;/d14p1:myData&gt;&#xD;
+                            &lt;/d14p1:mySectionNodesState&gt;&#xD;
+                            &lt;d14p1:IsRecursionBanned&gt;false&lt;/d14p1:IsRecursionBanned&gt;&#xD;
+                          &lt;/d13p1:anyType&gt;&#xD;
+                          &lt;d13p1:anyType xmlns:d14p1="http://schemas.datacontract.org/2004/07/JetBrains.dotTrace.SnapShotApi.Nodes" i:type="d14p1:SnapshotTreeNode.State"&gt;&#xD;
+                            &lt;d14p1:mySectionNodesState&gt;&#xD;
+                              &lt;d14p1:myData&gt;174E/0;ACE/1;1767/2;9ED/3;5A1/5;48E/7;195B/9;18DE/10;19BF/11;61E/12;15F0/13;14F6/14;1460/15;F97/16;13FC/17;2FE/18;14DD/19;349/20;E07/21;3AD/22;2B3/23;637/24;B64/25;F1A/26;B32/27;C45/28;C5E/29;C2C/30;C2C/31;A51/32;8A8/33;8C1/34;6FF/35;669/36;90C/37;77C/38;669/39;50B/40;42A/41;2B3/42;48E/43;10D/44&lt;/d14p1:myData&gt;&#xD;
+                            &lt;/d14p1:mySectionNodesState&gt;&#xD;
+                            &lt;d14p1:IsRecursionBanned&gt;false&lt;/d14p1:IsRecursionBanned&gt;&#xD;
+                          &lt;/d13p1:anyType&gt;&#xD;
+                          &lt;d13p1:anyType xmlns:d14p1="http://schemas.datacontract.org/2004/07/JetBrains.dotTrace.SnapShotApi.Nodes" i:type="d14p1:SnapshotTreeNode.State"&gt;&#xD;
+                            &lt;d14p1:mySectionNodesState&gt;&#xD;
+                              &lt;d14p1:myData&gt;14F6/0;88F/1;14C4/2;7AE/3;3DF/5;3AD/7;1703/9;166D/10;174E/11;45C/12;131B/13;123A/14;11BD/15;D0D/16;11EF/17;D0D/18;123A/19;1479/20;B7D/21;10AA/22;FE2/23;42A/24;925/25;C77/26;8F3/27;85D/28;A06/29;82B/30;9ED/31;85D/32;6B4/33;6E6/34;50B/35;4C0/36;588/37;53D/38;588/39;475/40;362/41;24F/42;3C6/43;B1/44&lt;/d14p1:myData&gt;&#xD;
+                            &lt;/d14p1:mySectionNodesState&gt;&#xD;
+                            &lt;d14p1:IsRecursionBanned&gt;false&lt;/d14p1:IsRecursionBanned&gt;&#xD;
+                          &lt;/d13p1:anyType&gt;&#xD;
+                        &lt;/d12p1:Children&gt;&#xD;
+                      &lt;/d9p1:State&gt;&#xD;
+                    &lt;/d9p1:AbstractTreeNodeState&gt;&#xD;
+                    &lt;d9p1:AbstractTreeNodeState&gt;&#xD;
+                      &lt;d9p1:Children /&gt;&#xD;
+                      &lt;d9p1:State xmlns:d12p1="http://schemas.datacontract.org/2004/07/JetBrains.dotTrace.SnapShotApi.Nodes" i:type="d12p1:SnapshotTreeNode.State"&gt;&#xD;
+                        &lt;d12p1:mySectionNodesState&gt;&#xD;
+                          &lt;d12p1:myData&gt;42/0;42/1;42/2;C13/3;F/4;795/5;2EF0/6;731/7;F/8;29/9;42/10;42/11;795/12;42/13;29/14;42/15;42/16;17E4/17;42/18;29/19;15F0/20;29/21;42/22;42/23;7AE/24;F01/25;29/26;42/27;29/28;29/29;29/30;42/31;DD5/32;BC8/33;AB5/34;9D4/35;10/36;A83/37;42/38;29/39;763/40;29/41;10/42;10/43;10/44&lt;/d12p1:myData&gt;&#xD;
+                        &lt;/d12p1:mySectionNodesState&gt;&#xD;
+                        &lt;d12p1:IsRecursionBanned&gt;false&lt;/d12p1:IsRecursionBanned&gt;&#xD;
+                      &lt;/d9p1:State&gt;&#xD;
+                    &lt;/d9p1:AbstractTreeNodeState&gt;&#xD;
+                    &lt;d9p1:AbstractTreeNodeState&gt;&#xD;
+                      &lt;d9p1:Children /&gt;&#xD;
+                      &lt;d9p1:State xmlns:d12p1="http://schemas.datacontract.org/2004/07/JetBrains.dotTrace.SnapShotApi.Nodes" i:type="d12p1:SnapshotTreeNode.State"&gt;&#xD;
+                        &lt;d12p1:mySectionNodesState&gt;&#xD;
+                          &lt;d12p1:myData&gt;2EBE/6&lt;/d12p1:myData&gt;&#xD;
+                        &lt;/d12p1:mySectionNodesState&gt;&#xD;
+                        &lt;d12p1:IsRecursionBanned&gt;false&lt;/d12p1:IsRecursionBanned&gt;&#xD;
+                      &lt;/d9p1:State&gt;&#xD;
+                    &lt;/d9p1:AbstractTreeNodeState&gt;&#xD;
+                    &lt;d9p1:AbstractTreeNodeState&gt;&#xD;
+                      &lt;d9p1:Children /&gt;&#xD;
+                      &lt;d9p1:State xmlns:d12p1="http://schemas.datacontract.org/2004/07/JetBrains.dotTrace.SnapShotApi.Nodes" i:type="d12p1:SnapshotTreeNode.State"&gt;&#xD;
+                        &lt;d12p1:mySectionNodesState&gt;&#xD;
+                          &lt;d12p1:myData&gt;29/0;10/1;29/2;10/3;10/5;10/6;1D5C/9;10/10;29/11;10/12;29/13;1929/14;10/15;29/16;10/17;29/18;10/19;29/20;10/21;29/22;29/23;10/24;29/25;10/26;10/27;10/28;10/29;10/30;10/31;DBC/32;10/33;10/34;10/35;29/37;29/38;10/40;10/41&lt;/d12p1:myData&gt;&#xD;
+                        &lt;/d12p1:mySectionNodesState&gt;&#xD;
+                        &lt;d12p1:IsRecursionBanned&gt;false&lt;/d12p1:IsRecursionBanned&gt;&#xD;
+                      &lt;/d9p1:State&gt;&#xD;
+                    &lt;/d9p1:AbstractTreeNodeState&gt;&#xD;
+                    &lt;d9p1:AbstractTreeNodeState&gt;&#xD;
+                      &lt;d9p1:Children /&gt;&#xD;
+                      &lt;d9p1:State xmlns:d12p1="http://schemas.datacontract.org/2004/07/JetBrains.dotTrace.SnapShotApi.Nodes" i:type="d12p1:SnapshotTreeNode.State"&gt;&#xD;
+                        &lt;d12p1:mySectionNodesState&gt;&#xD;
+                          &lt;d12p1:myData&gt;10/0;29/1;10/2;29/5;10/7;10/9;29/10;10/11;10/13;10/14;29/15;10/16;29/17;10/18;10/20;10/22;10/23;10/25;29/27;29/31;10/37;10/39&lt;/d12p1:myData&gt;&#xD;
+                        &lt;/d12p1:mySectionNodesState&gt;&#xD;
+                        &lt;d12p1:IsRecursionBanned&gt;false&lt;/d12p1:IsRecursionBanned&gt;&#xD;
+                      &lt;/d9p1:State&gt;&#xD;
+                    &lt;/d9p1:AbstractTreeNodeState&gt;&#xD;
+                    &lt;d9p1:AbstractTreeNodeState&gt;&#xD;
+                      &lt;d9p1:Children /&gt;&#xD;
+                      &lt;d9p1:State xmlns:d12p1="http://schemas.datacontract.org/2004/07/JetBrains.dotTrace.SnapShotApi.Nodes" i:type="d12p1:SnapshotTreeNode.State"&gt;&#xD;
+                        &lt;d12p1:mySectionNodesState&gt;&#xD;
+                          &lt;d12p1:myData&gt;10/38&lt;/d12p1:myData&gt;&#xD;
+                        &lt;/d12p1:mySectionNodesState&gt;&#xD;
+                        &lt;d12p1:IsRecursionBanned&gt;false&lt;/d12p1:IsRecursionBanned&gt;&#xD;
+                      &lt;/d9p1:State&gt;&#xD;
+                    &lt;/d9p1:AbstractTreeNodeState&gt;&#xD;
+                    &lt;d9p1:AbstractTreeNodeState&gt;&#xD;
+                      &lt;d9p1:Children /&gt;&#xD;
+                      &lt;d9p1:State xmlns:d12p1="http://schemas.datacontract.org/2004/07/JetBrains.dotTrace.SnapShotApi.Nodes" i:type="d12p1:SnapshotTreeNode.State"&gt;&#xD;
+                        &lt;d12p1:mySectionNodesState&gt;&#xD;
+                          &lt;d12p1:myData&gt;2ED7/6&lt;/d12p1:myData&gt;&#xD;
+                        &lt;/d12p1:mySectionNodesState&gt;&#xD;
+                        &lt;d12p1:IsRecursionBanned&gt;false&lt;/d12p1:IsRecursionBanned&gt;&#xD;
+                      &lt;/d9p1:State&gt;&#xD;
+                    &lt;/d9p1:AbstractTreeNodeState&gt;&#xD;
+                  &lt;/d9p1:Children&gt;&#xD;
+                  &lt;d9p1:State xmlns:d10p1="http://schemas.datacontract.org/2004/07/JetBrains.dotTrace.SnapShotApi.Nodes" i:type="d10p1:CommonRootNode.State"&gt;&#xD;
+                    &lt;d10p1:mySectionNodesState i:nil="true" /&gt;&#xD;
+                  &lt;/d9p1:State&gt;&#xD;
+                &lt;/d8p1:RootNodeData&gt;&#xD;
+                &lt;d8p1:VerticalScroll&gt;0&lt;/d8p1:VerticalScroll&gt;&#xD;
+              &lt;/d5p1:ViewState&gt;&#xD;
+            &lt;/d5p1:ViewsFactoryBase.State.ViewKeyAndState&gt;&#xD;
+          &lt;/d5p1:States&gt;&#xD;
+        &lt;/d4p1:ViewsFactoryState&gt;&#xD;
+      &lt;/d1p1:TabRootState&gt;&#xD;
+    &lt;/d1p1:PerformanceTabSerializer.State.TabState&gt;&#xD;
+  &lt;/d1p1:TabStates&gt;&#xD;
+&lt;/z:anyType&gt;&lt;/TabManagerStates&gt;</s:String></wpf:ResourceDictionary>

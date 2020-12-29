@@ -37,12 +37,18 @@ namespace EU4GET_WF.ImageRendering.OptimizationTest.Ver1.Border
 
         public static ProvinceBorders GetProvinceBorders(Bitmap bitmap, int provinceCount)
         {
+#if DISABLESINGLETON
+            _mInstance = new ProvinceBorders(provinceCount);
+            _mInstance.GenerateBordersPaths(bitmap);
+            return _mInstance;
+#else
             if (_mInstance == null)
             {
                 _mInstance = new ProvinceBorders(provinceCount);
                 _mInstance.GenerateBordersPaths(bitmap);
             }
             return _mInstance;
+#endif
         }
 
         private void GenerateBordersPaths(Bitmap bitmap)
@@ -50,7 +56,7 @@ namespace EU4GET_WF.ImageRendering.OptimizationTest.Ver1.Border
             Rectangle rect = new Rectangle(0, 0, bitmap.Width, bitmap.Height);
             BitmapData bmpData = bitmap.LockBits(rect, ImageLockMode.ReadWrite, PixelFormat.Format24bppRgb);
             IntPtr ptr = bmpData.Scan0;
-            int bytes = Math.Abs(bmpData.Stride) * bitmap.Height;
+            int bytes = Math.Abs(bmpData.Width * 3) * bitmap.Height;
             byte[] rgbValues = new byte[bytes];
             Marshal.Copy(ptr, rgbValues, 0, bytes);
             int height = bitmap.Height;
