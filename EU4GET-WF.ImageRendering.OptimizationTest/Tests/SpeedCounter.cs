@@ -82,5 +82,13 @@ namespace EU4GET_WF.ImageRendering.OptimizationTest.Tests
                 return sum;
             }
         }
+
+        public long mLast
+        {
+            get
+            {
+                return _mTimeEntries.Last();
+            }
+        }
     }
 }
