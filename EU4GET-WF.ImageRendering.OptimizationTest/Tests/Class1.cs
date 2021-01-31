@@ -46,7 +46,7 @@ namespace EU4GET_WF.ImageRendering.OptimizationTest.Tests
         public static void TestBordersGeneration()
         {
 #if DISABLESINGLETON
-            Bitmap bitmap = new Bitmap(@"C:\Users\nxf56462\Desktop\extendedtimeline\map\provinces.bmp");
+            Bitmap bitmap = new Bitmap(Properties.Resources.provinces);
             Border.ProvinceBorders borders = Border.ProvinceBorders.GetProvinceBorders(bitmap, 3600);
 #endif
         }
