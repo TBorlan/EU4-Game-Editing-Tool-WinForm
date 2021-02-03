@@ -40,7 +40,12 @@ namespace EU4GET_WF.ImageRendering.Border
             if (_mInstance == null)
             {
                 _mInstance = new ProvinceBorders(provinceCount);
-                _mInstance.GenerateBordersPaths(bitmap);
+                Bitmap internalBitmap = new Bitmap(bitmap.Width,bitmap.Height, PixelFormat.Format24bppRgb);
+                Graphics graphics = Graphics.FromImage(internalBitmap);
+                graphics.PageUnit = GraphicsUnit.Pixel;
+                graphics.DrawImageUnscaled(bitmap,0,0);
+                _mInstance.GenerateBordersPaths(internalBitmap);
+                internalBitmap.Dispose();
             }
             return _mInstance;
         }
