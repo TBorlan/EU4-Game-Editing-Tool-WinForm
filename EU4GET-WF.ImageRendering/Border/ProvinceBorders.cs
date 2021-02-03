@@ -41,13 +41,14 @@ namespace EU4GET_WF.ImageRendering.Border
             {
                 _mInstance = new ProvinceBorders(provinceCount);
                 _mInstance.GenerateBordersPaths(bitmap);
+
             }
             return _mInstance;
         }
 
         private void GenerateBordersPaths(Bitmap bitmap)
         {
-            Rectangle rect = new Rectangle(0, 0, bitmap.Width, bitmap.Height);
+            Rectangle rect = new Rectangle(0, 0, bitmap.Width + (bitmap.Width % 3), bitmap.Height);
             BitmapData bmpData = bitmap.LockBits(rect, ImageLockMode.ReadWrite, PixelFormat.Format24bppRgb);
             IntPtr ptr = bmpData.Scan0;
             int bytes = bitmap.Width * bitmap.Height;
@@ -58,12 +59,12 @@ namespace EU4GET_WF.ImageRendering.Border
             Color[,] pixelColors = new Color[bitmap.Height, bitmap.Width];
             // Store pixel color in matrix
             Parallel.For(0, bytes / 3, (int i) =>
-                {
-                    i *= 3;
-                    int pRow = (i / 3) / width;
-                    int pCol = (i / 3) % width;
-                    pixelColors[pRow, pCol] = Color.FromArgb(rgbValues[i + 2], rgbValues[i + 1], rgbValues[i]);                   
-                });           
+            {
+                i *= 3;
+                int pRow = (i / 3) / width;
+                int pCol = (i / 3) % width;
+                pixelColors[pRow, pCol] = Color.FromArgb(rgbValues[i + 2], rgbValues[i + 1], rgbValues[i]);                   
+            });           
             bitmap.UnlockBits(bmpData);
             // Stores vertical and horizontal border pixels of a province
             this._mProvincesPoints = new Dictionary<Color, HashSet<BorderPoint[]>>(this._mProvinceCount);
