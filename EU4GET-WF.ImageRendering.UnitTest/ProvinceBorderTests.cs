@@ -59,16 +59,16 @@ namespace EU4GET_WF.ImageRendering.UnitTest
             List<BorderLine> expectLinesCube1 = new List<BorderLine>(4)
                                            {
                                                new BorderLine(new BorderPoint(4, 1), new BorderPoint(4, 3)),
-                                               new BorderLine(new BorderPoint(4, 1), new BorderPoint(7, 1)),
-                                               new BorderLine(new BorderPoint(7, 1), new BorderPoint(7, 3)),
-                                               new BorderLine(new BorderPoint(4, 3), new BorderPoint(7, 3))
+                                               new BorderLine(new BorderPoint(4, 1), new BorderPoint(6, 1)),
+                                               new BorderLine(new BorderPoint(6, 1), new BorderPoint(6, 3)),
+                                               new BorderLine(new BorderPoint(4, 3), new BorderPoint(6, 3))
                                            };
             List<BorderLine> expectLinesCube2 = new List<BorderLine>(4)
                                                 {
                                                     new BorderLine(new BorderPoint(7, 1), new BorderPoint(7, 3)),
-                                                    new BorderLine(new BorderPoint(7, 1), new BorderPoint(11, 1)),
-                                                    new BorderLine(new BorderPoint(11, 1), new BorderPoint(11, 3)),
-                                                    new BorderLine(new BorderPoint(7, 3), new BorderPoint(11, 3))
+                                                    new BorderLine(new BorderPoint(7, 1), new BorderPoint(9, 1)),
+                                                    new BorderLine(new BorderPoint(9, 1), new BorderPoint(9, 3)),
+                                                    new BorderLine(new BorderPoint(7, 3), new BorderPoint(9, 3))
                                                 };
             Assert.AreEqual(8,borders.Count);
             CollectionAssert.AreEquivalent(expectLinesCube1.Concat(expectLinesCube2).ToList(),borders);
