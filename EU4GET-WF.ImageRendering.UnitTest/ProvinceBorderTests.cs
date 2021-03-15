@@ -12,7 +12,9 @@ namespace EU4GET_WF.ImageRendering.UnitTest
     [TestClass]
     public class ProvinceBorderTests
     {
-        private const int NumberOfColors = 5;
+#pragma warning disable IDE1006 // Naming Styles
+        private const int NumberOfColors = 10;
+#pragma warning restore IDE1006 // Naming Styles
 
         private static ProvinceBorders _mBorders = null;
 
@@ -73,6 +75,101 @@ namespace EU4GET_WF.ImageRendering.UnitTest
             Assert.AreEqual(8,borders.Count);
             CollectionAssert.AreEquivalent(expectLinesCube1.Concat(expectLinesCube2).ToList(),borders);
 
+        }
+
+        [TestMethod]
+        public void Test_BorderTwoSelectionTwoCubes2x2Have1LineCommon()
+        {
+            TestSelectionManager manager = new TestSelectionManager(_mBorders);
+            List<BorderLine> expectLinesBothSelected = new List<BorderLine>(4)
+                                                       {
+                                                           new BorderLine(new BorderPoint(1, 4), new BorderPoint(5, 4)),
+                                                           new BorderLine(new BorderPoint(5, 4), new BorderPoint(5, 6)),
+                                                           new BorderLine(new BorderPoint(1, 4), new BorderPoint(1, 6)),
+                                                           new BorderLine(new BorderPoint(1, 6), new BorderPoint(5, 6))
+                                                       };
+            List<BorderLine> expectLinesSecondDeselected = new List<BorderLine>(4)
+                                                       {
+                                                           new BorderLine(new BorderPoint(1, 4), new BorderPoint(3, 4)),
+                                                           new BorderLine(new BorderPoint(3, 4), new BorderPoint(3, 6)),
+                                                           new BorderLine(new BorderPoint(1, 4), new BorderPoint(1, 6)),
+                                                           new BorderLine(new BorderPoint(1, 6), new BorderPoint(3, 6))
+                                                       };
+            manager.Select(GetColorFromIndex(4));
+            manager.Select(GetColorFromIndex(5));
+            List<BorderLine> borders = manager.GetBorderLines();
+            Assert.AreEqual(4, borders.Count);
+            CollectionAssert.AreEquivalent(expectLinesBothSelected, borders);
+            manager.Select(GetColorFromIndex(5));
+            borders = manager.GetBorderLines();
+            Assert.AreEqual(4, borders.Count);
+            CollectionAssert.AreEquivalent(expectLinesSecondDeselected, borders);
+        }
+
+        [TestMethod]
+        public void Test_BorderTwoSelectionTwoRectangles1x2Have1LineSameLengthWithSegmentCommon()
+        {
+            TestSelectionManager manager = new TestSelectionManager(_mBorders);
+            List<BorderLine> expectLinesBothSelected = new List<BorderLine>(4)
+                                                       {
+                                                           new BorderLine(new BorderPoint(6, 5), new BorderPoint(6, 7)),
+                                                           new BorderLine(new BorderPoint(6, 7), new BorderPoint(7, 7)),
+                                                           new BorderLine(new BorderPoint(7, 6), new BorderPoint(7, 7)),
+                                                           new BorderLine(new BorderPoint(7, 6), new BorderPoint(8, 6)),
+                                                           new BorderLine(new BorderPoint(8, 4), new BorderPoint(8, 6)),
+                                                           new BorderLine(new BorderPoint(7, 4), new BorderPoint(8, 4)),
+                                                           new BorderLine(new BorderPoint(7, 4), new BorderPoint(7, 5)),
+                                                           new BorderLine(new BorderPoint(6, 5), new BorderPoint(7, 5)),
+                                                       };
+            List<BorderLine> expectLinesSecondDeselected = new List<BorderLine>(4)
+                                                           {
+                                                               new BorderLine(new BorderPoint(6, 5), new BorderPoint(6, 7)),
+                                                               new BorderLine(new BorderPoint(6, 7), new BorderPoint(7, 7)),
+                                                               new BorderLine(new BorderPoint(6, 5), new BorderPoint(7, 5)),
+                                                               new BorderLine(new BorderPoint(7, 5), new BorderPoint(7, 7))
+                                                           };
+            manager.Select(GetColorFromIndex(6));
+            manager.Select(GetColorFromIndex(7));
+            List<BorderLine> borders = manager.GetBorderLines();
+            Assert.AreEqual(8, borders.Count);
+            CollectionAssert.AreEquivalent(expectLinesBothSelected, borders);
+            manager.Select(GetColorFromIndex(7));
+            borders = manager.GetBorderLines();
+            Assert.AreEqual(4, borders.Count);
+            CollectionAssert.AreEquivalent(expectLinesSecondDeselected, borders);
+        }
+
+        [TestMethod]
+        public void Test_BorderTwoSelectionTwoRectangles1x2Have1LineOverlappingButDifferentLengths()
+        {
+            TestSelectionManager manager = new TestSelectionManager(_mBorders);
+            List<BorderLine> expectLinesBothSelected = new List<BorderLine>(4)
+                                                       {
+                                                           new BorderLine(new BorderPoint(2, 7), new BorderPoint(4, 7)),
+                                                           new BorderLine(new BorderPoint(2, 7), new BorderPoint(2, 8)),
+                                                           new BorderLine(new BorderPoint(4, 7), new BorderPoint(4, 8)),
+                                                           new BorderLine(new BorderPoint(1, 9), new BorderPoint(5, 9)),
+                                                           new BorderLine(new BorderPoint(1, 8), new BorderPoint(1, 9)),
+                                                           new BorderLine(new BorderPoint(1, 8), new BorderPoint(2, 8)),
+                                                           new BorderLine(new BorderPoint(4, 8), new BorderPoint(5, 8)),
+                                                           new BorderLine(new BorderPoint(5, 8), new BorderPoint(5, 9))
+                                                       };
+            List<BorderLine> expectLinesSecondDeselected = new List<BorderLine>(4)
+                                                           {
+                                                               new BorderLine(new BorderPoint(2, 7), new BorderPoint(4, 7)),
+                                                               new BorderLine(new BorderPoint(2, 7), new BorderPoint(2, 8)),
+                                                               new BorderLine(new BorderPoint(4, 7), new BorderPoint(4, 8)),
+                                                               new BorderLine(new BorderPoint(2, 8), new BorderPoint(4, 8))
+                                                           };
+            manager.Select(GetColorFromIndex(7));
+            manager.Select(GetColorFromIndex(6));
+            List<BorderLine> borders = manager.GetBorderLines();
+            Assert.AreEqual(8, borders.Count);
+            CollectionAssert.AreEquivalent(expectLinesBothSelected, borders);
+            manager.Select(GetColorFromIndex(7));
+            borders = manager.GetBorderLines();
+            Assert.AreEqual(4, borders.Count);
+            CollectionAssert.AreEquivalent(expectLinesSecondDeselected, borders);
         }
 
         private class TestSelectionManager : SelectionManager
