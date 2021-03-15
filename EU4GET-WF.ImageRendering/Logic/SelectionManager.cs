@@ -16,9 +16,9 @@ namespace EU4GET_WF.ImageRendering.Logic
 
         private GraphicsPath _mActivePath;
 
-        private readonly List<Color> _mActiveProvinces;
+        protected readonly List<Color> _mActiveProvinces;
 
-        private HashSet<BorderLine> _mActivePixels = new HashSet<BorderLine>();
+        protected HashSet<BorderLine> _mActivePixels = new HashSet<BorderLine>();
 
         private readonly ProvinceBorders _mProvinceBorders;
 

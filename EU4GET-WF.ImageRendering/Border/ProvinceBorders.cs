@@ -40,7 +40,14 @@ namespace EU4GET_WF.ImageRendering.Border
             if (_mInstance == null)
             {
                 _mInstance = new ProvinceBorders(provinceCount);
-                _mInstance.GenerateBordersPaths(bitmap);
+                Bitmap internalBitmap = new Bitmap(bitmap.Width + (3 - bitmap.Width % 3), bitmap.Height, PixelFormat.Format24bppRgb);
+                Graphics graphics = Graphics.FromImage(internalBitmap);
+                graphics.PageUnit = GraphicsUnit.Pixel;
+                graphics.Clear(Color.FromArgb(255,255,255));
+                graphics.DrawImageUnscaled(bitmap,0,0);
+                graphics.Dispose();
+                _mInstance.GenerateBordersPaths(internalBitmap);
+                internalBitmap.Dispose();
 
             }
             return _mInstance;
@@ -48,10 +55,10 @@ namespace EU4GET_WF.ImageRendering.Border
 
         private void GenerateBordersPaths(Bitmap bitmap)
         {
-            Rectangle rect = new Rectangle(0, 0, bitmap.Width + (bitmap.Width % 3), bitmap.Height);
+            Rectangle rect = new Rectangle(0, 0, bitmap.Width, bitmap.Height);
             BitmapData bmpData = bitmap.LockBits(rect, ImageLockMode.ReadWrite, PixelFormat.Format24bppRgb);
             IntPtr ptr = bmpData.Scan0;
-            int bytes = Math.Abs(bmpData.Stride) * bitmap.Height;
+            int bytes = bmpData.Stride * bitmap.Height;
             byte[] rgbValues = new byte[bytes];
             Marshal.Copy(ptr, rgbValues, 0, bytes);
             int height = bitmap.Height;
