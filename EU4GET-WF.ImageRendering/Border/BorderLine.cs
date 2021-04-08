@@ -130,6 +130,19 @@ namespace EU4GET_WF.ImageRendering.Border
             return false;
         }
 
+        public bool IsContinuous(BorderLine line)
+        {
+            if (this.IsCollinear(line))
+            {
+                if ((line.mStart == this.mEnd) || (line.mEnd == this.mStart))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         public BorderLine[] Exclude(BorderLine line)
         {
             BorderLine[] result = null;
@@ -250,6 +263,27 @@ namespace EU4GET_WF.ImageRendering.Border
             {
                 BorderPoint start = this.mStart > line.mStart ? this.mStart : line.mStart;
                 BorderPoint end = this.mEnd > line.mEnd ? line.mEnd : this.mEnd;
+                result = new BorderLine(start, end);
+            }
+            return result;
+        }
+
+        public BorderLine Concatenate(BorderLine line)
+        {
+            BorderLine result = BorderLine.EmptyLine;
+            if (this.IsCollinear(line))
+            {
+                BorderPoint start, end;
+                if (this.mStart == line.mEnd)
+                {
+                    start = line.mStart;
+                    end = this.mEnd;
+                }
+                else
+                {
+                    start = this.mStart;
+                    end = line.mEnd;
+                }
                 result = new BorderLine(start, end);
             }
             return result;

@@ -40,7 +40,7 @@ namespace EU4GET_WF.ImageRendering.Border
             if (_mInstance == null)
             {
                 _mInstance = new ProvinceBorders(provinceCount);
-                Bitmap internalBitmap = new Bitmap(bitmap.Width + (3 - bitmap.Width % 3), bitmap.Height, PixelFormat.Format24bppRgb);
+                Bitmap internalBitmap = new Bitmap(bitmap.Width + (4 - bitmap.Width % 4), bitmap.Height, PixelFormat.Format24bppRgb);
                 Graphics graphics = Graphics.FromImage(internalBitmap);
                 graphics.PageUnit = GraphicsUnit.Pixel;
                 graphics.Clear(Color.FromArgb(255,255,255));
@@ -126,13 +126,6 @@ namespace EU4GET_WF.ImageRendering.Border
                 for (int row = 0; row < height; row++)
                 {
                     Color color = pixelColors[row, col];
-                    lock (lockObj)
-                    {
-                        if (!this._mProvincesPoints.ContainsKey(color))
-                        {
-                            this._mProvincesPoints.Add(color, new HashSet<BorderPoint[]>());
-                        }
-                    }
                     BorderPoint[] colorLine = new BorderPoint[3];
                     colorLine[0] = new BorderPoint(col, row);
                     do
@@ -229,191 +222,60 @@ namespace EU4GET_WF.ImageRendering.Border
 
         public void ComplementVirtualProvince(ref HashSet<BorderLine> provinceLines, Color complementingProvince)
         {
-            //foreach (BorderLine line1 in this._mProvincesLines[complementingProvince])
-            //{
-            //    Point[][] newLine = new Point[2][];
-            //    newLine[0] = new Point[3];
-            //    Point[][] removeLine = new Point[2][];
-            //    bool found = false;
-            //    foreach (BorderLine line2 in provinceLines)
-            //    //{
-            //    //    if (pixel1[2] == pixel2[2])
-            //    //    {
-
-            //    //        if ((pixel1[0] == pixel2[0]) && (pixel1[1] == pixel2[1]))
-            //    //        {
-            //    //            if (pixel2[2].X == -2)
-            //    //            {
-            //    //                removeLine[0] = pixel2;
-            //    //            }
-            //    //            removeLine[0] = pixel2;
-            //    //            newLine[0] = null;
-            //    //            break;
-            //    //        }
-            //    //        else
-            //    //        {
-            //    //            Point testPoint1 = new Point();
-            //    //            Point testPoint2 = new Point();
-            //    //            testPoint1 = pixel1[1];
-            //    //            testPoint2 = pixel2[1];
-            //    //            if (pixel2[2].X == -1)
-            //    //            {
-            //    //                testPoint1.X += 1;
-            //    //                testPoint2.X += 1;
-            //    //            }
-            //    //            else
-            //    //            {
-            //    //                testPoint1.Y += 1;
-            //    //                testPoint2.Y += 1;
-            //    //            }
-            //    //            if (testPoint2 == pixel1[0])
-            //    //            {
-            //    //                if (found)
-            //    //                {
-            //    //                    newLine[0][0] = pixel2[0];
-            //    //                    removeLine[1] = pixel2;
-            //    //                    break;
-            //    //                }
-            //    //                newLine[0][0] = pixel2[0];
-            //    //                newLine[0][1] = pixel1[1];
-            //    //                newLine[0][2] = pixel2[2];
-            //    //                removeLine[0] = pixel2;
-            //    //                found = true;
-            //    //            }
-            //    //            else if (pixel2[0] == testPoint1)
-            //    //            {
-            //    //                if (found)
-            //    //                {
-            //    //                    newLine[0][1] = pixel2[1];
-            //    //                    removeLine[1] = pixel2;
-            //    //                    break;
-            //    //                }
-            //    //                newLine[0][0] = pixel1[0];
-            //    //                newLine[0][1] = pixel2[1];
-            //    //                newLine[0][2] = pixel2[2];
-            //    //                removeLine[0] = pixel2;
-            //    //                found = true;
-            //    //            }
-            //    //            else if (pixel2[0] == pixel1[0])
-            //    //            {
-            //    //                newLine[0][0] = pixel1[1] + (pixel2[2].X == -1 ? new Size(1, 0) : new Size(0, 1));
-            //    //                newLine[0][1] = pixel2[1];
-            //    //                newLine[0][2] = pixel2[2];
-            //    //                removeLine[0] = pixel2;
-            //    //                break;
-            //    //            }
-            //    //            else if (testPoint2 == testPoint1)
-            //    //            {
-            //    //                newLine[0][0] = pixel2[0];
-            //    //                newLine[0][1] = pixel1[0] - (pixel2[2].X == -1 ? new Size(1, 0) : new Size(0, 1));
-            //    //                newLine[0][2] = pixel2[2];
-            //    //                removeLine[0] = pixel2;
-            //    //                break;
-            //    //            }
-            //    //            else if (((pixel1[0].X == pixel2[0].X) && (pixel2[2].X == -2)) || ((pixel1[0].Y == pixel2[0].Y) && (pixel2[2].X == -1)))
-            //    //            {
-            //    //                Size start = (Size)pixel1[0] - (Size)pixel2[0];
-            //    //                Size end = (Size)pixel1[1] - (Size)pixel2[1];
-            //    //                if (((start.Width + start.Height) > 0) && ((end.Width + end.Height) < 0))
-            //    //                {
-            //    //                    newLine[0][0] = pixel2[0];
-            //    //                    newLine[0][1] = pixel1[0] - (pixel2[2].X == -1 ? new Size(1, 0) : new Size(0, 1));
-            //    //                    newLine[0][2] = pixel2[2];
-            //    //                    newLine[1] = new Point[3];
-            //    //                    newLine[1][0] = pixel1[1] + (pixel2[2].X == -1 ? new Size(1, 0) : new Size(0, 1));
-            //    //                    newLine[1][1] = pixel2[1];
-            //    //                    newLine[1][2] = pixel2[2];
-            //    //                    removeLine[0] = pixel2;
-            //    //                    break;
-            //    //                }
-            //    //            }
-            //    //        }
-            //    //    }
-            //    //}
-            //    if (removeLine[0] == null)
-            //    {
-            //        newLine[0] = new Point[3];
-            //        newLine[0][0] = pixel1[0];
-            //        newLine[0][1] = pixel1[1];
-            //        newLine[0][2] = pixel1[2];
-            //    }
-            //    else
-            //    {
-            //        for (int i = 0; (i < 2) && (removeLine[i] != null); i++)
-            //        {
-            //            provincePixels.Remove(removeLine[i]);
-            //        }
-            //    }
-            //    for (int i = 0; (i < 2) && (newLine[i] != null); i++)
-            //    {
-            //        provincePixels.Add(newLine[i]);
-            //    }
-            //}
-            List<BorderLine> lineToAdd = new List<BorderLine>(this._mProvincesLines[complementingProvince].Count);
-            HashSet<BorderLine> lineToRemove = new HashSet<BorderLine>(this._mProvincesLines[complementingProvince].Count);
-            foreach (BorderLine line1 in this._mProvincesLines[complementingProvince])
+            HashSet<BorderLine> linesToRemove = new HashSet<BorderLine>(3);
+            HashSet<BorderLine> linesFound = new HashSet<BorderLine>(3);
+            foreach (BorderLine lineToAddImmutable in this._mProvincesLines[complementingProvince])
             {
+                BorderLine lineToAdd = lineToAddImmutable;
                 bool found = false;
-                foreach (BorderLine line2 in provinceLines)
+                linesToRemove.Clear();
+                linesFound.Clear();
+                BorderLine foundLine = BorderLine.EmptyLine;
+                foreach (BorderLine lineExisting in provinceLines)
                 {
-                    BorderLine[] newLines = line1.Exclude(line2);
-                    if (newLines != null)
+                    if (lineExisting.IsOverlapping(lineToAdd))
                     {
-                        if (newLines.Any())
-                        {
-                            if (lineToAdd.Count > 0)
-                            {      
-                                for (int i = 0; i < lineToAdd.Count; i++)
-                                {
-                                    bool[] outerInclude = new bool[newLines.Count()];
-                                    bool innerInclude = false;
-                                    for (int j = 0; j < newLines.Count<BorderLine>(); j++)
-                                    {
-                                        BorderLine temp;
-                                        if ((lineToAdd[i] != newLines[j]) && ((temp = lineToAdd[i].Intersect(newLines[j])) != BorderLine.EmptyLine))
-                                        {
-                                            lineToAdd.Add(temp);
-                                            innerInclude = true;
-                                            outerInclude[j] = true;
-                                        }
-                                        else
-                                        {
-                                            outerInclude[j] = false;
-                                        }
-                                    }
-                                    if (innerInclude)
-                                    {
-                                        lineToAdd.Remove(lineToAdd[i]);
-                                        for (int j = 0; j < newLines.Count(); j++)
-                                        {
-                                            if (outerInclude[j])
-                                            {
-                                                lineToAdd.Add(newLines[j]);
-                                            }
-                                        }
-                                    }
-                                }
-                                if (newLines.Any())
-                                {
-                                    lineToAdd.AddRange(newLines);
-                                }
-                            }
-                            else
-                            {
-                                lineToAdd.AddRange(newLines);
-                            }
-                        }
-                        lineToRemove.Add(line2);
+                        found = true;
+                        linesFound.Add(lineExisting);
+                    }
+                    if (lineExisting.IsContinuous(lineToAdd))
+                    {
+                        linesToRemove.Add(lineExisting);
+                        lineToAdd = lineToAdd.Concatenate(lineExisting);
                         found = true;
                     }
                 }
-                if (!found)
+                if (found == false)
                 {
-                    lineToAdd.Add(line1);
+                    provinceLines.Add(lineToAdd);
+                }
+                else
+                {
+                    provinceLines.ExceptWith(linesToRemove);
+                    if (linesFound.Count == 1)
+                    {
+                        provinceLines.ExceptWith(linesFound);
+                        BorderLine[] lines = lineToAdd.Exclude(linesFound.First());
+                        if (lines != null)
+                        {
+                            provinceLines.UnionWith(lines);
+                        }
+                    }
+                    else if (linesFound.Count > 1)
+                    {
+                        foreach (BorderLine lineFound in linesFound)
+                        {
+                            lineToAdd = lineFound.Exclude(lineToAdd)[0];
+                        }
+                        provinceLines.ExceptWith(linesFound);
+                        provinceLines.Add(lineToAdd);
+                    }
+                    else
+                    {
+                        provinceLines.Add(lineToAdd);
+                    }
                 }
             }
-            provinceLines = provinceLines.Except(lineToRemove).ToHashSet();
-            provinceLines.UnionWith(lineToAdd);
         }
 
         public GraphicsPath ProcessVirtualProvince(HashSet<BorderLine> lines)
