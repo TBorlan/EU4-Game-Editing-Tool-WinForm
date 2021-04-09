@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using EU4GET_WF.ImageRendering.Border;
@@ -88,6 +89,7 @@ namespace EU4GET_WF.ImageRendering.Control
         private async Task EnablePanel(Bitmap bitmap)
         {
             this._mSelectionManager ??= new SelectionManager(await this.GetProvinceBordersAsync(bitmap));
+            this._mSelectionManager.PathUpdate += (object sender, EventArgs args) => { this.cMapDisplay.Refresh(); };
             this._mDisplayRenderingEngine.Initialize(1.0f, new Size(100, 100));
             this.Enabled = true;
             this.Visible = true;

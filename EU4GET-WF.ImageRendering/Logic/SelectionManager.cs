@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using EU4GET_WF.ImageRendering.Border;
@@ -7,6 +8,8 @@ namespace EU4GET_WF.ImageRendering.Logic
 {
     public class SelectionManager
     {
+        public event EventHandler PathUpdate; 
+
         public SelectionManager(ProvinceBorders provinceBorders)
         {
             this._mActiveProvinces = new List<Color>(5);
@@ -32,10 +35,11 @@ namespace EU4GET_WF.ImageRendering.Logic
             {
                 this._mActivePath?.Dispose();
                 this._mActivePath = value;
+                this.PathUpdate?.Invoke(this, new EventArgs());
             }
         }
 
-        public void Select(Color color)
+        public async void Select(Color color)
         {
             if (!this._mActiveProvinces.Contains(color))
             {
@@ -49,7 +53,7 @@ namespace EU4GET_WF.ImageRendering.Logic
             }
 
             this.mActivePath = this._mActiveProvinces.Count != 0
-                ? this._mProvinceBorders.ProcessVirtualProvince(this._mActivePixels)
+                ? await this._mProvinceBorders.ProcessVirtualProvinceAsync(this._mActivePixels)
                 : null;
         }
     }
