@@ -185,8 +185,19 @@ namespace EU4GET_WF.ImageRendering.Border
             if (this._mProvincePaths == null)
             {
                 this._mProvincePaths = new Dictionary<Color, GraphicsPath>(this._mProvincesLines.Count);
+                this._mProvincePaths[color] = this.BuildPath(provinceLines);
             }
-            this._mProvincePaths[color] = this.BuildPath(provinceLines);
+            return (GraphicsPath)this._mProvincePaths[color].Clone();
+        }
+
+        public async Task<GraphicsPath> GetProvinceBorderAsync(Color color)
+        {
+            HashSet<BorderLine> provinceLines = new HashSet<BorderLine>(this._mProvincesLines[color]);
+            if (this._mProvincePaths == null)
+            {
+                this._mProvincePaths = new Dictionary<Color, GraphicsPath>(this._mProvincesLines.Count);
+                this._mProvincePaths[color] = await Task.Run(() => this.BuildPath(provinceLines));
+            }
             return (GraphicsPath)this._mProvincePaths[color].Clone();
         }
 
@@ -283,6 +294,12 @@ namespace EU4GET_WF.ImageRendering.Border
             HashSet<BorderLine> result = new HashSet<BorderLine>(lines);
             return this.BuildPath(result);
 
+        }
+
+        public async Task<GraphicsPath> ProcessVirtualProvinceAsync(HashSet<BorderLine> lines)
+        {
+            HashSet<BorderLine> result = new HashSet<BorderLine>(lines);
+            return await Task.Run(() => this.BuildPath(result));
         }
 
         #endregion
