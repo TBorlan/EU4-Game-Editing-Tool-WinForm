@@ -21,14 +21,23 @@ namespace EU4GET_WF.GUI
 
         private void Callback_OpenModButton_Click(object sender, EventArgs e)
         {
-            
-            
             using (Bitmap image = new Bitmap(@"C:\Users\Tudor\Desktop\temp\provinces.bmp"))
             {
                 this.cDisplayPanel.mImage = image;
             }
+        }
 
-            
+        private async void Callback_ToggleProvBordersButton_Click(object sender, EventArgs args)
+        {
+            if (this.cDisplayPanel.mImage != null)
+            {
+                if (((Button)sender).Enabled)
+                {
+                    ((Button)sender).Enabled = false;
+                    await this.cDisplayPanel._mSelectionManager.ToggleProvinceBorderPaths();
+                    ((Button)sender).Enabled = true;
+                }
+            }
         }
 
         #endregion
@@ -46,5 +55,6 @@ namespace EU4GET_WF.GUI
         #region Data Methods
 
         #endregion
+
     }
 }
