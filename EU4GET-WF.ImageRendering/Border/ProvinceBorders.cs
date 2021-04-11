@@ -170,6 +170,21 @@ namespace EU4GET_WF.ImageRendering.Border
             });     
         }
 
+        internal async Task<GraphicsPath> GetAllProvinceBordersAsync()
+        {
+            return await Task<GraphicsPath>.Run(() =>
+                                                {
+                                                    GraphicsPath path = new GraphicsPath();
+                                                    foreach (KeyValuePair<Color, HashSet<BorderLine>> provincesLine in
+                                                        this._mProvincesLines)
+                                                    {
+                                                        path.AddPath(this.BuildPath(provincesLine.Value), false);
+                                                    }
+
+                                                    return path;
+                                                });
+        }
+
         #endregion
 
         #region Path Generation

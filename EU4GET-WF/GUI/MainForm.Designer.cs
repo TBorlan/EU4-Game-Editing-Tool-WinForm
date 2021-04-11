@@ -31,7 +31,8 @@ namespace EU4GET_WF.GUI
         private void InitializeComponent()
         {
             this.cOpenModButton = new System.Windows.Forms.Button();
-            this.cDisplayPanel = new DisplayPanel();
+            this.cDisplayPanel = new EU4GET_WF.ImageRendering.Control.DisplayPanel();
+            this.cToggleProvBordersButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // cOpenModButton
@@ -44,7 +45,7 @@ namespace EU4GET_WF.GUI
             this.cOpenModButton.ForeColor = System.Drawing.SystemColors.ControlText;
             this.cOpenModButton.Location = new System.Drawing.Point(12, 12);
             this.cOpenModButton.Name = "cOpenModButton";
-            this.cOpenModButton.Size = new System.Drawing.Size(101, 29);
+            this.cOpenModButton.Size = new System.Drawing.Size(84, 29);
             this.cOpenModButton.TabIndex = 0;
             this.cOpenModButton.TabStop = false;
             this.cOpenModButton.Text = "Open Mod";
@@ -56,6 +57,7 @@ namespace EU4GET_WF.GUI
             this.cDisplayPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.cDisplayPanel.Enabled = false;
             this.cDisplayPanel.Location = new System.Drawing.Point(12, 44);
             this.cDisplayPanel.Margin = new System.Windows.Forms.Padding(3, 0, 0, 0);
             this.cDisplayPanel.mImage = null;
@@ -64,6 +66,22 @@ namespace EU4GET_WF.GUI
             this.cDisplayPanel.Name = "cDisplayPanel";
             this.cDisplayPanel.Size = new System.Drawing.Size(1318, 476);
             this.cDisplayPanel.TabIndex = 1;
+            this.cDisplayPanel.Visible = false;
+            this.cDisplayPanel.Click += new System.EventHandler(this.Callback_ToggleProvBordersButton_Click);
+            // 
+            // cToggleProvBordersButton
+            // 
+            this.cToggleProvBordersButton.AutoSize = true;
+            this.cToggleProvBordersButton.BackColor = System.Drawing.Color.Transparent;
+            this.cToggleProvBordersButton.FlatAppearance.BorderSize = 0;
+            this.cToggleProvBordersButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cToggleProvBordersButton.Location = new System.Drawing.Point(102, 12);
+            this.cToggleProvBordersButton.Name = "cToggleProvBordersButton";
+            this.cToggleProvBordersButton.Size = new System.Drawing.Size(175, 29);
+            this.cToggleProvBordersButton.TabIndex = 2;
+            this.cToggleProvBordersButton.Text = "Toggle Province Borders";
+            this.cToggleProvBordersButton.UseVisualStyleBackColor = false;
+            this.cToggleProvBordersButton.Click += new System.EventHandler(this.Callback_ToggleProvBordersButton_Click);
             // 
             // MainForm
             // 
@@ -71,6 +89,7 @@ namespace EU4GET_WF.GUI
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(1339, 529);
+            this.Controls.Add(this.cToggleProvBordersButton);
             this.Controls.Add(this.cDisplayPanel);
             this.Controls.Add(this.cOpenModButton);
             this.Name = "MainForm";
@@ -87,6 +106,7 @@ namespace EU4GET_WF.GUI
         #endregion
 
         private DisplayPanel cDisplayPanel;
+        private System.Windows.Forms.Button cToggleProvBordersButton;
     }
 }
 
