@@ -8,11 +8,18 @@ namespace EU4GET_WF.ImageRendering.Logic
 {
     class DisplayRenderingEngine
     {
-        // Scaled bitmap size
+        /// <summary>
+        /// Size of the scaled <see cref="DisplayPanel.mImage"/>.
+        /// </summary>
         private Size _mVirtualSize;
-        // MapDisplay Size
-
+        
+        
         private Size _mPhysicalSize;
+
+        /// <summary>
+        /// Size of the bound <see cref="DisplayPanel"/>.
+        /// </summary>
+        /// <remarks>Setting this value triggers a rendering operation, if rendering is enabled.</remarks>
         private Size mPhysicalSize
         {
             set
@@ -25,14 +32,30 @@ namespace EU4GET_WF.ImageRendering.Logic
             }
         }
 
+        /// <summary>
+        /// Size and origin of the original bitmap to be displayed.
+        /// </summary>
+        /// <remarks>The origin of the coordinates is the upper left corner of the bitmap. </remarks>
         private Rectangle _mSelectionRectangle;
 
+        /// <summary>
+        /// Size and origin of the display area
+        /// </summary>
+        /// <remarks>
+        /// The origin of the coordinates is the upper left corner of the <see cref="mBoundPanel"/>.
+        /// </remarks>
         private Rectangle _mDisplayRectangle;
 
         private Size _mMargins;
 
         private Size _mMinMargins;
 
+        /// <summary>
+        /// Minimum margins size between the displayed <see cref="Bitmap"/> and
+        /// the bound <see cref="mBoundPanel"/>.
+        /// </summary>
+        /// <value>Setting this value triggers a rendering operation.Getting this value might return a bigger size than the one set,
+        /// this depends on the <see cref="mScale"/> used.</value>
         public Size mMargins
         {
             get
@@ -42,6 +65,7 @@ namespace EU4GET_WF.ImageRendering.Logic
             set
             {
                 this._mMinMargins = value;
+                //BUG: If should check for false value, not true
                 if (this._mRenderingSuspended)
                 {
                     this.ProcessSize();
@@ -53,8 +77,16 @@ namespace EU4GET_WF.ImageRendering.Logic
 
         private DisplayPanel _mDisplayPanel;
 
+        /// <summary>
+        /// Flag to determine if rendering operations should execute or not.
+        /// </summary>
+        /// <remarks>A false value stops executing rendering operations.</remarks>
         private bool _mRenderingSuspended;
 
+        /// <summary>
+        /// The <see cref="DisplayPanel"/> to which the engine is bound.
+        /// </summary>
+        /// <value>Setting this value makes the <see cref="DisplayRenderingEngine"/> to obtain references to the <see cref="DisplayPanel"/> and it's children.</value>
         public DisplayPanel mBoundPanel
         {
             private get
@@ -70,6 +102,10 @@ namespace EU4GET_WF.ImageRendering.Logic
             }
         }
 
+        /// <summary>
+        /// The scale used to display the <see cref="MapDisplay.mOriginalBitmap"/>.
+        /// </summary>
+        /// <remarks>Setting this value triggers a rendering operation, if rendering is enabled.</remarks>
         public float mScale
         {
             get
@@ -80,8 +116,10 @@ namespace EU4GET_WF.ImageRendering.Logic
             {
                 this._mScale = value;
                 this._mVirtualSize = this._mMapDisplay.mOriginalBitmap?.Size ?? Size.Empty;
+                //Note: I don't think that truncating is the mathematically correct way.
                 this._mVirtualSize.Width = (int)Math.Truncate(this._mVirtualSize.Width * this.mScale);
                 this._mVirtualSize.Height = (int)Math.Truncate(this._mVirtualSize.Height * this.mScale);
+                //BUG: If should check for false value, not true
                 if (this._mRenderingSuspended)
                 {
                     this.ProcessSize();
@@ -95,10 +133,18 @@ namespace EU4GET_WF.ImageRendering.Logic
 
         private MapDisplay _mMapDisplay;
 
+        /// <summary>
+        /// Initialize the engine and trigger a rendering operation, if rendering is enabled.
+        /// </summary>
+        /// <param name="scale">Scale used to display the <see cref="MapDisplay.mOriginalBitmap"/></param>
+        /// <param name="marginsSize">Minimum margins to use.</param>
+        /// <seealso cref="mMargins"/>
+        /// <see cref="mScale"/>
         public void Initialize(float scale, Size marginsSize)
         {
             if (!this._mRenderingSuspended)
             {
+                //BUG: If flag is true, rendering will execute
                 this._mRenderingSuspended = true;
                 this.mScale = scale;
                 this.mMargins = marginsSize;
@@ -111,20 +157,43 @@ namespace EU4GET_WF.ImageRendering.Logic
                 this.mMargins = marginsSize;
             }
         }
+
+        /// <summary>
+        /// Initialize the engine with margins set to <see cref="Size.Empty"/> and trigger a rendering operation, if rendering is enabled. 
+        /// </summary>
+        /// <param name="scale">Scale used to display the <see cref="MapDisplay.mOriginalBitmap"/></param>
+        /// <seealso cref="mMargins"/>
+        /// <see cref="mScale"/>
         public void Initialize(float scale)
         {
             this.Initialize(scale, this._mMinMargins);
         }
+
+        /// <summary>
+        /// Initialize the engine with scale parameter set to <see langword="1.0f"/> and trigger a rendering operation, if rendering is enabled.
+        /// </summary>
+        /// <param name="marginsSize">Minimum margins to use.</param>
+        /// <seealso cref="mMargins"/>
+        /// <see cref="mScale"/>
         public void Initialize(Size marginsSize)
         {
             this.Initialize(this._mScale, marginsSize);
         }
 
+        /// <summary>
+        /// Initialize the engine with scale parameter set to <see langword="1.0f"/> and margins set to <see cref="Size.Empty"/> and trigger a rendering operation, if rendering is enabled. 
+        /// </summary>
+        /// <seealso cref="mMargins"/>
+        /// <see cref="mScale"/>
         public void Initialize()
         {
             this.Initialize(1.0f, Size.Empty);
         }
 
+        /// <summary>
+        /// Sets the <see cref="mBoundPanel"/> value and registers callback to events.
+        /// </summary>
+        /// <param name="parent">Value to set the <see cref="mBoundPanel"/> property.</param>
         public void Bind(DisplayPanel parent)
         {
             this.mBoundPanel = parent;
@@ -138,6 +207,9 @@ namespace EU4GET_WF.ImageRendering.Logic
             this._mMapDisplay.MouseClick += this.GetSelectedColor;
         }
 
+        /// <summary>
+        /// Deletes references to <see cref="mBoundPanel"/> and it's children and unregister callbacks.
+        /// </summary>
         public void Unbind()
         {
             this._mDisplayPanel.SizeChanged -= this.GetSize;
@@ -153,17 +225,24 @@ namespace EU4GET_WF.ImageRendering.Logic
             this._mVScrollBar = null;
         }
 
-
-
+        /// <summary>
+        /// Executes <see cref="ProcessView"/> when a scrollbar has moved.
+        /// </summary>
+        /// <param name="scrollBar">The scrollbar which raised the event.</param>
+        /// <param name="args">Amount scrolled.</param>
         public void ProcessScroll(object scrollBar, ScrollEventArgs args)
         {
+            //NOTE: Don't think it's necessary to have the if here
             if (!this._mRenderingSuspended)
             {
-                this.ProccessView();
+                this.ProcessView();
             }
         }
 
-        private void ProccessView()
+        /// <summary>
+        /// Calculate and set <see cref="_mSelectionRectangle"/> and <see cref="_mDisplayRectangle"/> and trigger a rendering operation, if rendering is enabled.
+        /// </summary>
+        private void ProcessView()
         {
             // Find out the selection origin
             // Find out display origin
@@ -205,11 +284,24 @@ namespace EU4GET_WF.ImageRendering.Logic
             }
         }
 
+        /// <summary>
+        /// Updates the <see cref="mPhysicalSize"/> property.
+        /// </summary>
+        /// <param name="mapDisplay">Reference to the bound <see cref="MapDisplay"/>.</param>
+        /// <param name="args"></param>
+        /// <remarks>Executes when the <see cref="mBoundPanel"/> raises a <see cref="System.Windows.Forms.Control.SizeChanged"/> <see langword="event"/>.</remarks>
         private void GetSize(object mapDisplay, EventArgs args)
         {
             this.mPhysicalSize = ((System.Windows.Forms.Control)mapDisplay).Size;
         }
 
+        /// <summary>
+        /// Refresh the <see langword="Value"/> property of the <see cref="_mHScrollBar"/> and <see cref="_mVScrollBar"/> controls.
+        /// </summary>
+        /// <remarks>Executes when a <see cref="MapDisplay.Pan"/> <see langword="event"/> is fired and triggers the <see cref="ProcessView"/> operation.</remarks>
+        /// <param name="mapDisplay">Reference to the <see cref="MapDisplay"/> that fired the event.</param>
+        /// <param name="offset">Pan size and direction.</param>
+        //NOTE: Currently we treat pan operation and user changing the scrollbars as two separate branches. My opinion is that we could treat them as a unified operation by using the ScrollBar.ValueChanged event. This way, we should have a flag that halts processing until both scrollbars' values are set.
         private void GetScrollOffset(object mapDisplay, Point offset)
         {
             if (!this._mRenderingSuspended)
@@ -222,10 +314,16 @@ namespace EU4GET_WF.ImageRendering.Logic
                 {
                     this._mVScrollBar.Value += offset.Y;
                 }
-                this.ProccessView();
+                this.ProcessView();
             }
         }
 
+        /// <summary>
+        /// Computes <see langword="Value"/> property of the <see cref="_mHScrollBar"/> and <see cref="_mVScrollBar"/> controls according to the new <see cref="mScale"/> value.
+        /// </summary>
+        /// <remarks>This function triggers when a <see cref="MapDisplay.Zoom"/> <see langword="event"/> is fired.</remarks>
+        /// <param name="mapDisplay">Reference to the <see cref="MapDisplay"/> that fired the event.</param>
+        /// <param name="args">Zoom magnitude and sign.</param>
         private void GetZoom(object mapDisplay, MouseEventArgs args)
         {
             Point point = Point.Subtract(args.Location, (Size)this._mDisplayRectangle.Location);
@@ -247,9 +345,15 @@ namespace EU4GET_WF.ImageRendering.Logic
                 this._mVScrollBar.Value = referencePoint.Y;
             }
             this._mRenderingSuspended = false;
-            this.ProccessView();
+            this.ProcessView();
         }
 
+        /// <summary>
+        /// Translates the coordinates of a selection on <see cref="mBoundPanel"/> to coordinates on the underlying <see cref="Bitmap"/> and triggers <see cref="SelectionManager.Select"/>.
+        /// </summary>
+        /// <remarks>This function triggers when a <see cref="System.Windows.Forms.Control.MouseClick"/> <see langword="event"/> is fired.</remarks>
+        /// <param name="mapDisplay">Reference to the <see cref="MapDisplay"/> that fired the event.</param>
+        /// <param name="args">Coordinates of the selection.</param>
         private void GetSelectedColor(object mapDisplay, MouseEventArgs args)
         {
             if (args.Button == MouseButtons.Left)
@@ -264,7 +368,7 @@ namespace EU4GET_WF.ImageRendering.Logic
                     this._mDisplayPanel._mSelectionManager.Select(selectedColor);
                     if (!this._mRenderingSuspended)
                     {
-                        this.ProccessView();
+                        this.ProcessView();
                     }
                 }
             }
@@ -298,6 +402,9 @@ namespace EU4GET_WF.ImageRendering.Logic
             this._mRenderingSuspended = true;
         }
 
+        /// <summary>
+        /// Updates <see cref="_mHScrollBar"/> and <see cref="_mVScrollBar"/> size parameters and updates <see cref="mMargins"/> value.
+        /// </summary>
         public void ProcessSize()
         {
             this._mMargins = new Size(this._mVirtualSize.Width + (2 * this._mMinMargins.Width) > this._mPhysicalSize.Width ? this._mMinMargins.Width : (int)((this._mPhysicalSize.Width - this._mVirtualSize.Width) / 2.0f),
@@ -316,10 +423,15 @@ namespace EU4GET_WF.ImageRendering.Logic
             }
             if (!this._mRenderingSuspended)
             {
-                this.ProccessView();
+                this.ProcessView();
             }
         }
 
+        /// <summary>
+        /// Draws the required bitmap slice at the required scale and draws over the required <see cref="GraphicsPath"/>.
+        /// </summary>
+        /// <param name="mapDisplay">Reference to the <see cref="Control"/> to draw on.</param>
+        /// <param name="args"></param>
         public void Render(object mapDisplay, PaintEventArgs args)
         {
             if (this._mMapDisplay.mOriginalBitmap != null)

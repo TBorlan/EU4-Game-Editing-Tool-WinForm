@@ -10,8 +10,12 @@ using System.Threading.Tasks;
 
 namespace EU4GET_WF.ImageRendering.Border
 {
+    /// <summary>
+    /// Represents an abstraction for shapes present in the provinces.bmp file and their outlines.
+    /// </summary>
     public class ProvinceBorders
     {
+        #region Fields,Properties&Constructors 
 
         private ProvinceBorders(int provinceCount)
         {
@@ -19,15 +23,17 @@ namespace EU4GET_WF.ImageRendering.Border
             //mProvincesLines = new Dictionary<Color, HashSet<Point[]>>(this.mProvinceCount);
         }
 
-        #region Members
-
+        /// <summary>
+        /// Holds reference to singleton instance
+        /// </summary>
         private static ProvinceBorders _mInstance;
 
+        /// <summary>
+        /// Maps every province, defined by <see cref="Color"/>, to a collection of <see cref="BorderLine"/> that defines an outline.
+        /// </summary>
         private Dictionary<Color, HashSet<BorderLine>> _mProvincesLines;
 
         private readonly int _mProvinceCount;
-
-        private Dictionary<Color, HashSet<BorderPoint[]>> _mProvincesPoints;
 
         private Dictionary<Color, GraphicsPath> _mProvincePaths;
 
@@ -35,11 +41,19 @@ namespace EU4GET_WF.ImageRendering.Border
 
         #region Instance Generation
 
+        /// <summary>
+        /// Get or generate the singleton instance of <see cref="ProvinceBorders"/>.
+        /// </summary>
+        /// <param name="bitmap">The bitmap memory stream of the provinces.bmp file.</param>
+        /// <param name="provinceCount">Number of shapes present in the file.</param>
+        /// <returns>The singleton instance of <see cref="ProvinceBorders"/>.</returns>
         public static ProvinceBorders GetProvinceBorders(Bitmap bitmap, int provinceCount)
         {
             if (_mInstance == null)
             {
                 _mInstance = new ProvinceBorders(provinceCount);
+                // Generate an intermediate bitmap that has a width dividable by 4 
+                // This is required so that stride returns the actual number of bytes per row
                 Bitmap internalBitmap = new Bitmap(bitmap.Width + (4 - bitmap.Width % 4), bitmap.Height, PixelFormat.Format24bppRgb);
                 Graphics graphics = Graphics.FromImage(internalBitmap);
                 graphics.PageUnit = GraphicsUnit.Pixel;
@@ -74,7 +88,7 @@ namespace EU4GET_WF.ImageRendering.Border
             });           
             bitmap.UnlockBits(bmpData);
             // Stores vertical and horizontal border pixels of a province
-            this._mProvincesPoints = new Dictionary<Color, HashSet<BorderPoint[]>>(this._mProvinceCount);
+            Dictionary<Color, HashSet<BorderPoint[]>> provincesPoints = new Dictionary<Color, HashSet<BorderPoint[]>>(this._mProvinceCount);
 
             object lockObj = new Object();
             //Traverse lines
@@ -85,9 +99,9 @@ namespace EU4GET_WF.ImageRendering.Border
                     Color color = pixelColors[prow, col];
                     lock (lockObj)
                     {
-                        if (!this._mProvincesPoints.ContainsKey(color))
+                        if (!provincesPoints.ContainsKey(color))
                         {
-                            this._mProvincesPoints.Add(color, new HashSet<BorderPoint[]>());
+                            provincesPoints.Add(color, new HashSet<BorderPoint[]>());
                         }
                     }
                     BorderPoint[] colorLine = new BorderPoint[3];
@@ -115,7 +129,7 @@ namespace EU4GET_WF.ImageRendering.Border
                     colorLine[2] = new BorderPoint(-1, 0); // horizontal line
                     lock (lockObj)
                     {
-                        HashSet<BorderPoint[]> lines = this._mProvincesPoints[color];
+                        HashSet<BorderPoint[]> lines = provincesPoints[color];
                         lines.Add(colorLine);
                     }
                 }
@@ -151,38 +165,23 @@ namespace EU4GET_WF.ImageRendering.Border
                     colorLine[2] = new BorderPoint(-2, 0); // vertical line
                     lock (lockObj)
                     {
-                        HashSet<BorderPoint[]> lines = this._mProvincesPoints[color];
+                        HashSet<BorderPoint[]> lines = provincesPoints[color];
                         lines.Add(colorLine);
                     }
                 }
             });
-            this._mProvincesLines = new Dictionary<Color, HashSet<BorderLine>>(this._mProvincesPoints.Count);
+            this._mProvincesLines = new Dictionary<Color, HashSet<BorderLine>>(provincesPoints.Count);
             // Get border lines from border pixels
             object lockobj = new Object();
-            Parallel.ForEach(this._mProvincesPoints, (KeyValuePair<Color, HashSet<BorderPoint[]>> keyValue) =>
-            {
-                lock (lockobj)
-                {
-                    this._mProvincesLines.Add(keyValue.Key, new HashSet<BorderLine>(keyValue.Value.Count / 4));
-                }
-                this.ProcessProvince(keyValue.Value, this._mProvincesLines[keyValue.Key]);
+            Parallel.ForEach(provincesPoints, (KeyValuePair<Color, HashSet<BorderPoint[]>> keyValue) =>
+                                              {
+                                                  lock (lockobj)
+                                                  {
+                                                      this._mProvincesLines.Add(keyValue.Key, new HashSet<BorderLine>(keyValue.Value.Count / 4));
+                                                  }
+                                                  this.ProcessProvince(keyValue.Value, this._mProvincesLines[keyValue.Key]);
 
-            });     
-        }
-
-        internal async Task<GraphicsPath> GetAllProvinceBordersAsync()
-        {
-            return await Task<GraphicsPath>.Run(() =>
-                                                {
-                                                    GraphicsPath path = new GraphicsPath();
-                                                    foreach (KeyValuePair<Color, HashSet<BorderLine>> provincesLine in
-                                                        this._mProvincesLines)
-                                                    {
-                                                        path.AddPath(this.BuildPath(provincesLine.Value), false);
-                                                    }
-
-                                                    return path;
-                                                });
+                                              });     
         }
 
         #endregion
@@ -190,32 +189,10 @@ namespace EU4GET_WF.ImageRendering.Border
         #region Path Generation
 
         /// <summary>
-        /// Returns the <see cref="GraphicsPath"/> that borders the province
+        /// Assemble the give collection of <see cref="BorderLine"/> into a <see cref="GraphicsPath"/>.
         /// </summary>
-        /// <param name="color">Color of the province</param>
-        /// <returns></returns>
-        public GraphicsPath GetProvinceBorder(Color color)
-        {
-            HashSet<BorderLine> provinceLines = new HashSet<BorderLine>(this._mProvincesLines[color]);
-            if (this._mProvincePaths == null)
-            {
-                this._mProvincePaths = new Dictionary<Color, GraphicsPath>(this._mProvincesLines.Count);
-                this._mProvincePaths[color] = this.BuildPath(provinceLines);
-            }
-            return (GraphicsPath)this._mProvincePaths[color].Clone();
-        }
-
-        public async Task<GraphicsPath> GetProvinceBorderAsync(Color color)
-        {
-            HashSet<BorderLine> provinceLines = new HashSet<BorderLine>(this._mProvincesLines[color]);
-            if (this._mProvincePaths == null)
-            {
-                this._mProvincePaths = new Dictionary<Color, GraphicsPath>(this._mProvincesLines.Count);
-                this._mProvincePaths[color] = await Task.Run(() => this.BuildPath(provinceLines));
-            }
-            return (GraphicsPath)this._mProvincePaths[color].Clone();
-        }
-
+        /// <param name="lines">The collection of <see cref="BorderLine"/> that define one or more closed shapes.</param>
+        /// <returns><see cref="GraphicsPath"/> made up of one or more closed shapes.</returns>
         private GraphicsPath BuildPath(HashSet<BorderLine> lines)
         {
             lines = new HashSet<BorderLine>(lines);
@@ -246,6 +223,14 @@ namespace EU4GET_WF.ImageRendering.Border
             return path;
         }
 
+        /// <summary>
+        /// Update the <paramref name="provinceLines"/> collection so that it contains <see cref="BorderLine"/> present in it
+        /// or present in the outline of a shape define by <paramref name="complementingProvince"/> color, but not in both.
+        /// </summary>
+        /// <remarks>If <see cref="BorderLine"/> present in both collection only partially overlap, the updated <paramref name="provinceLines"/> will
+        /// contain the segments resulted after a <see cref="BorderLine.Exclude(BorderLine)"/> operation.</remarks>
+        /// <param name="provinceLines">The collection to be updated.</param>
+        /// <param name="complementingProvince">The color of the shape whose outline will be used in the complement operation.</param>
         public void ComplementVirtualProvince(ref HashSet<BorderLine> provinceLines, Color complementingProvince)
         {
             HashSet<BorderLine> linesToRemove = new HashSet<BorderLine>(3);
@@ -259,11 +244,13 @@ namespace EU4GET_WF.ImageRendering.Border
                 BorderLine foundLine = BorderLine.EmptyLine;
                 foreach (BorderLine lineExisting in provinceLines)
                 {
+                    //Search for any overlapping
                     if (lineExisting.IsOverlapping(lineToAdd))
                     {
                         found = true;
                         linesFound.Add(lineExisting);
                     }
+                    //Search if two lines are in fact a bigger line
                     if (lineExisting.IsContinuous(lineToAdd))
                     {
                         linesToRemove.Add(lineExisting);
@@ -277,7 +264,9 @@ namespace EU4GET_WF.ImageRendering.Border
                 }
                 else
                 {
+                    // Remove lines marked for removal
                     provinceLines.ExceptWith(linesToRemove);
+                    // If found to overlap with only one line, it's easy then
                     if (linesFound.Count == 1)
                     {
                         provinceLines.ExceptWith(linesFound);
@@ -304,6 +293,12 @@ namespace EU4GET_WF.ImageRendering.Border
             }
         }
 
+        /// <summary>
+        /// Returns a closed multi-line <see cref="GraphicsPath"/> made up of
+        /// <see cref="BorderLine"/> present in the <paramref name="lines"/> collection.
+        /// </summary>
+        /// <param name="lines">The <see cref="BorderLine"/> to be assembled in a <see cref="GraphicsPath"/>.</param>
+        /// <returns></returns>
         public GraphicsPath ProcessVirtualProvince(HashSet<BorderLine> lines)
         {
             HashSet<BorderLine> result = new HashSet<BorderLine>(lines);
@@ -311,10 +306,39 @@ namespace EU4GET_WF.ImageRendering.Border
 
         }
 
+        /// <summary>
+        /// Returns a closed multi-line <see cref="GraphicsPath"/> made up of
+        /// <see cref="BorderLine"/> present in the <paramref name="lines"/> collection.
+        /// </summary>
+        /// <remarks>This function doesn't need to be awaited to run asynchronously, but it will return
+        /// a <see cref="Task"/> instead of a <see cref="GraphicsPath"/> object.</remarks>
+        /// <param name="lines">The <see cref="BorderLine"/> to be assembled in a <see cref="GraphicsPath"/>.</param>
+        /// <returns></returns>
         public async Task<GraphicsPath> ProcessVirtualProvinceAsync(HashSet<BorderLine> lines)
         {
             HashSet<BorderLine> result = new HashSet<BorderLine>(lines);
             return await Task.Run(() => this.BuildPath(result));
+        }
+
+        /// <summary>
+        /// Asynchronously generates a <see cref="GraphicsPath"/> representing the concatenated
+        /// outlines of every shape in the bitmap file.
+        /// </summary>
+        /// <returns>The <see cref="GraphicsPath"/> if the function is awaited, otherwise a <see cref="Task{GraphicsPath}"/>.</returns>
+        /// <remarks>This method doesn't have to be awaited to run asynchronously.</remarks>
+        internal async Task<GraphicsPath> GetAllProvinceBordersAsync()
+        {
+            return await Task<GraphicsPath>.Run(() =>
+                                                {
+                                                    GraphicsPath path = new GraphicsPath();
+                                                    foreach (KeyValuePair<Color, HashSet<BorderLine>> provincesLine in
+                                                        this._mProvincesLines)
+                                                    {
+                                                        path.AddPath(this.BuildPath(provincesLine.Value), false);
+                                                    }
+
+                                                    return path;
+                                                });
         }
 
         #endregion

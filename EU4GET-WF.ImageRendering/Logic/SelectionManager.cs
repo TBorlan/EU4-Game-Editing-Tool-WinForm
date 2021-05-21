@@ -9,8 +9,15 @@ namespace EU4GET_WF.ImageRendering.Logic
 {
     public class SelectionManager
     {
+        /// <summary>
+        /// Raises when <see cref="mActivePath"/> is set.
+        /// </summary>
         public event EventHandler PathUpdate; 
 
+        /// <summary>
+        /// Creates a new instance of <see cref="SelectionManager"/>.
+        /// </summary>
+        /// <param name="provinceBorders">Provides <see cref="GraphicsPath"/> to the instance.</param>
         public SelectionManager(ProvinceBorders provinceBorders)
         {
             this._mActiveProvinces = new List<Color>(5);
@@ -32,6 +39,9 @@ namespace EU4GET_WF.ImageRendering.Logic
 
         private readonly ProvinceBorders _mProvinceBorders;
 
+        /// <summary>
+        /// Gets the <see cref="GraphicsPath"/> representing the outline of the shapes selected.
+        /// </summary>
         public GraphicsPath mActivePath
         {
             get
@@ -77,6 +87,11 @@ namespace EU4GET_WF.ImageRendering.Logic
             this.mActivePath = this._mSelectionPath;
         }
 
+        /// <summary>
+        /// Appends or remove the global outline <see cref="GraphicsPath"/> of the provinces. 
+        /// </summary>
+        /// <remarks>This function shouldn't be awaited.</remarks>
+        /// <returns></returns>
         public async Task ToggleProvinceBorderPaths()
         {
             if (this._mProvincesPaths == null)
