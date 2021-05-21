@@ -1,20 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using EU4GET_WF.ImageRendering.Properties;
 
 namespace EU4GET_WF.ImageRendering.Border
 {
+    /// <summary>
+    /// Represent an oriented line defined by two <see cref="BorderPoint"/> 
+    /// </summary>
     public struct BorderLine : IEquatable<BorderLine>
     {
+        #region Fields,Properties&Constructors
+
         private BorderPoint _mStart;
 
         private BorderPoint _mEnd;
+
+        /// <summary>
+        /// <see cref="BorderPoint"/> that defines the start of the line.
+        /// </summary>
+        /// <exception cref="ArgumentException"> If <see cref="mEnd"/> is smaller than
+        /// <see cref="mStart"/>.</exception>
         public BorderPoint mStart
         {
-            get
-            {
-                return this._mStart;
-            }
+            get { return this._mStart; }
             set
             {
                 if (this.mEnd == BorderPoint.Empty)
@@ -32,12 +41,15 @@ namespace EU4GET_WF.ImageRendering.Border
                 }
             }
         }
+
+        /// <summary>
+        /// <see cref="BorderPoint"/> that defines the end of the line.
+        /// </summary>
+        /// <exception cref="ArgumentException"> If <see cref="mStart"/> is bigger than
+        /// <see cref="mEnd"/>.</exception>
         public BorderPoint mEnd
         {
-            get
-            {
-                return this._mEnd;
-            }
+            get { return this._mEnd; }
             set
             {
                 if (this.mStart == BorderPoint.Empty) return;
@@ -52,6 +64,12 @@ namespace EU4GET_WF.ImageRendering.Border
             }
         }
 
+        /// <summary>
+        /// Returns the orientation of the line
+        /// </summary>
+        /// <value>
+        /// <see cref="BorderPlane"/> defining the orientation
+        /// </value>
         public BorderPlane mOrientation
         {
             get
@@ -67,27 +85,49 @@ namespace EU4GET_WF.ImageRendering.Border
             }
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "<Pending>")]
+        /// <summary>
+        /// Represent an empty <see cref="BorderLine"/> defined by two <see cref="BorderPoint.Empty"/> points.
+        /// </summary>
+        [SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "<Pending>")]
         public static readonly BorderLine EmptyLine = new BorderLine(BorderPoint.Empty, BorderPoint.Empty);
 
-        public BorderLine (BorderPoint start, BorderPoint end)
+        /// <summary>
+        /// Initialize a new instance of <see cref="BorderLine"/> that has the specified coordinates. 
+        /// </summary>
+        /// <param name="start"> Start of the line.</param>
+        /// <param name="end"> End of the line.</param>
+        public BorderLine(BorderPoint start, BorderPoint end)
         {
             this._mStart = start;
             this._mEnd = end;
         }
 
+        #endregion
+
+        #region Operators
+
         public override bool Equals(object obj)
         {
-            if(obj is BorderLine line)
+            if (obj is BorderLine line)
             {
                 return this.Equals(line);
             }
+
             return false;
         }
 
         public bool Equals(BorderLine other)
         {
             return (this.mStart == other.mStart) && (this.mEnd == other.mEnd);
+        }
+
+        #endregion
+
+        #region Equals&Hash
+
+        public override int GetHashCode()
+        {
+            return (this.mStart, this.mEnd).GetHashCode();
         }
 
         public static bool operator ==(BorderLine a, BorderLine b)
@@ -100,20 +140,31 @@ namespace EU4GET_WF.ImageRendering.Border
             return !(a.Equals(b));
         }
 
-        public override int GetHashCode()
-        {
-            return (this.mStart, this.mEnd).GetHashCode();
-        }
+        #endregion
 
+
+        /// <summary>
+        /// Checks if two line segments are part of the same line.
+        /// </summary>
+        /// <param name="line">The <see cref="BorderLine"/> to check with the current object.</param>
+        /// <returns><see langword="true"/> if segments are collinear, <see langword="false"/> if not.</returns>
         public bool IsCollinear(BorderLine line)
         {
-            if(this.mOrientation == line.mOrientation)
+            if (this.mOrientation == line.mOrientation)
             {
-                return this.mOrientation == BorderPlane.Horizontal ? this.mStart.mY == line.mStart.mY : this.mStart.mX == line.mStart.mX;
+                return this.mOrientation == BorderPlane.Horizontal
+                    ? this.mStart.mY == line.mStart.mY
+                    : this.mStart.mX == line.mStart.mX;
             }
+
             return false;
         }
 
+        /// <summary>
+        /// Checks if two line segments share a common segment.
+        /// </summary>
+        /// <param name="line">The <see cref="BorderLine"/> to check with the current object.</param>
+        /// <returns><see langword="true"/> if segments have a common segment, <see langword="false"/> if not.</returns>
         public bool IsOverlapping(BorderLine line)
         {
             if (this.IsCollinear(line))
@@ -127,9 +178,15 @@ namespace EU4GET_WF.ImageRendering.Border
                     return true;
                 }
             }
+
             return false;
         }
 
+        /// <summary>
+        /// Checks if two line segments are continuous.
+        /// </summary>
+        /// <param name="line">The <see cref="BorderLine"/> to check with the current object.</param>
+        /// <returns><see langword="true"/> if segments are continuous, <see langword="false"/> if not.</returns>
         public bool IsContinuous(BorderLine line)
         {
             if (this.IsCollinear(line))
@@ -143,76 +200,28 @@ namespace EU4GET_WF.ImageRendering.Border
             return false;
         }
 
+        /// <summary>
+        /// Returns an array containing segments that are part of the current <see cref="BorderLine"/> or <paramref name="line"/> but not both.
+        /// </summary>
+        /// <param name="line">The <see cref="BorderLine"/> to check with the current object.</param>
+        /// <returns><list type="bullet">
+        /// <item>An array containing the segments resulted from exclusion</item>
+        /// <item>An empty array if the two segments are identical</item>
+        /// <item><see langword="null"/> if there isn't any common segment between the two lines</item></list></returns>
         public BorderLine[] Exclude(BorderLine line)
         {
             BorderLine[] result = null;
             if (this.IsOverlapping(line))
             {
-                //if (this.mEnd < line.mEnd)
-                //{
-                //    if(this.mStart > line.mStart)
-                //    {
-                //        result = new BorderLine[] { new BorderLine(line.mStart, this.mStart), new BorderLine(this.mEnd, line.mEnd) };
-                //    }
-                //    else
-                //    {
-                //        result = new BorderLine[] { new BorderLine(this.mStart, line.mStart), new BorderLine(this.mEnd, line.mEnd) };
-                //    }
-                //}
-                //else if (this.mEnd > line.mEnd)
-                //{
-                //    if(this.mStart > line.mStart)
-                //    {
-                //        result = new BorderLine[] { new BorderLine(line.mStart, this.mStart), new BorderLine(line.mEnd, this.mEnd) };
-                //    }
-                //    else
-                //    {
-                //        result = new BorderLine[] { new BorderLine(this.mStart, line.mStart), new BorderLine(line.mEnd, this.mEnd) };
-                //    }
-                //}
-                //else if (this.mStart == line.mStart)
-                //{
-                //    if (this.mEnd > line.mEnd)
-                //    {
-                //        result = new BorderLine[] { new BorderLine(line.mEnd, this.mEnd) };
-                //    }
-                //    if (this.mEnd < line.mEnd)
-                //    {
-                //        result = new BorderLine[] { new BorderLine(this.mEnd, line.mEnd) };
-                //    }
-                //    else
-                //    {
-                //        result = Array.Empty<BorderLine>();
-                //    }
-                //}
-                //else
-                //{
-                //    if (this.mStart == line.mEnd)
-                //    {
-                //        result = new BorderLine[] { new BorderLine(line.mStart, this.mEnd) };
-                //    }
-                //    else
-                //    {
-                //        result = new BorderLine[] { new BorderLine(this.mStart, line.mEnd) };
-                //    }
-                //}
-                //if (this.mEnd == line.mStart) // 1
-                //{
-                //    result = new BorderLine[] { new BorderLine(this.mStart, line.mEnd) };
-                //}
-                //else if (this.mStart == line.mEnd) // 2
-                //{
-                //    result = new BorderLine[] { new BorderLine(line.mStart, this.mEnd) };
-                //}
                 if (this.mStart == line.mStart) // 3 and 9 and 11
                 {
                     if (this.mEnd > line.mEnd) //3
                     {
-                        result = new[] { new BorderLine(line.mEnd, this.mEnd) };
+                        result = new[] {new BorderLine(line.mEnd, this.mEnd)};
                     }
                     else if (this.mEnd < line.mEnd) // 9
                     {
-                        result = new[] { new BorderLine(this.mEnd, line.mEnd) };
+                        result = new[] {new BorderLine(this.mEnd, line.mEnd)};
                     }
                     else // 11
                     {
@@ -223,51 +232,45 @@ namespace EU4GET_WF.ImageRendering.Border
                 {
                     if (this.mStart > line.mStart) // 10
                     {
-                        result = new[] { new BorderLine(line.mStart, this.mStart) };
+                        result = new[] {new BorderLine(line.mStart, this.mStart)};
                     }
                     else // 4
                     {
-                        result = new[] { new BorderLine(this.mStart, line.mStart) };
+                        result = new[] {new BorderLine(this.mStart, line.mStart)};
                     }
                 }
                 else if (this.mStart > line.mStart) // 6 and 8
                 {
                     if (this.mEnd > line.mEnd) // 6
                     {
-                        result = new[] { new BorderLine(line.mStart, this.mStart), new BorderLine(line.mEnd, this.mEnd) };
+                        result = new[] {new BorderLine(line.mStart, this.mStart), new BorderLine(line.mEnd, this.mEnd)};
                     }
                     else // 8
                     {
-                        result = new[] { new BorderLine(line.mStart, this.mStart), new BorderLine(this.mEnd, line.mEnd) };
+                        result = new[] {new BorderLine(line.mStart, this.mStart), new BorderLine(this.mEnd, line.mEnd)};
                     }
                 }
                 else // 5 and 7 
                 {
                     if (this.mEnd > line.mEnd) // 7
                     {
-                        result = new[] { new BorderLine(this.mStart, line.mStart), new BorderLine(line.mEnd, this.mEnd) };
+                        result = new[] {new BorderLine(this.mStart, line.mStart), new BorderLine(line.mEnd, this.mEnd)};
                     }
                     else // 5
                     {
-                        result = new[] { new BorderLine(this.mStart, line.mStart), new BorderLine(this.mEnd, line.mEnd) };
+                        result = new[] {new BorderLine(this.mStart, line.mStart), new BorderLine(this.mEnd, line.mEnd)};
                     }
                 }
             }
+
             return result;
         }
 
-        public BorderLine Intersect(BorderLine line)
-        {
-            BorderLine result = BorderLine.EmptyLine;
-            if (this.IsOverlapping(line))
-            {
-                BorderPoint start = this.mStart > line.mStart ? this.mStart : line.mStart;
-                BorderPoint end = this.mEnd > line.mEnd ? line.mEnd : this.mEnd;
-                result = new BorderLine(start, end);
-            }
-            return result;
-        }
-
+        /// <summary>
+        /// Returns a <see cref="BorderLine"/> representing the concatenation of the current object with <paramref name="line"/>.
+        /// </summary>
+        /// <param name="line">The <see cref="BorderLine"/> to concatenate with the current object.</param>
+        /// <returns><see cref="BorderLine"/> representing the concatenation of the two lines, or <see cref="EmptyLine"/> if the two lines can't be concatenated.</returns>
         public BorderLine Concatenate(BorderLine line)
         {
             BorderLine result = BorderLine.EmptyLine;
@@ -284,51 +287,11 @@ namespace EU4GET_WF.ImageRendering.Border
                     start = this.mStart;
                     end = line.mEnd;
                 }
+
                 result = new BorderLine(start, end);
             }
+
             return result;
-        }
-
-        public BorderLine[] GetGroupExclusiveIntersection(BorderLine[] group)
-        {
-            List<BorderLine> lines = new List<BorderLine>(group);
-            List<BorderLine> result = new List<BorderLine>(lines.Count / 2 + 1);
-            int originalCount = lines.Count;
-            while (lines.Count >= (originalCount / 2 + originalCount % 2))
-            {
-                BorderLine intersection = lines[0];
-                int count = 0;
-                for (int i = 1; i < lines.Count; i++)
-                {
-                    BorderLine temp;
-                    if ((temp = intersection.Intersect(lines[i])) == BorderLine.EmptyLine)
-                    {
-                        continue;
-                    }
-
-                    if (intersection == lines[0])
-                    {
-                        intersection = temp;
-                        count++;
-                    }
-                    else
-                    {
-                        if (temp == intersection)
-                        {
-                            count++;
-                        }
-                    }
-                }
-
-                if ((count != (originalCount / 2 + originalCount % 2)) && (count != 0))
-                {
-                    continue;
-                }
-
-                result.Add(intersection);
-                lines.Remove(lines[0]);
-            }
-            return result.ToArray();
         }
     }
 
