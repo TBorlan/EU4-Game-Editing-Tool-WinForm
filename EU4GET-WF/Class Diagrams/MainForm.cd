@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="EU4_Game_Editing_Tool_WinForm.MainForm">
+    <Position X="10.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAhAAAAChAAAAAAACAAADDAEAAAAACBAAAAAAAAAA=</HashCode>
+      <FileName>MainForm.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="cImagePictureBox" />
+      <Field Name="cOpenModButton" />
+      <Field Name="cPictureBoxPanel" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="mProvinces" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="EU4_Game_Editing_Tool_WinForm.ZoomablePictureBox" Collapsed="true">
+    <Position X="6.25" Y="0.5" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Class Name="EU4_Game_Editing_Tool_WinForm.ZoomablePictureBox.CustomPictureBox" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>ZoomablePictureBox.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>QUAABKAAIGIgAJNAMACCgAQSBAAACAAAABAAAAAAhAA=</HashCode>
+      <FileName>ZoomablePictureBox.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="System.Windows.Forms.Button" Collapsed="true">
+    <Position X="14.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="System.Windows.Forms.Panel" Collapsed="true">
+    <Position X="7.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Struct Name="EU4_Game_Editing_Tool_WinForm.Province" Collapsed="true">
+    <Position X="14" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAgA=</HashCode>
+      <FileName>Province.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
