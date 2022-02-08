@@ -2,11 +2,19 @@
 
 namespace EU4GET_WF.SerDes.FileParsing
 {
+    /// <summary>
+    /// Represents a key and value pair.
+    /// </summary>
     public class TextElement : IEquatable<TextElement>
     {
-
+        /// <summary>
+        /// The key of the <see cref="TextElement"/>.
+        /// </summary>
         public string _mLeftValue;
 
+        /// <summary>
+        /// The value of the <see cref="TextElement"/>.
+        /// </summary>
         public string _mRightValue;
 
         bool IEquatable<TextElement>.Equals(TextElement other)
@@ -25,8 +33,8 @@ namespace EU4GET_WF.SerDes.FileParsing
             {
                 return true;
             }
-
-            return obj.GetType() == this.GetType() && this.Equals((TextElement)obj);
+            TextElement otherElement = obj as TextElement;
+            return obj.GetType() == this.GetType() && this.Equals(otherElement);
         }
 
         public static bool operator ==(TextElement left, TextElement right)

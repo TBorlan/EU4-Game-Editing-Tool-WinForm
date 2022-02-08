@@ -3,6 +3,5 @@
     public interface IFileReader
     {
         TextNode ReadFile(string filePath);
-
     }
 }

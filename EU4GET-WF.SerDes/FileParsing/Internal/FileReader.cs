@@ -4,6 +4,9 @@ using EU4GET_WF.SerDes.FileParsing.Internal.Interfaces;
 
 namespace EU4GET_WF.SerDes.FileParsing.Internal
 {
+    /// <summary>
+    /// C
+    /// </summary>
     public class FileReader : IFileReader
     {
 

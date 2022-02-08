@@ -7,6 +7,16 @@ using EU4GET_WF.SerDes.FileParsing.Internal;
 
 namespace EU4GET_WF.SerDes.FileParsing
 {
+    /// <summary>
+    /// Contains static methods to parse a given file entry.
+    /// </summary>
+    /// <remarks>
+    /// The class contains two methods for parsing:
+    /// <see cref="ReadFile"/> is the synchronous method.
+    /// <see cref="ReadFileAsync"/> is the asynchronous method.
+    /// Both functions return a <see cref="TextNode"/> as the root of the parsed data tree, and the <see cref="TextNode._mValue"/>
+    /// will be the name of the file parsed.
+    /// </remarks>
     static class ReaderFactory
     {
         private static FileReader _mFileReader;
@@ -23,9 +33,16 @@ namespace EU4GET_WF.SerDes.FileParsing
             }
         }
 
+        /// <summary>
+        /// Parses a given file in a synchronous way and returns a hierarchical tree containing data.
+        /// </summary>
+        /// <param name="filePath">Absolute path to the file.</param>
+        /// <returns><see cref="TextNode"/> as the root container of the data tree</returns>
+        /// <exception cref="Exception">If <param name="filePath"/> is not a file type supported, then an exception will be raised.</exception>
         public static TextNode ReadFile(string filePath)
         {
             InitialiseReader();
+            //TODO: Check for exception
             string extension = Path.GetExtension(filePath);
             if (extension.Equals(".txt") || extension.Equals(".csv"))
             {
@@ -38,6 +55,13 @@ namespace EU4GET_WF.SerDes.FileParsing
             }
         }
 
+        /// <summary>
+        /// Parses a given file in a asynchronous way and returns a hierarchical tree containing data.
+        /// </summary>
+        /// <remarks> Task should be called outside of the main thread</remarks>
+        /// <param name="filePath">Absolute path to the file.</param>
+        /// <returns><see cref="TextNode"/> as the root container of the data tree</returns>
+        /// <exception cref="Exception">If <param name="filePath"/> is not a file type supported, then an exception will be raised.</exception>
         public static async Task<TextNode> ReadFileAsync(string filePath)
         {
             _mSemaphore.Wait();

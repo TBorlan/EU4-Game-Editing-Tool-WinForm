@@ -1,2 +1,54 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:Boolean x:Key="/Default/CodeEditing/Intellisense/ParameterInfo/DelegatesAsLambdas/@EntryValue">True</s:Boolean>
+	<s:String x:Key="/Default/CodeEditing/Intellisense/ParameterInfo/ShowAnnotations/@EntryValue">All</s:String>
+	<s:Boolean x:Key="/Default/CodeStyle/Naming/CSharpNaming/ApplyAutoDetectedRules/@EntryValue">False</s:Boolean>
+	<s:String x:Key="/Default/CodeStyle/Naming/CSharpNaming/PredefinedNamingRules/=PrivateStaticReadonly/@EntryIndexedValue">&lt;Policy Inspect="True" Prefix="_m" Suffix="" Style="AaBb" /&gt;</s:String>
+	<s:String x:Key="/Default/CodeStyle/Naming/CSharpNaming/PredefinedNamingRules/=Property/@EntryIndexedValue">&lt;Policy Inspect="True" Prefix="m" Suffix="" Style="AaBb" /&gt;</s:String>
+	<s:String x:Key="/Default/CodeStyle/Naming/CSharpNaming/PredefinedNamingRules/=PublicFields/@EntryIndexedValue">&lt;Policy Inspect="True" Prefix="_m" Suffix="" Style="AaBb" /&gt;</s:String>
+	<s:String x:Key="/Default/CodeStyle/Naming/CSharpNaming/PredefinedNamingRules/=StaticReadonly/@EntryIndexedValue">&lt;Policy Inspect="True" Prefix="_m" Suffix="" Style="AaBb" /&gt;</s:String>
+	<s:Boolean x:Key="/Default/Environment/Filtering/ExcludeCoverageFilters/=EU4GET_002DWF_002EImageRendering_002EOptimizationTest_003B_002A_003B_002A_003B_002A/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/Environment/Filtering/ExcludeCoverageFilters/=EU4GET_002DWF_002EImageRendering_002EUnitTest_003B_002A_003B_002A_003B_002A/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/Environment/InlayHints/CSharpParameterNameHintsOptions/HideForBuilderLikeMethods/@EntryValue">False</s:Boolean>
+	<s:Boolean x:Key="/Default/Environment/InlayHints/CSharpParameterNameHintsOptions/HideForMethodsWithSameNamedNumberedParameters/@EntryValue">False</s:Boolean>
+	<s:Boolean x:Key="/Default/Environment/InlayHints/CSharpParameterNameHintsOptions/HideForNonLiterals/@EntryValue">False</s:Boolean>
+	<s:Boolean x:Key="/Default/Environment/InlayHints/CSharpParameterNameHintsOptions/HideIfIntentionOfArgumentIsClearFromUsage/@EntryValue">False</s:Boolean>
+	<s:Boolean x:Key="/Default/Environment/InlayHints/CSharpParameterNameHintsOptions/HideIfIntentionOfFirstParameterIsClearFromMethodName/@EntryValue">False</s:Boolean>
+	<s:Boolean x:Key="/Default/Environment/InlayHints/CSharpTypeNameHintsOptions/HideForLastInvocation/@EntryValue">False</s:Boolean>
+	<s:Boolean x:Key="/Default/Environment/InlayHints/CSharpTypeNameHintsOptions/HideForSingleAndOneLineInvocations/@EntryValue">False</s:Boolean>
+	<s:Boolean x:Key="/Default/Environment/InlayHints/CSharpTypeNameHintsOptions/HideTypeNameHintsForImplicitlyTypedVariablesWhenTypeIsEvident/@EntryValue">False</s:Boolean>
+	<s:Boolean x:Key="/Default/Environment/InlayHints/CSharpTypeNameHintsOptions/HideTypeNameHintsForLambdaExpressionParametersWhenEvident/@EntryValue">False</s:Boolean>
+	<s:Boolean x:Key="/Default/Environment/InlayHints/CSharpTypeNameHintsOptions/HideTypeNameHintsWhenTypeNameIsEvidentFromVariableName/@EntryValue">False</s:Boolean>
+	<s:Boolean x:Key="/Default/Environment/InlayHints/VBParameterNameHintsOptions/HideForBuilderLikeMethods/@EntryValue">False</s:Boolean>
+	<s:Boolean x:Key="/Default/Environment/InlayHints/VBParameterNameHintsOptions/HideForMethodsWithSameNamedNumberedParameters/@EntryValue">False</s:Boolean>
+	<s:Boolean x:Key="/Default/Environment/InlayHints/VBParameterNameHintsOptions/HideForNonLiterals/@EntryValue">False</s:Boolean>
+	<s:Boolean x:Key="/Default/Environment/InlayHints/VBParameterNameHintsOptions/HideIfIntentionOfArgumentIsClearFromUsage/@EntryValue">False</s:Boolean>
+	<s:Boolean x:Key="/Default/Environment/InlayHints/VBParameterNameHintsOptions/HideIfIntentionOfFirstParameterIsClearFromMethodName/@EntryValue">False</s:Boolean>
+	<s:Boolean x:Key="/Default/Environment/ParameterNameHintsOptions/HideForBuilderLikeMethods/@EntryValue">False</s:Boolean>
+	<s:Boolean x:Key="/Default/Environment/ParameterNameHintsOptions/HideForMethodsWithSameNamedNumberedParameters/@EntryValue">False</s:Boolean>
+	<s:Boolean x:Key="/Default/Environment/ParameterNameHintsOptions/HideForNonLiterals/@EntryValue">False</s:Boolean>
+	<s:Boolean x:Key="/Default/Environment/ParameterNameHintsOptions/HideIfIntentionOfArgumentIsClearFromUsage/@EntryValue">False</s:Boolean>
+	<s:Boolean x:Key="/Default/Environment/ParameterNameHintsOptions/HideIfIntentionOfFirstParameterIsClearFromMethodName/@EntryValue">False</s:Boolean>
+	<s:String x:Key="/Default/Environment/PerformanceGuide/SwitchBehaviour/=Antivirus/@EntryIndexedValue">DO_NOTHING</s:String>
+	<s:String x:Key="/Default/Environment/PerformanceGuide/SwitchBehaviour/=AutoRecoverer/@EntryIndexedValue">LIVE_MONITOR</s:String>
+	<s:String x:Key="/Default/Environment/PerformanceGuide/SwitchBehaviour/=Format/@EntryIndexedValue">LIVE_MONITOR</s:String>
+	<s:String x:Key="/Default/Environment/PerformanceGuide/SwitchBehaviour/=Roslyn_002Dswea/@EntryIndexedValue">DO_NOTHING</s:String>
+	<s:String x:Key="/Default/Environment/PerformanceGuide/SwitchBehaviour/=ShowAnnotations/@EntryIndexedValue">LIVE_MONITOR</s:String>
+	<s:String x:Key="/Default/Environment/PerformanceGuide/SwitchBehaviour/=SolExp_002DTrack/@EntryIndexedValue">LIVE_MONITOR</s:String>
+	<s:String x:Key="/Default/Environment/PerformanceGuide/SwitchBehaviour/=StartPage_002DIsDownloadRefreshEnabled/@EntryIndexedValue">LIVE_MONITOR</s:String>
+	<s:String x:Key="/Default/Environment/PerformanceGuide/SwitchBehaviour/=StartPage_002DOnEnvironmentStatup/@EntryIndexedValue">LIVE_MONITOR</s:String>
+	<s:String x:Key="/Default/Environment/PerformanceGuide/SwitchBehaviour/=SyncSettings/@EntryIndexedValue">LIVE_MONITOR</s:String>
+	<s:String x:Key="/Default/Environment/PerformanceGuide/SwitchBehaviour/=TextEditor_002DCodeLens/@EntryIndexedValue">LIVE_MONITOR</s:String>
+	<s:String x:Key="/Default/Environment/PerformanceGuide/SwitchBehaviour/=TextEditor_002DTrackChanges_002D2/@EntryIndexedValue">LIVE_MONITOR</s:String>
+	<s:String x:Key="/Default/Environment/PerformanceGuide/SwitchBehaviour/=VCS/@EntryIndexedValue">LIVE_MONITOR</s:String>
+	<s:String x:Key="/Default/Environment/PerformanceGuide/SwitchBehaviour/=VsBulb/@EntryIndexedValue">DO_NOTHING</s:String>
+	<s:String x:Key="/Default/Environment/PerformanceGuide/SwitchBehaviour/=XAML_0020Designer/@EntryIndexedValue">LIVE_MONITOR</s:String>
+	<s:Boolean x:Key="/Default/Environment/SettingsMigration/IsMigratorApplied/=JetBrains_002EdotCover_002EIde_002ECore_002EFilterManagement_002EModel_002ESolutionFilterSettingsManagerMigrateSettings/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/Environment/SettingsMigration/IsMigratorApplied/=JetBrains_002EReSharper_002EFeature_002EServices_002ECSharp_002EParameterNameHints_002ECSharpParameterNameHintsOptionsMigration/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/Environment/SettingsMigration/IsMigratorApplied/=JetBrains_002EReSharper_002EFeature_002EServices_002ECSharp_002ETypeNameHints_002ECSharpTypeNameHintsOptionsMigration/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/Environment/SettingsMigration/IsMigratorApplied/=JetBrains_002EReSharper_002EFeature_002EServices_002EVB_002EParameterNameHints_002EVBParameterNameHintsOptionsMigration/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/Environment/TypeNameHintsOptions/HideForLastInvocation/@EntryValue">False</s:Boolean>
+	<s:Boolean x:Key="/Default/Environment/TypeNameHintsOptions/HideForSingleAndOneLineInvocations/@EntryValue">False</s:Boolean>
+	<s:Boolean x:Key="/Default/Environment/TypeNameHintsOptions/HideTypeNameHintsForImplicitlyTypedVariablesWhenTypeIsEvident/@EntryValue">False</s:Boolean>
+	<s:Boolean x:Key="/Default/Environment/TypeNameHintsOptions/HideTypeNameHintsForLambdaExpressionParametersWhenEvident/@EntryValue">False</s:Boolean>
+	<s:Boolean x:Key="/Default/Environment/TypeNameHintsOptions/HideTypeNameHintsWhenTypeNameIsEvidentFromVariableName/@EntryValue">False</s:Boolean>
 	<s:String x:Key="/Default/FilterSettingsManager/CoverageFilterXml/@EntryValue">&lt;data&gt;&lt;IncludeFilters /&gt;&lt;ExcludeFilters&gt;&lt;Filter ModuleMask="EU4GET-WF.ImageRendering.UnitTest" ModuleVersionMask="*" ClassMask="*" FunctionMask="*" IsEnabled="True" /&gt;&lt;Filter ModuleMask="EU4GET-WF.ImageRendering.OptimizationTest" ModuleVersionMask="*" ClassMask="*" FunctionMask="*" IsEnabled="True" /&gt;&lt;/ExcludeFilters&gt;&lt;/data&gt;</s:String></wpf:ResourceDictionary>
