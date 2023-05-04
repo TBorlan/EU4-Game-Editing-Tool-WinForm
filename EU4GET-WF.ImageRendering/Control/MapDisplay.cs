@@ -67,6 +67,7 @@ namespace EU4GET_WF.ImageRendering.Control
                                   | ControlStyles.AllPaintingInWmPaint 
                                   | ControlStyles.OptimizedDoubleBuffer,
                                   true);
+                    //NOTE: If control is enabled by default, we wouldn't be needing this here, also DisplayPanel is the only one that should be disabled or not
                     this.Enabled = true;
                     this.Visible = true;
                 }

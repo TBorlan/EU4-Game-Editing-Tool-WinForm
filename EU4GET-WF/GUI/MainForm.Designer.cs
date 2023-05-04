@@ -102,11 +102,12 @@ namespace EU4GET_WF.GUI
         #endregion
 
         #region Controls
-        private System.Windows.Forms.Button cOpenModButton;
-        #endregion
 
-        private DisplayPanel cDisplayPanel;
+        private System.Windows.Forms.Button cOpenModButton;
+        private EU4GET_WF.ImageRendering.Control.DisplayPanel cDisplayPanel;
         private System.Windows.Forms.Button cToggleProvBordersButton;
+        
+        #endregion  
     }
 }
 

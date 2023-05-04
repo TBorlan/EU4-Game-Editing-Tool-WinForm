@@ -197,6 +197,7 @@ namespace EU4GET_WF.ImageRendering.Logic
         public void Bind(DisplayPanel parent)
         {
             this.mBoundPanel = parent;
+            //NOTE: Why is the value and not the property used?
             this._mPhysicalSize = parent.cMapDisplay.Size;
             this._mHScrollBar.Scroll += this.ProcessScroll;
             this._mVScrollBar.Scroll += this.ProcessScroll;
@@ -439,9 +440,13 @@ namespace EU4GET_WF.ImageRendering.Logic
                 args.Graphics.DrawImage(((MapDisplay)mapDisplay).mOriginalBitmap, this._mDisplayRectangle, this._mSelectionRectangle, GraphicsUnit.Pixel);
                 if (this._mDisplayPanel._mSelectionManager.mActivePath != null)
                 {
+                    // It used to be mScale here but for some reason it's not equal to the division below
+                    float scaleX = (float)this._mDisplayRectangle.Width / (float)this._mSelectionRectangle.Width;
+                    float scaleY = (float)this._mDisplayRectangle.Height / (float)this._mSelectionRectangle.Height;
                     Matrix matrix = new Matrix();
-                    matrix.Scale(this.mScale, this.mScale);
+                    matrix.Scale(scaleX, scaleY);
                     matrix.Translate((float)(Math.Round(-this.mScale / 2)), (float)(Math.Round(-this.mScale / 2)), MatrixOrder.Append);
+                    matrix.Translate(-this._mSelectionRectangle.X * scaleX + this._mDisplayRectangle.X, -this._mSelectionRectangle.Y * scaleY + this._mDisplayRectangle.Y, MatrixOrder.Append);
                     matrix.Translate(-this._mSelectionRectangle.X * this._mScale + this._mDisplayRectangle.X, -this._mSelectionRectangle.Y * this._mScale + this._mDisplayRectangle.Y, MatrixOrder.Append);
                     GraphicsPath paths = this._mDisplayPanel._mSelectionManager.mActivePath;
                     paths.Transform(matrix);

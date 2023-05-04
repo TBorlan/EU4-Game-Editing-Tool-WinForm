@@ -57,6 +57,7 @@ namespace EU4GET_WF.ImageRendering.OptimizationTest.Ver1.Control
         public DisplayPanel(Bitmap map)
         {
             this.InitializeComponent();
+            //TODO: Create pair functions to hide or show panel
             this.Enabled = false;
             this.Visible = false;
             this._mDisplayRenderingEngine = new DisplayRenderingEngine();

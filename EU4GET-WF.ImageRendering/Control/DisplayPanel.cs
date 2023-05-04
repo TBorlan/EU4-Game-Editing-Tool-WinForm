@@ -123,6 +123,7 @@ namespace EU4GET_WF.ImageRendering.Control
         /// <returns></returns>
         private async Task EnablePanel(Bitmap bitmap)
         {
+            //NOTE: Could push await as last Item
             // If no selection manager, initialize it
             // Done only once
             this._mSelectionManager ??= new SelectionManager(await this.GetProvinceBordersAsync(bitmap));
