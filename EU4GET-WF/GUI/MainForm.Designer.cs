@@ -33,6 +33,7 @@ namespace EU4GET_WF.GUI
             this.cOpenModButton = new System.Windows.Forms.Button();
             this.cDisplayPanel = new EU4GET_WF.ImageRendering.Control.DisplayPanel();
             this.cToggleProvBordersButton = new System.Windows.Forms.Button();
+            this.cLogRichTextBox = new System.Windows.Forms.RichTextBox();
             this.SuspendLayout();
             // 
             // cOpenModButton
@@ -54,17 +55,14 @@ namespace EU4GET_WF.GUI
             // 
             // cDisplayPanel
             // 
-            this.cDisplayPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.cDisplayPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
             this.cDisplayPanel.Enabled = false;
             this.cDisplayPanel.Location = new System.Drawing.Point(12, 44);
-            this.cDisplayPanel.Margin = new System.Windows.Forms.Padding(3, 0, 0, 0);
             this.cDisplayPanel.mImage = null;
             this.cDisplayPanel.mMargins = new System.Drawing.Size(604, 270);
             this.cDisplayPanel.mScale = 0F;
             this.cDisplayPanel.Name = "cDisplayPanel";
-            this.cDisplayPanel.Size = new System.Drawing.Size(1318, 476);
+            this.cDisplayPanel.Size = new System.Drawing.Size(1318, 272);
             this.cDisplayPanel.TabIndex = 1;
             this.cDisplayPanel.Visible = false;
             this.cDisplayPanel.Click += new System.EventHandler(this.Callback_ToggleProvBordersButton_Click);
@@ -83,12 +81,23 @@ namespace EU4GET_WF.GUI
             this.cToggleProvBordersButton.UseVisualStyleBackColor = false;
             this.cToggleProvBordersButton.Click += new System.EventHandler(this.Callback_ToggleProvBordersButton_Click);
             // 
+            // cLogRichTextBox
+            // 
+            this.cLogRichTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.cLogRichTextBox.Location = new System.Drawing.Point(12, 322);
+            this.cLogRichTextBox.Name = "cLogRichTextBox";
+            this.cLogRichTextBox.ReadOnly = true;
+            this.cLogRichTextBox.Size = new System.Drawing.Size(1000, 277);
+            this.cLogRichTextBox.TabIndex = 3;
+            this.cLogRichTextBox.Text = "";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
-            this.ClientSize = new System.Drawing.Size(1339, 529);
+            this.ClientSize = new System.Drawing.Size(1339, 611);
+            this.Controls.Add(this.cLogRichTextBox);
             this.Controls.Add(this.cToggleProvBordersButton);
             this.Controls.Add(this.cDisplayPanel);
             this.Controls.Add(this.cOpenModButton);
@@ -96,7 +105,6 @@ namespace EU4GET_WF.GUI
             this.Text = "EU4 Menu";
             this.ResumeLayout(false);
             this.PerformLayout();
-
         }
 
         #endregion
@@ -106,6 +114,7 @@ namespace EU4GET_WF.GUI
         private System.Windows.Forms.Button cOpenModButton;
         private EU4GET_WF.ImageRendering.Control.DisplayPanel cDisplayPanel;
         private System.Windows.Forms.Button cToggleProvBordersButton;
+        private System.Windows.Forms.RichTextBox cLogRichTextBox;
         
         #endregion  
     }
