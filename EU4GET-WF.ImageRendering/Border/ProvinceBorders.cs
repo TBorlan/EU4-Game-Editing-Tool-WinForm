@@ -91,6 +91,8 @@ namespace EU4GET_WF.ImageRendering.Border
             Dictionary<Color, HashSet<BorderPoint[]>> provincesPoints = new Dictionary<Color, HashSet<BorderPoint[]>>(this._mProvinceCount);
 
             object lockObj = new Object();
+            //NOTE: Could traverse lines and columns in a single for
+            object lockObj = new Object();
             //Traverse lines
             Parallel.For(0, height, (int prow) =>
             {
@@ -206,6 +208,7 @@ namespace EU4GET_WF.ImageRendering.Border
             while (lines.Count > 0)
             {
                 x = lines.Count;
+                //TODO: GetLastPoint allocates object inefficiently. Should move outside lambda function and use a variable inside it
                 foreach (BorderLine line in lines.Where(line => path.GetLastPoint() == (PointF)line.mStart))
                 {
                     path.AddLine(line.mStart, line.mEnd);
